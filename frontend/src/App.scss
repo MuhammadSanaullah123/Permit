@@ -1,0 +1,1534 @@
+/*<------------------------------------------------User:Login Start------------------------------------------------>*/
+#login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 100px;
+  #mainDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    margin-top: 50px;
+    @media (max-width: 520px) {
+      width: 95%;
+    }
+    img {
+      width: 100%;
+    }
+    h1 {
+      font-size: 53px;
+      font-weight: 700;
+      @media (max-width: 400px) {
+        font-size: 40px;
+      }
+    }
+    .p1 {
+      width: 100%;
+      font-size: 20px;
+      font-weight: 400;
+      text-align: center;
+      color: #8b97a6;
+      margin: 25px 0 30px 0;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      @media (max-width: 400px) {
+        width: 95%;
+      }
+      input {
+        width: 95%;
+        height: 50px;
+        border-radius: 6px;
+        border: 1px solid #5a678c;
+        background-color: transparent;
+        font-weight: 400;
+        font-size: 20px;
+        margin-top: 10px;
+        color: #e3e3e3;
+        padding-left: 20px;
+      }
+      input::placeholder {
+        color: #e3e3e3;
+        font-weight: 400;
+        font-family: "Josefin Sans";
+      }
+      a {
+        color: #3f66da;
+        text-align: end;
+        font-size: 19px;
+        font-weight: 500;
+        text-decoration: none;
+        margin-top: 10px;
+        align-self: flex-end;
+      }
+      button {
+        background-color: var(--primary-color);
+        width: 176px;
+        height: 53px;
+        border-radius: 9px;
+        color: #fff;
+        font-size: 24px;
+        font-weight: 600;
+        border: 0;
+        align-self: center;
+        margin-top: 50px;
+        cursor: pointer;
+      }
+      button:hover {
+        transform: scale(1.02);
+        transition: all ease 0.3s;
+      }
+    }
+    span {
+      display: flex;
+      align-items: center;
+      margin-top: 25px;
+      p {
+        color: #8b97a6;
+        font-size: 20px;
+        font-weight: 600;
+      }
+      a {
+        color: #3f66da;
+        font-size: 20px;
+        font-weight: 700;
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+/*<------------------------------------------------User:Login End------------------------------------------------>*/
+
+/*<------------------------------------------------User:Signup Start------------------------------------------------>*/
+#signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 100px;
+
+  #mainDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    margin-top: 50px;
+    @media (max-width: 520px) {
+      width: 95%;
+    }
+    img {
+      width: 100%;
+    }
+    h1 {
+      font-size: 53px;
+      font-weight: 700;
+      @media (max-width: 400px) {
+        font-size: 40px;
+      }
+    }
+    .p1 {
+      width: 100%;
+      font-size: 20px;
+      font-weight: 400;
+      text-align: center;
+      color: #8b97a6;
+      margin: 25px 0 30px 0;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      @media (max-width: 400px) {
+        width: 95%;
+      }
+      input {
+        width: 95%;
+        height: 50px;
+        border-radius: 6px;
+        border: 1px solid #5a678c;
+        background-color: transparent;
+        font-weight: 400;
+        font-size: 20px;
+        margin-top: 10px;
+        color: #e3e3e3;
+        padding-left: 20px;
+      }
+      input::placeholder {
+        color: #e3e3e3;
+        font-weight: 400;
+        font-family: "Josefin Sans";
+      }
+      a {
+        color: #3f66da;
+        text-align: end;
+        font-size: 19px;
+        font-weight: 500;
+        text-decoration: none;
+        margin-top: 10px;
+        align-self: flex-end;
+      }
+      button {
+        background-color: var(--primary-color);
+        width: 176px;
+        height: 53px;
+        border-radius: 9px;
+        color: #fff;
+        font-size: 24px;
+        font-weight: 600;
+        border: 0;
+        align-self: center;
+        margin-top: 50px;
+        cursor: pointer;
+      }
+      button:hover {
+        transform: scale(1.02);
+        transition: all ease 0.3s;
+      }
+    }
+    span {
+      display: flex;
+      align-items: center;
+      margin-top: 25px;
+      p {
+        color: #8b97a6;
+        font-size: 20px;
+        font-weight: 600;
+      }
+      a {
+        color: #3f66da;
+        font-size: 20px;
+        font-weight: 700;
+        margin-left: 5px;
+      }
+    }
+  }
+}
+/*<------------------------------------------------User:Signup End------------------------------------------------>*/
+
+/*<------------------------------------------------Header Start------------------------------------------------>*/
+#header {
+  display: flex;
+  align-items: center;
+  height: 80px;
+  background-color: var(--secondary-color);
+  box-shadow: 0px -1px 5px 0px rgba(255, 255, 255, 0.1490196078) inset;
+  padding: 0 30px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  @media (max-width: 640px) {
+    justify-content: space-between;
+  }
+  .linkDiv {
+    width: 500px;
+    display: flex;
+    align-self: center;
+    margin: 0 auto;
+    justify-content: space-between;
+    a {
+      font-size: 20px;
+      font-weight: 600;
+      text-decoration: none;
+      color: #fff;
+    }
+    a:hover {
+      transform: scale(1.01);
+      transition: all linear 0.3s;
+    }
+    @media (max-width: 640px) {
+      display: none;
+    }
+  }
+  .imgDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    cursor: pointer;
+    .fa-user {
+      font-size: 25px;
+    }
+    .logDiv {
+      display: flex;
+      flex-direction: column;
+      width: 100px;
+      height: 100px;
+      background-color: var(--secondary-color);
+      border-radius: 6px;
+      position: absolute;
+      top: 90px;
+      right: 50px;
+      justify-content: space-around;
+      padding: 10px;
+
+      a {
+        color: #fff;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      span {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        .fa-right-from-bracket,
+        .profile {
+          color: #fff;
+          font-size: 25px !important;
+        }
+        a,
+        p {
+          margin-left: 15px;
+          color: #fff;
+          text-decoration: none;
+          font-family: "Josefin Sans";
+        }
+        a {
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+  .fa-bars {
+    display: none;
+    font-size: 25px;
+    @media (max-width: 640px) {
+      display: block;
+    }
+    cursor: pointer;
+  }
+
+  .fa-xmark {
+    display: none;
+    font-size: 30px;
+    @media (max-width: 640px) {
+      display: block;
+    }
+    cursor: pointer;
+  }
+}
+.moblinkDiv {
+  background-color: var(--secondary-color);
+
+  width: 90%;
+  height: 150px;
+  padding: 15px 10px 15px 10px;
+  position: fixed;
+  top: 90px;
+  left: 3%;
+  border-radius: 6px;
+
+  transition: opacity 0.3s linear;
+  justify-content: space-between;
+  z-index: 1000;
+  a {
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #fff;
+  }
+  a:hover {
+    transform: scale(1.01);
+    transition: all linear 0.3s;
+  }
+  @media (max-width: 640px) {
+    display: flex;
+    flex-direction: column;
+  }
+  @media (max-width: 450px) {
+    left: 2.5%;
+  }
+  @media (max-width: 325px) {
+    left: 1.5%;
+  }
+}
+
+/*<------------------------------------------------Header End------------------------------------------------>*/
+
+/*<------------------------------------------------User:Dashboard Start------------------------------------------------>*/
+#dashboard {
+  padding: 40px;
+  @media (max-width: 600px) {
+    padding: 40px 20px 40px 20px;
+  }
+  .dashbaordDiv {
+    display: grid;
+    row-gap: 30px;
+    column-gap: 20px;
+    grid-template-columns: 1.5fr 1.5fr 1fr 1fr;
+    @media (max-width: 1180px) {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      column-gap: 10px;
+    }
+    @media (max-width: 1000px) {
+      column-gap: 20px;
+    }
+    .dashbaordDiv1 {
+      background-color: var(--secondary-color);
+      max-height: 230px;
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 40px 20px 40px;
+      grid-column: 1/3;
+      @media (max-width: 560px) {
+        max-height: none;
+        img {
+          width: 50%;
+          height: 70%;
+          align-self: center;
+        }
+      }
+      @media (max-width: 480px) {
+        flex-direction: column-reverse;
+        img {
+          width: 180px;
+          height: 120px;
+          margin-bottom: 10px;
+        }
+      }
+      span {
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+        margin-bottom: 20px;
+        justify-content: center;
+        @media (max-width: 480px) {
+          margin-bottom: 0;
+        }
+        h1 {
+          font-size: 32px;
+          font-weight: 700;
+          @media (max-width: 560px) {
+            font-size: 22px;
+          }
+        }
+        p {
+          font-size: 16px;
+          font-weight: 300;
+          line-height: 22px;
+          margin-top: 15px;
+        }
+      }
+      @media (max-width: 1180px) {
+        grid-column: 1/5;
+      }
+    }
+    .dashbaordDiv2 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      @media (max-width: 1180px) {
+        height: 200px;
+      }
+      h1 {
+        text-align: center;
+        line-height: 1.2;
+      }
+      button {
+        background-color: var(--primary-color);
+        width: 182px;
+        height: 50px;
+        border: 0;
+        border-radius: 9px;
+        color: #fff;
+        font-family: "Josefin Sans";
+        font-size: 24px;
+        font-weight: 700;
+        margin-top: 20px;
+        cursor: pointer;
+      }
+      button:hover {
+        transform: scale(1.02);
+        transition: all ease 0.3s;
+      }
+      grid-column: 1/3;
+      @media (max-width: 1180px) {
+        grid-column: 1/5;
+      }
+    }
+    .dashbaordsmallDiv {
+      background-color: var(--secondary-color);
+      width: 230px;
+      height: 230px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      justify-self: right;
+      h1 {
+        font-size: 32px;
+        font-weight: 700;
+      }
+      h2 {
+        font-size: 64px;
+        font-weight: 300;
+        margin-top: 20px;
+      }
+      @media (max-width: 1000px) {
+        width: 100%;
+      }
+    }
+    #dashbaordDivDrafted {
+      grid-column: 3/4;
+      grid-row: 1/2;
+      @media (max-width: 1180px) {
+        grid-column: 1/2;
+        grid-row: 3/4;
+        justify-self: flex-start;
+      }
+      @media (max-width: 1000px) {
+        grid-column: 1/3;
+        grid-row: 3/4;
+        justify-self: flex-start;
+      }
+      @media (max-width: 480px) {
+        grid-column: 1/5;
+        grid-row: 3/4;
+      }
+    }
+    #dashbaordDivRejected {
+      grid-column: 4/5;
+      grid-row: 1/2;
+      @media (max-width: 1180px) {
+        grid-column: 2/3;
+        grid-row: 3/4;
+        justify-self: center;
+      }
+      @media (max-width: 1000px) {
+        grid-column: 3/5;
+        grid-row: 3/4;
+        justify-self: flex-start;
+      }
+      @media (max-width: 480px) {
+        grid-column: 1/5;
+        grid-row: 4/5;
+      }
+    }
+    #dashbaordDivSent {
+      grid-column: 3/4;
+      grid-row: 2/3;
+      h1 {
+        text-align: center;
+      }
+      @media (max-width: 1180px) {
+        grid-column: 3/4;
+        grid-row: 3/4;
+        justify-self: center;
+      }
+      @media (max-width: 1000px) {
+        grid-column: 1/3;
+        grid-row: 4/5;
+        justify-self: flex-start;
+      }
+      @media (max-width: 480px) {
+        grid-column: 1/5;
+        grid-row: 5/6;
+      }
+    }
+    #dashbaordDivApproved {
+      grid-column: 4/5;
+      grid-row: 2/3;
+      @media (max-width: 1180px) {
+        grid-column: 4/5;
+        grid-row: 3/4;
+        justify-self: flex-end;
+      }
+      @media (max-width: 1000px) {
+        grid-column: 3/5;
+        grid-row: 4/5;
+        justify-self: flex-start;
+      }
+      @media (max-width: 480px) {
+        grid-column: 1/5;
+        grid-row: 6/7;
+      }
+    }
+  }
+  .rech1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-top: 40px;
+  }
+}
+
+/*<------------------------------------------------User:Dashboard End------------------------------------------------>*/
+
+/*<------------------------------------------------User:DocumentsTable Start------------------------------------------------>*/
+#table {
+  margin-top: 10px;
+  background-color: var(--secondary-color);
+  .tableHeading {
+    font-family: "Josefin Sans";
+    font-size: 22px;
+    font-weight: 600;
+
+    color: #fff;
+  }
+  .rowvalue {
+    font-family: "Josefin Sans";
+    color: #fff;
+    font-size: 19px;
+    font-weight: 200;
+  }
+  .statusDiv {
+    justify-content: center;
+    p {
+      color: #52ff00;
+      font-family: "Josefin Sans";
+      font-size: 19px;
+
+      font-weight: 500;
+    }
+    img {
+      margin-left: 20px;
+      cursor: pointer;
+    }
+    .deleteIcon {
+      margin-left: 40px;
+    }
+    display: flex;
+  }
+  .rowname {
+    text-decoration: underline;
+  }
+}
+#pagination {
+  width: fit-content;
+  margin: 0 auto;
+  margin-top: 20px;
+  button {
+    color: #fff;
+    font-family: "Josefin Sans";
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    border-radius: 50%;
+  }
+  .css-1to7aaw-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+    background-color: var(--primary-color);
+  }
+}
+/*<------------------------------------------------User:DocumentsTable End------------------------------------------------>*/
+
+/*<------------------------------------------------User:Upload Start------------------------------------------------>*/
+#upload {
+  display: flex;
+  justify-content: space-between;
+  padding: 100px 80px 50px 0;
+  @media (max-width: 1000px) {
+    padding: 100px 20px 50px 0;
+  }
+  @media (max-width: 768px) {
+    padding: 100px 0 50px 0;
+    flex-direction: column;
+  }
+  img {
+    width: 574px;
+    height: 569px;
+    @media (max-width: 1000px) {
+      width: 50%;
+      height: fit-content;
+    }
+    @media (max-width: 768px) {
+      width: 80%;
+      align-self: center;
+    }
+  }
+  #uploadformDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: var(--secondary-color);
+    width: 734px;
+    height: 679px;
+    margin-top: 150px;
+    border-radius: 17px;
+    margin-right: 50px;
+    margin-left: 10px;
+    @media (max-width: 1150px) {
+      margin-right: 0;
+    }
+    @media (max-width: 768px) {
+      margin-top: 50px;
+      margin-left: 0;
+      margin-right: 0;
+      width: 90%;
+      align-self: center;
+    }
+    h1 {
+      font-size: 34px;
+      font-weight: 700;
+      text-align: center;
+      @media (max-width: 400px) {
+        font-size: 30px;
+      }
+      @media (max-width: 350px) {
+        font-size: 24px;
+      }
+    }
+    p {
+      font-size: 20px;
+      font-weight: 400;
+      color: #8b97a6;
+      width: 80%;
+      text-align: center;
+      line-height: 1.3;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      align-items: center;
+      @media (max-width: 480px) {
+        width: 85%;
+      }
+
+      input {
+        width: 95%;
+        height: 50px;
+        border-radius: 6px;
+        border: 1px solid #5a678c;
+        background-color: transparent;
+        font-weight: 400;
+        font-size: 20px;
+        margin-top: 10px;
+        color: #e3e3e3;
+        padding-left: 20px;
+        @media (max-width: 480px) {
+          width: 100%;
+        }
+      }
+      input::placeholder {
+        color: #e3e3e3;
+        font-weight: 400;
+        font-family: "Josefin Sans";
+      }
+      a {
+        color: #3f66da;
+        text-align: end;
+        font-size: 19px;
+        font-weight: 500;
+        text-decoration: none;
+        margin-top: 10px;
+        align-self: flex-end;
+      }
+      button {
+        background-color: var(--primary-color);
+        width: 176px;
+        height: 53px;
+        border-radius: 9px;
+        color: #fff;
+        font-size: 24px;
+        font-weight: 600;
+        border: 0;
+        align-self: center;
+        margin-top: 50px;
+        cursor: pointer;
+      }
+      button:hover {
+        transform: scale(1.02);
+        transition: all ease 0.3s;
+      }
+    }
+  }
+}
+/*<------------------------------------------------User:Upload End------------------------------------------------>*/
+
+/*<------------------------------------------------User:Profile Start------------------------------------------------>*/
+#profile {
+  display: flex;
+  flex-direction: column;
+  padding: 50px 20px 50px 20px;
+  align-items: center;
+  .imageDiv {
+    border: 1px solid #5a678c;
+    border-radius: 50%;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    cursor: pointer;
+    @media (max-width: 1000px) {
+      width: 300px;
+      height: 300px;
+    }
+    @media (max-width: 768px) {
+      width: 200px;
+      height: 200px;
+    }
+    @media (max-width: 400px) {
+      width: 90%;
+    }
+    .fa-user {
+      font-size: 10rem;
+      color: var(--secondary-color);
+      @media (max-width: 1000px) {
+        font-size: 8rem;
+      }
+      @media (max-width: 768px) {
+        font-size: 6rem;
+      }
+    }
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    align-items: center;
+    margin-top: 50px;
+    @media (max-width: 768px) {
+      width: 80%;
+    }
+    @media (max-width: 400px) {
+      width: 90%;
+    }
+    input,
+    textarea {
+      width: 95%;
+      height: 50px;
+      border-radius: 6px;
+      border: 1px solid #5a678c;
+      background-color: transparent;
+      font-weight: 400;
+      font-size: 20px;
+      margin-top: 15px;
+      color: #e3e3e3;
+      padding-left: 20px;
+      @media (max-width: 480px) {
+        width: 100%;
+      }
+    }
+    textarea {
+      padding-top: 20px;
+      height: 150px;
+      resize: none;
+    }
+    input::placeholder,
+    textarea::placeholder {
+      color: #e3e3e3;
+      font-weight: 400;
+      font-family: "Josefin Sans";
+    }
+    a {
+      color: #3f66da;
+      text-align: end;
+      font-size: 19px;
+      font-weight: 500;
+      text-decoration: none;
+      margin-top: 10px;
+      align-self: flex-end;
+    }
+    button {
+      background-color: var(--primary-color);
+      width: 176px;
+      height: 53px;
+      border-radius: 9px;
+      color: #fff;
+      font-size: 24px;
+      font-weight: 600;
+      border: 0;
+      align-self: center;
+      margin-top: 50px;
+      cursor: pointer;
+    }
+    button:hover {
+      transform: scale(1.02);
+      transition: all ease 0.3s;
+    }
+  }
+}
+
+/*<------------------------------------------------User:Profile End------------------------------------------------>*/
+
+/*<------------------------------------------------User:Document Start------------------------------------------------>*/
+#document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 40px 100px 40px;
+  @media (max-width: 480px) {
+    padding: 40px 10px 100px 10px;
+  }
+  .mainDiv {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary-color);
+    width: 80%;
+    height: 400px;
+    border-radius: 17px;
+    padding: 20px;
+    @media (max-width: 480px) {
+      padding: 0 0 20px 0;
+    }
+    @media (max-width: 1050px) {
+      width: 100%;
+    }
+    @media (max-width: 680px) {
+      height: auto;
+    }
+    h1 {
+      font-size: 30px;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 20px;
+      @media (max-width: 350px) {
+        font-size: 24px;
+      }
+    }
+    .mainDivd1 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      margin-top: 40px;
+      width: 80%;
+      align-self: center;
+      row-gap: 40px;
+      @media (max-width: 1050px) {
+        width: 100%;
+      }
+      @media (max-width: 480px) {
+        display: flex;
+        flex-direction: column;
+        margin-left: 40px;
+      }
+      .mainDivspan {
+        display: flex;
+        flex-direction: column;
+        width: 190px;
+        margin-left: auto;
+        @media (max-width: 480px) {
+          display: flex;
+          flex-direction: column;
+          margin: 0;
+        }
+        h2 {
+          font-size: 24px;
+          font-weight: 700;
+          text-align: left;
+          @media (max-width: 350px) {
+            font-size: 20px;
+          }
+        }
+        p {
+          font-size: 21px;
+          font-weight: 200;
+          text-align: left;
+          margin-top: 10px;
+        }
+      }
+      #span2,
+      #span3,
+      #span6,
+      #span9 {
+        p {
+          text-decoration: underline;
+        }
+      }
+      #span1 {
+        @media (max-width: 680px) {
+          grid-column: 1/2;
+          grid-row: 1/2;
+        }
+      }
+      #span2 {
+        @media (max-width: 680px) {
+          grid-column: 3/4;
+        }
+      }
+      #span3 {
+        @media (max-width: 680px) {
+          grid-column: 1/2;
+          grid-row: 2/3;
+        }
+      }
+      #span4 {
+        @media (max-width: 680px) {
+          grid-column: 3/4;
+          grid-row: 2/3;
+        }
+      }
+      #span5 {
+        @media (max-width: 680px) {
+          grid-column: 1/2;
+          grid-row: 3/4;
+        }
+      }
+      #span6 {
+        @media (max-width: 680px) {
+          grid-column: 3/4;
+          grid-row: 3/4;
+        }
+      }
+      #span7 {
+        p {
+          font-weight: 600;
+          color: #54ff03;
+        }
+        @media (max-width: 680px) {
+          grid-column: 1/2;
+          grid-row: 4/5;
+        }
+      }
+      #span8 {
+        @media (max-width: 680px) {
+          grid-column: 3/4;
+          grid-row: 4/5;
+        }
+      }
+      #span9 {
+        @media (max-width: 680px) {
+          grid-column: 1/2;
+          grid-row: 5/6;
+        }
+      }
+    }
+  }
+  .viewBtn {
+    width: 185px;
+    height: 50px;
+    background-color: var(--primary-color);
+    border-radius: 9px;
+    color: #fff;
+    border: 0;
+    margin-top: 50px;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .viewBtn:hover {
+    transform: scale(1.01);
+    transition: all linear 0.3s;
+  }
+  #messageDiv {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 800px;
+    background-color: var(--secondary-color);
+    margin-top: 70px;
+    border-radius: 17px;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+    h1 {
+      font-size: 34px;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .convoDiv {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding-bottom: 20px;
+      max-height: 600px;
+    }
+    .leftmessageDiv {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-width: 480px;
+      height: auto;
+      background: #ffffff5e;
+      padding: 20px;
+      border-radius: 50px 50px 50px 0px;
+      margin-top: 20px;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+    .rightmessageDiv {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-width: 480px;
+      height: auto;
+      background: #3f3eed;
+      padding: 20px;
+      border-radius: 50px 50px 0 50px;
+      margin-top: 20px;
+      margin-right: 20px;
+      margin-left: 20px;
+
+      align-self: flex-end;
+    }
+    .messagep {
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .sendDiv {
+      display: flex;
+      width: 100%;
+      height: 90px;
+      border-radius: 0px 0px 17px 17px;
+      background-color: #545454;
+      margin-top: auto;
+      align-items: center;
+      justify-content: center;
+
+      form {
+        display: flex;
+        width: 90%;
+        justify-content: space-between;
+        input {
+          font-family: "Josefin Sans";
+          background-color: transparent;
+          border: 0;
+          outline: none;
+          color: #fff;
+          margin-right: 20px;
+          padding-left: 20px;
+          font-size: 22px;
+          font-weight: 500;
+          width: 80%;
+        }
+        input::placeholder {
+          font-family: "Josefin Sans";
+          font-size: 22px;
+          font-weight: 500;
+          line-height: 30px;
+          color: #fff;
+        }
+        .sendBtn {
+          width: 150px;
+          height: 60px;
+          border-radius: 17px;
+          font-family: Josefin Sans;
+          font-size: 24px;
+          font-weight: 600;
+          border: 0;
+          color: #fff;
+          background-color: var(--primary-color);
+          cursor: pointer;
+        }
+        .sendBtn:hover {
+          transform: scale(1.01);
+          transition: all linear 0.3s;
+        }
+      }
+    }
+  }
+}
+
+/*<------------------------------------------------User:Document End------------------------------------------------>*/
+
+/*<------------------------------------------------User:Invoices Start------------------------------------------------>*/
+
+#invoices {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px 40px 40px;
+  @media (max-width: 768px) {
+    padding: 20px 0 0 0;
+  }
+  .tableDiv {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    align-self: center;
+
+    #table {
+      margin-top: 10px;
+      background-color: var(--secondary-color);
+      border-radius: 20px;
+      padding: 20px;
+      .tableHeading {
+        font-family: "Josefin Sans";
+        font-size: 18px;
+        font-weight: 600;
+
+        color: #fff;
+      }
+      .rowvalue {
+        font-family: "Josefin Sans";
+        color: #fff;
+        font-size: 16px;
+        font-weight: 300;
+      }
+    }
+
+    #pagination {
+      width: fit-content;
+      margin: 0 auto;
+      margin-top: 20px;
+      button {
+        color: #fff;
+        font-family: "Josefin Sans";
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+        border-radius: 50%;
+      }
+      .css-1to7aaw-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+        background-color: var(--primary-color);
+      }
+    }
+  }
+}
+
+/*<------------------------------------------------User:Invoices End------------------------------------------------>*/
+
+/*<------------------------------------------------User:Invoice Start------------------------------------------------>*/
+#invoice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 100px;
+  .invoiceD1 {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    margin-top: 50px;
+    h1 {
+      font-size: 30px;
+      font-weight: 400;
+    }
+    .p1 {
+      max-width: 880px;
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 1.5;
+      margin-top: 10px;
+    }
+    .vendorDiv {
+      display: flex;
+      margin-top: 50px;
+      justify-content: space-between;
+      width: 85%;
+      @media (max-width: 768px) {
+        width: 95%;
+      }
+      @media (max-width: 650px) {
+        flex-direction: column;
+        width: 100%;
+      }
+      .leftSpan {
+        display: flex;
+        align-items: center;
+        h1 {
+          font-size: 24px;
+          font-weight: 300;
+          color: #ffffffd4;
+          margin-left: 15px;
+        }
+      }
+      .rightSpan {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        @media (max-width: 650px) {
+          align-self: center;
+          width: 95%;
+          margin-top: 20px;
+        }
+        span {
+          display: flex;
+          align-items: center;
+          margin-top: 10px;
+          img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+    .invoiceAmountDiv {
+      display: flex;
+      margin-top: 50px;
+      justify-content: space-between;
+      width: 85%;
+      @media (max-width: 768px) {
+        width: 95%;
+      }
+      @media (max-width: 650px) {
+        flex-direction: column;
+        width: 100%;
+      }
+      .leftSpan {
+        display: flex;
+        align-items: flex-start;
+        h1 {
+          font-size: 24px;
+          font-weight: 300;
+          color: #ffffffd4;
+          margin-left: 15px;
+          margin-top: 10px;
+        }
+      }
+      .rightSpan {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        @media (max-width: 650px) {
+          align-self: center;
+          width: 95%;
+          margin-top: 20px;
+        }
+        span {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 50px;
+          p {
+            font-size: 20px;
+            font-weight: 400;
+            color: #ffffffd4;
+          }
+          h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #ffffffd4;
+          }
+        }
+        .lineSpan {
+          background-color: #525252;
+          border: 2px solid rgba(82, 82, 82, 1);
+        }
+        .amountSpan {
+          p {
+            font-weight: 700 !important;
+          }
+        }
+      }
+    }
+    .invoiceDetailDiv {
+      display: flex;
+      margin-top: 50px;
+      justify-content: space-between;
+      width: 85%;
+      @media (max-width: 768px) {
+        width: 95%;
+      }
+      @media (max-width: 650px) {
+        flex-direction: column;
+        width: 100%;
+      }
+      .leftSpan {
+        display: flex;
+        align-items: flex-start;
+        h1 {
+          font-size: 24px;
+          font-weight: 300;
+          color: #ffffffd4;
+          margin-left: 15px;
+          margin-top: 10px;
+        }
+      }
+      .rightSpan {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        @media (max-width: 650px) {
+          align-self: center;
+          width: 95%;
+          margin-top: 20px;
+        }
+        span {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 50px;
+          p {
+            font-size: 20px;
+            font-weight: 400;
+            color: #ffffffd4;
+          }
+          h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #ffffffd4;
+          }
+        }
+        button {
+          width: 200px;
+          height: 50px;
+          border-radius: 9px;
+          border: 0;
+          font-size: 22px;
+          font-weight: 600;
+          background-color: var(--primary-color);
+          color: rgba(255, 255, 255, 1);
+          align-self: center;
+          margin-top: 30px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+/*<------------------------------------------------User:Invoice End------------------------------------------------>*/
+
+/*<------------------------------------------------User:Checkout Start------------------------------------------------>*/
+#checkout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 89vh;
+  @media (max-width: 768px) {
+    padding: 0 20px 0 20px;
+  }
+  .checkoutDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    height: 550px;
+    background: var(--secondary-color);
+    padding: 20px;
+    @media (max-width: 768px) {
+      width: 95%;
+    }
+    h1 {
+      font-size: 34px;
+      font-weight: 700;
+      text-align: center;
+      color: rgba(255, 255, 255, 1);
+      margin-top: 20px;
+    }
+    .p1 {
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 1.3;
+      text-align: center;
+      color: rgba(139, 151, 166, 1);
+      max-width: 500px;
+      margin-top: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 95%;
+      margin-top: 50px;
+      input[type="email"] {
+        width: 100%;
+        border: 1px solid rgba(90, 103, 140, 1);
+        height: 50px;
+        font-family: "Josefin Sans";
+        font-size: 20px;
+        font-weight: 300;
+        padding-left: 15px;
+        color: rgb(255, 255, 255);
+        border-radius: 7px;
+        background: transparent;
+        outline: none;
+      }
+      input::placeholder {
+        font-family: "Josefin Sans";
+        font-size: 20px;
+        font-weight: 300;
+        color: rgba(227, 227, 227, 1);
+      }
+
+      .span1 {
+        display: flex;
+        align-items: center;
+        align-self: flex-start;
+        margin-top: 30px;
+        /*    input[type="radio"] {
+          width: 25px;
+          height: 25px;
+          margin: 0;
+        }
+        input[type="radio"]::after {
+          accent-color: #ff0000;
+        } */
+        .spanCircleBorder {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 23px;
+          height: 23px;
+          border: 1px solid #fff;
+          border-radius: 50%;
+          .spanCircle {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #0066ff;
+          }
+        }
+        p {
+          font-size: 23px;
+          font-weight: 500;
+          color: rgba(227, 227, 227, 1);
+          margin-left: 20px;
+        }
+      }
+      .span2 {
+        display: flex;
+        margin-top: 20px;
+        width: 100%;
+        @media (max-width: 900px) {
+          flex-direction: column;
+          margin-top: 0;
+        }
+        input {
+          width: 100%;
+          border: 1px solid rgba(90, 103, 140, 1);
+          height: 50px;
+          font-family: "Josefin Sans";
+          font-size: 20px;
+          font-weight: 300;
+          padding-left: 15px;
+          color: rgb(255, 255, 255);
+          border-radius: 7px;
+          background: transparent;
+          outline: none;
+          margin-right: 10px;
+          @media (max-width: 900px) {
+            margin-top: 20px;
+          }
+        }
+        input::placeholder {
+          font-family: "Josefin Sans";
+          font-size: 20px;
+          font-weight: 300;
+          color: rgba(227, 227, 227, 1);
+        }
+      }
+      button {
+        width: 190px;
+        height: 50px;
+        border-radius: 9px;
+        cursor: pointer;
+        font-size: 22px;
+        border: 0;
+        font-weight: 600;
+        color: #fff;
+        background-color: var(--primary-color);
+        margin-top: 80px;
+      }
+      button:hover {
+        transform: scale(1.01);
+        transition: all linear 0.3s;
+      }
+    }
+  }
+}
+
+/*<------------------------------------------------User:Checkout End------------------------------------------------>*/
