@@ -22,12 +22,20 @@ const Header = () => {
             onClick={() => setMobile(!mobile)}
           ></i>
         )}
+        {window.location.pathname.split("/")[1] === "admin" ? (
+          <div className="linkDiv">
+            <Link to="/admin/dashboard">Dashboard</Link>
+            <Link to="/admin/invoice">Invoices</Link>
+            <Link to="/admin/customers">Customers</Link>
+          </div>
+        ) : (
+          <div className="linkDiv">
+            <Link to="/user/dashboard">Dashboard</Link>
+            <Link to="/user/upload">Upload New Documents</Link>
+            <Link to="/user/invoices">Invoices</Link>
+          </div>
+        )}
 
-        <div className="linkDiv">
-          <Link to="/user/dashboard">Dashboard</Link>
-          <Link to="/user/upload">Upload New Documents</Link>
-          <Link to="/user/invoices">Invoices</Link>
-        </div>
         <div className="imgDiv">
           <i
             className="fa-solid fa-user"
@@ -53,13 +61,20 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {mobile && (
-        <div className="moblinkDiv">
-          <Link to="/user/dashboard">Dashboard</Link>
-          <Link to="/user/upload">Upload New Documents</Link>
-          <Link to="/user/invoices">Invoices</Link>
-        </div>
-      )}
+      {mobile &&
+        (window.location.pathname.split("/")[1] === "admin" ? (
+          <div className="moblinkDiv">
+            <Link to="/admin/dashboard">Dashboard</Link>
+            <Link to="/admin/invoice">Invoices</Link>
+            <Link to="/admin/customers">Customers</Link>
+          </div>
+        ) : (
+          <div className="moblinkDiv">
+            <Link to="/user/dashboard">Dashboard</Link>
+            <Link to="/user/upload">Upload New Documents</Link>
+            <Link to="/user/invoices">Invoices</Link>
+          </div>
+        ))}
     </>
   );
 };

@@ -1,6 +1,10 @@
 import React from "react";
-/* import deleteIcon from "../assets/delete.png";
-import downloadIcon from "../assets/download.png"; */
+import { Link } from "react-router-dom";
+
+//assets
+import deleteIcon from "../assets/delete.png";
+import downloadIcon from "../assets/download.png";
+import view from "../assets/view.png";
 //mui
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -107,7 +111,7 @@ const DocumentsTable = ({ rows }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {rows?.map((row, index) => (
               <TableRow
                 key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -122,7 +126,24 @@ const DocumentsTable = ({ rows }) => {
                   {row.actions}
                 </TableCell>
                 <TableCell align="center" className="rowvalue">
-                  {row.status}
+                  {/*   {row.status} */}
+                  <div className="statusDiv">
+                    <p>Approved</p>
+                    <img className="deleteIcon" src={deleteIcon} alt="delete" />
+                    <img src={downloadIcon} alt="download" />
+                    <Link
+                      to="/document/123"
+                      style={{
+                        display: `${
+                          window.location.pathname.split("/")[1] === "admin"
+                            ? "flex"
+                            : "none"
+                        }`,
+                      }}
+                    >
+                      <img src={view} alt="view" />
+                    </Link>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
