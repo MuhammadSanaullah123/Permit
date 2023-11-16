@@ -6,6 +6,7 @@ const Profile = () => {
     company: "",
     email: "",
     description: "",
+    image: "",
     password: "",
     conpassword: "",
   });

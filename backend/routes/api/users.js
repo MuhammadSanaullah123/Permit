@@ -171,4 +171,115 @@ router.post("/logout", auth, async (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 });
 
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Public
+router.get(
+  "/",
+  auth,
+
+  async (req, res) => {
+    try {
+      const users = await User.find({ role: "user" });
+
+      res.status(200).json(users);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
+// @desc    Update user
+// @route   patch /api/users
+// @access  Public
+router.patch(
+  "/",
+  auth,
+  [
+    check(
+      "password",
+      "Please enter a password with 6 or more characters and must contain one lowercase and uppercase alphabet!"
+    )
+      .isLength({ min: 8 })
+      .matches(/^(?=.*[a-z])(?=.*[A-Z]).*$/),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const users = await User.findById(req.user.id);
+      let { name, image, company, email, description, password } = req.body;
+
+      if (email !== users.email) {
+        const emailCheck = await User.findOne({ email });
+        if (emailCheck) {
+          return res
+            .status(400)
+            .json({ errors: [{ msg: "Email already exists" }] });
+        }
+        users.email = email;
+      }
+
+      const isMatch = await bcrypt.compare(password, users.password);
+      if (!isMatch) {
+        const salt = await bcrypt.genSalt(10);
+
+        users.password = await bcrypt.hash(password, salt);
+      }
+
+      users.name = name;
+      users.company = company;
+      users.description = description;
+      users.image = image;
+      await users.save();
+      const payload = {
+        user: {
+          id: users.id,
+        },
+      };
+      jwt.sign(
+        payload,
+        process.env.JWT_SECRET,
+        { expiresIn: /* 1800 */ 36000 },
+        (err, token) => {
+          if (err) throw err;
+          res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            expires: new Date(Date.now() + 36000 * 1000),
+            path: "/",
+          });
+          return res.status(200).json(users);
+        }
+      );
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
+// @desc
+// @route   GET /api/users/:id
+// @access  Public
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const users = await User.findById(req.params.id);
+
+    if (!users) {
+      return res.status(404).json({ msg: "Users not found" });
+    }
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;

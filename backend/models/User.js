@@ -24,10 +24,12 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
-    /*  date: {
-    type: Date,
-    default: Date.now,
-  }, */
+    description: {
+      type: String,
+    },
+    image: {
+      type: String,
+    },
   },
   {
     timestamps: true,

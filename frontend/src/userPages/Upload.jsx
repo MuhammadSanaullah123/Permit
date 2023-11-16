@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+
 import upload from "../assets/upload.png";
 
 const Upload = () => {
@@ -9,6 +11,24 @@ const Upload = () => {
     type: "",
     valuation: "",
   });
+  const [file, setFile] = useState();
+
+  const onDrop = useCallback((acceptedFiles) => {
+    acceptedFiles.forEach((file) => {
+      setFile(file);
+      /*       const reader = new FileReader();
+
+      reader.onabort = () => console.log("file reading was aborted");
+      reader.onerror = () => console.log("file reading has failed");
+      reader.onload = () => {
+
+        const binaryStr = reader.result;
+        console.log(binaryStr);
+      };
+      reader.readAsArrayBuffer(file); */
+    });
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -18,8 +38,9 @@ const Upload = () => {
       [e.target.name]: Value,
     });
   };
-  console.log(values);
+
   const handleSubmit = () => {};
+  console.log(file);
 
   return (
     <div id="upload">
@@ -71,6 +92,25 @@ const Upload = () => {
             onChange={handleInput}
             required
           />
+          <p className="fileName">{file && file.name}</p>
+          <div {...getRootProps()}>
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <div className="isActiveDiv">
+                <p>Drop here...</p>
+              </div>
+            ) : (
+              <div className="uploadDiv">
+                <p>Upload</p>
+                <i class="fa-solid fa-upload"></i>
+              </div>
+            )}
+          </div>
+          {/*  <input
+            id="file-uploader"
+            type="file"
+            onChange={(e) => setImage(e.target.files[0])}
+          /> */}
           <button type="Upload">Submit</button>
         </form>
       </div>

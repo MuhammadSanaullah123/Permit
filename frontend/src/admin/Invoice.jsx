@@ -3,9 +3,9 @@ import React, { useState } from "react";
 const Invoice = () => {
   const [values, setValues] = useState({
     useremail: "",
-    ventor: "",
+    documentName: "",
     amount: "",
-    description: "",
+    address: "",
     date: "",
   });
 
@@ -40,9 +40,9 @@ const Invoice = () => {
         />
         <input
           type="text"
-          name="ventor"
-          placeholder="Ventor"
-          value={values.ventor}
+          name="documentName"
+          placeholder="Document Name"
+          value={values.documentName}
           onChange={handleInput}
           required
         />
@@ -56,9 +56,9 @@ const Invoice = () => {
         />
         <input
           type="text"
-          name="description"
-          placeholder="Description..."
-          value={values.description}
+          name="address"
+          placeholder="Address..."
+          value={values.address}
           onChange={handleInput}
           required
         />
