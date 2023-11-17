@@ -77,6 +77,9 @@ router.post(
             name: user.name,
             email: user.email,
             company: user.company,
+            role: user.role,
+            updatedAt: user.updatedAt,
+            createdAt: user.createdAt,
           });
         }
       );
@@ -148,8 +151,11 @@ router.post(
           return res.status(200).json({
             _id: user._id,
             name: user.name,
-            company: user.company,
             email: user.email,
+            company: user.company,
+            role: user.role,
+            updatedAt: user.updatedAt,
+            createdAt: user.createdAt,
           });
         }
       );
@@ -180,7 +186,7 @@ router.get(
 
   async (req, res) => {
     try {
-      const users = await User.find({ role: "user" });
+      const users = await User.find({ role: "user" }).select("-password");
 
       res.status(200).json(users);
     } catch (error) {
@@ -196,14 +202,7 @@ router.get(
 router.patch(
   "/",
   auth,
-  [
-    check(
-      "password",
-      "Please enter a password with 6 or more characters and must contain one lowercase and uppercase alphabet!"
-    )
-      .isLength({ min: 8 })
-      .matches(/^(?=.*[a-z])(?=.*[A-Z]).*$/),
-  ],
+
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -223,12 +222,19 @@ router.patch(
         }
         users.email = email;
       }
+      if (password) {
+        const isMatch = await bcrypt.compare(password, users.password);
+        if (!isMatch) {
+          const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).*$/;
+          if (!passwordRegex.test(password) && password.length < 8) {
+            return res.status(404).json({
+              msg: "Please enter a password with 6 or more characters and must contain one lowercase and uppercase alphabet!",
+            });
+          }
+          const salt = await bcrypt.genSalt(10);
 
-      const isMatch = await bcrypt.compare(password, users.password);
-      if (!isMatch) {
-        const salt = await bcrypt.genSalt(10);
-
-        users.password = await bcrypt.hash(password, salt);
+          users.password = await bcrypt.hash(password, salt);
+        }
       }
 
       users.name = name;
@@ -254,7 +260,15 @@ router.patch(
             expires: new Date(Date.now() + 36000 * 1000),
             path: "/",
           });
-          return res.status(200).json(users);
+          return res.status(200).json({
+            _id: users._id,
+            name: users.name,
+            email: users.email,
+            company: users.company,
+            role: users.role,
+            updatedAt: users.updatedAt,
+            createdAt: users.createdAt,
+          });
         }
       );
     } catch (error) {
@@ -264,12 +278,12 @@ router.patch(
   }
 );
 
-// @desc
+// @desc    Get user by id
 // @route   GET /api/users/:id
 // @access  Public
 router.get("/:id", auth, async (req, res) => {
   try {
-    const users = await User.findById(req.params.id);
+    const users = await User.findById(req.params.id).select("-password");
 
     if (!users) {
       return res.status(404).json({ msg: "Users not found" });

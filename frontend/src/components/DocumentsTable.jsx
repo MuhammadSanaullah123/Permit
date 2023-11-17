@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //assets
 import deleteIcon from "../assets/delete.png";
@@ -14,84 +14,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-/* function createData(name, created, actions, status) {
-  return { name, created, actions, status };
-} */
+//other
+import Moment from "react-moment";
 
-/* const rows = [
-  createData(
-    "Steller B",
-    "29 Augest 2023",
-    "SN",
-    <div className="statusDiv">
-      <p>Approved</p>
-      <img className="deleteIcon" src={deleteIcon} alt="delete" />
-      <img src={downloadIcon} alt="download" />
-    </div>
-  ),
-  createData(
-    "Steller B",
-    "29 Augest 2023",
-    "SN",
-    <div className="statusDiv">
-      <p>Approved</p>
-      <img className="deleteIcon" src={deleteIcon} alt="delete" />
-      <img src={downloadIcon} alt="download" />
-    </div>
-  ),
-  createData(
-    "Steller B",
-    "29 Augest 2023",
-    "SN",
-    <div className="statusDiv">
-      <p>Approved</p>
-      <img className="deleteIcon" src={deleteIcon} alt="delete" />
-      <img src={downloadIcon} alt="download" />
-    </div>
-  ),
-  createData(
-    "Steller B",
-    "29 Augest 2023",
-    "SN",
-    <div className="statusDiv">
-      <p>Approved</p>
-      <img className="deleteIcon" src={deleteIcon} alt="delete" />
-      <img src={downloadIcon} alt="download" />
-    </div>
-  ),
-  createData(
-    "Steller B",
-    "29 Augest 2023",
-    "SN",
-    <div className="statusDiv">
-      <p>Approved</p>
-      <img className="deleteIcon" src={deleteIcon} alt="delete" />
-      <img src={downloadIcon} alt="download" />
-    </div>
-  ),
-  createData(
-    "Steller B",
-    "29 Augest 2023",
-    "SN",
-    <div className="statusDiv">
-      <p>Approved</p>
-      <img className="deleteIcon" src={deleteIcon} alt="delete" />
-      <img src={downloadIcon} alt="download" />
-    </div>
-  ),
-  createData(
-    "Steller B",
-    "29 Augest 2023",
-    "SN",
-    <div className="statusDiv">
-      <p>Approved</p>
-      <img className="deleteIcon" src={deleteIcon} alt="delete" />
-      <img src={downloadIcon} alt="download" />
-    </div>
-  ),
-]; */
-
-const DocumentsTable = ({ rows }) => {
+const DocumentsTable = ({ rows, handleDelete }) => {
+  const navigate = useNavigate();
   return (
     <div>
       <TableContainer id="table" component={Paper}>
@@ -111,42 +38,69 @@ const DocumentsTable = ({ rows }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.map((row, index) => (
-              <TableRow
-                key={index}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row" className="rowvalue">
-                  {row.name}
-                </TableCell>
-                <TableCell align="left" className="rowvalue">
-                  {row.created}
-                </TableCell>
-                <TableCell align="center" className="rowvalue">
-                  {row.actions}
-                </TableCell>
-                <TableCell align="center" className="rowvalue">
-                  {/*   {row.status} */}
-                  <div className="statusDiv">
-                    <p>Approved</p>
-                    <img className="deleteIcon" src={deleteIcon} alt="delete" />
-                    <img src={downloadIcon} alt="download" />
-                    <Link
-                      to="/document/123"
-                      style={{
-                        display: `${
-                          window.location.pathname.split("/")[1] === "admin"
-                            ? "flex"
-                            : "none"
-                        }`,
-                      }}
-                    >
-                      <img src={view} alt="view" />
-                    </Link>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+            {Array.isArray(rows) &&
+              rows?.map((row, index) => (
+                <TableRow
+                  key={row._id}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    cursor: "pointer",
+                  }}
+                  onClick={() =>
+                    window.location.replace(`/document/${row._id}`)
+                  }
+                >
+                  <TableCell component="th" scope="row" className="rowvalue">
+                    {row.documentName}
+                  </TableCell>
+                  <TableCell align="left" className="rowvalue">
+                    <Moment format="DD MMMM YYYY">{row.createdAt}</Moment>
+                  </TableCell>
+                  <TableCell align="center" className="rowvalue">
+                    {row.actions}
+                  </TableCell>
+                  <TableCell align="center" className="rowvalue">
+                    {/*   {row.status} */}
+                    <div className="statusDiv">
+                      <p
+                        style={{
+                          color: `${
+                            row.status === "Pending"
+                              ? "#3F3EED"
+                              : row.status === "Approved"
+                              ? "#52ff00"
+                              : "#e74c3c"
+                          }`,
+                        }}
+                      >
+                        {row.status}
+                      </p>
+                      <img
+                        className="deleteIcon"
+                        src={deleteIcon}
+                        alt="delete"
+                        onClick={(e) => handleDelete(e, row._id)}
+                      />
+                      <img src={downloadIcon} alt="download" />
+                      <Link
+                        onClick={() =>
+                          window.location.replace(`/document/${row._id}`)
+                        }
+                        style={{
+                          display: `${
+                            JSON.parse(sessionStorage.getItem("userInfo"))
+                              .role === "admin"
+                              ? "flex"
+                              : "none"
+                          }`,
+                        }}
+                      >
+                        <img src={view} alt="view" />
+                      </Link>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 //mui
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,8 +10,35 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 //assets
 import view from "../assets/view.png";
+//other
+import Moment from "react-moment";
+import { toast } from "react-toastify";
+
+//api
+import { useDispatch, useSelector } from "react-redux";
+import { useGetAllUsersDocumentsMutation } from "../slices/documentApiSlice";
+import { setDocument } from "../slices/documentSlice";
 
 const CusotmersTable = ({ rows }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [getAllDocument] = useGetAllUsersDocumentsMutation();
+  const { documentInfo } = useSelector((state) => state.document);
+  const handleGetAllDocuments = async () => {
+    try {
+      const res = await getAllDocument().unwrap();
+
+      dispatch(setDocument({ ...res }));
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
+  };
+  useEffect(() => {
+    handleGetAllDocuments();
+  }, []);
+  console.log(documentInfo);
   return (
     <div className="tableDiv">
       <TableContainer
@@ -37,29 +64,41 @@ const CusotmersTable = ({ rows }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
-              <TableRow
-                key={index}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row" className="rowvalue">
-                  {row.name}
-                </TableCell>
-                <TableCell align="left" className="rowvalue">
-                  {row.date}
-                </TableCell>
-                <TableCell align="left" className="rowvalue">
-                  {row.email}
-                </TableCell>
-                <TableCell align="center" className="rowvalue">
-                  <div className="docDiv">
-                    <p>12</p>
-                    <img src={view} alt="view" />
-                  </div>
-                  {/*      {row.document} */}
-                </TableCell>
-              </TableRow>
-            ))}
+            {Array.isArray(rows) &&
+              rows.map((row, index) => {
+                const noOfDocs = documentInfo?.filter(
+                  (document) => document.user === row._id
+                );
+
+                return (
+                  <TableRow
+                    key={index}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    onClick={() => navigate(`/admin/customer/${row._id}`)}
+                  >
+                    <TableCell component="th" scope="row" className="rowvalue">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="left" className="rowvalue">
+                      <Moment format="DD MMMM YYYY">{row.createdAt}</Moment>
+                    </TableCell>
+                    <TableCell align="left" className="rowvalue">
+                      {row.email}
+                    </TableCell>
+                    <TableCell align="center" className="rowvalue">
+                      <div className="docDiv">
+                        <p>{noOfDocs?.length}</p>
+                        <img
+                          src={view}
+                          alt="view"
+                          onClick={() => navigate(`/admin/customer/${row._id}`)}
+                        />
+                      </div>
+                      {/*      {row.document} */}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>

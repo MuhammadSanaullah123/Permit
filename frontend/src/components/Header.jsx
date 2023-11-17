@@ -1,13 +1,51 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useAuthMutation, useLogoutMutation } from "../slices/usersApiSlice";
+import { setCredentials, clearCredentials } from "../slices/authSlice";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const [mobile, setMobile] = useState(false);
   const [profile, setProfile] = useState(false);
-
-  const handleLogout = () => {
-    setProfile(!profile);
+  const [auth] = useAuthMutation();
+  const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+      dispatch(clearCredentials());
+      setProfile(!profile);
+      navigate("/login");
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
   };
+  const { userInfo } = useSelector((state) => state.auth);
+  const handleAuth = async () => {
+    try {
+      const res = await auth().unwrap();
+
+      dispatch(setCredentials({ ...res }));
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
+  };
+  /*   useEffect(() => {
+    if (!sessionStorage.getItem("userInfo")) {
+      navigate("/login");
+    }
+  }, [sessionStorage.getItem("userInfo")]); */
+
+  useEffect(() => {
+    handleAuth();
+  }, []);
+
   return (
     <>
       <div id="header">
@@ -36,11 +74,26 @@ const Header = () => {
           </div>
         )}
 
-        <div className="imgDiv">
-          <i
-            className="fa-solid fa-user"
-            onClick={() => setProfile(!profile)}
-          ></i>
+        <div
+          className="imgDiv"
+          style={{
+            border: `${userInfo?.image ? "0" : "1px solid #fff"}`,
+          }}
+        >
+          {userInfo?.image ? (
+            <img
+              src={userInfo?.image}
+              alt=""
+              className="userImage"
+              onClick={() => setProfile(!profile)}
+            />
+          ) : (
+            <i
+              className="fa-solid fa-user"
+              onClick={() => setProfile(!profile)}
+            ></i>
+          )}
+
           <div
             className="logDiv"
             style={{

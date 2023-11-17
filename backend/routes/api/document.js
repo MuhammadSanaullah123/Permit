@@ -65,11 +65,9 @@ router.get("/me", auth, async (req, res) => {
 // @desc    Get document by id
 // @access  Private
 router.get("/:id", auth, async (req, res) => {
-  console.log("document");
-
   try {
     const document = await Document.findOne({ _id: req.params.id });
-    console.log(document);
+
     if (!document) {
       return res.status(404).json({ msg: "Document not found" });
     }
@@ -122,18 +120,19 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
-/* router.patch("/:id", auth, async (req, res) => {
+router.patch("/:id", auth, async (req, res) => {
   try {
-    const invoice = await Invoice.findOne({ documentId: req.params.id });
+    const { status } = req.body;
+    const document = await Document.findById(req.params.id);
 
-    if (!invoice) {
-      return res.status(404).json({ msg: "Invoice not found" });
+    if (!document) {
+      return res.status(404).json({ msg: "Document not found" });
     }
 
-    invoice.status = "paid";
+    document.status = status;
 
-    await invoice.save();
-    res.json(invoice);
+    await document.save();
+    res.json(document);
   } catch (error) {
     console.error(error.message);
     if (error.kind === "ObjectId") {
@@ -141,5 +140,5 @@ router.delete("/:id", auth, async (req, res) => {
     }
     res.status(500).send("Server Error");
   }
-}); */
+});
 module.exports = router;

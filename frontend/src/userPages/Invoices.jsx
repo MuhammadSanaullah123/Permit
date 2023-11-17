@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //components
 import InvoicesTable from "../components/InvoicesTable";
@@ -7,205 +7,57 @@ import InvoicesTable from "../components/InvoicesTable";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
-const Invoices = () => {
-  function createData(docname, payment, date, name, address) {
-    return { docname, payment, date, name, address };
-  }
-  const rows = [
-    createData(
-      "2912",
-      "$21,500",
-      "2021-05-29",
-      "Rechazada",
-      <p style={{ maxHeight: "100px", overflowY: "auto" }}>
-        Lorem ipsum dolor sit amet, consectet Lorem ipsum dolor sit amet,
-        consectet Lorem ipsum dolor sit amet, consectet , consectet Lorem ipsum
-        dolor sit amet, consectet , consectet Lorem ipsum dolor sit amet,
-        consectet consectet Lorem ipsum dolor sit amet, consectet consectet
-        Lorem ipsum dolor sit amet, consectet consectet Lorem ipsum dolor sit
-        amet, consectet consectet Lorem ipsum dolor sit amet, consectet
-      </p>
-    ),
-    createData(
-      "2912",
-      "$21,500",
-      "2021-05-29",
-      "Rechazada",
-      <p style={{ maxHeight: "100px", overflowY: "auto" }}>
-        Lorem ipsum dolor sit amet, consectet Lorem ipsum dolor sit amet,
-        consectet Lorem ipsum dolor sit amet, consectet , consectet Lorem ipsum
-        dolor sit amet, consectet , consectet Lorem ipsum dolor sit amet,
-        consectet consectet Lorem ipsum dolor sit amet, consectet consectet
-        Lorem ipsum dolor sit amet, consectet consectet Lorem ipsum dolor sit
-        amet, consectet consectet Lorem ipsum dolor sit amet, consectet
-      </p>
-    ),
-    createData(
-      "2912",
-      "$21,500",
-      "2021-05-29",
-      "Rechazada",
-      <p style={{ maxHeight: "100px", overflowY: "auto" }}>
-        Lorem ipsum dolor sit amet, consectet Lorem ipsum dolor sit amet,
-        consectet Lorem ipsum dolor sit amet, consectet , consectet Lorem ipsum
-        dolor sit amet, consectet , consectet Lorem ipsum dolor sit amet,
-        consectet consectet Lorem ipsum dolor sit amet, consectet consectet
-        Lorem ipsum dolor sit amet, consectet consectet Lorem ipsum dolor sit
-        amet, consectet consectet Lorem ipsum dolor sit amet, consectet
-      </p>
-    ),
-    createData(
-      "2912",
-      "$21,500",
-      "2021-05-29",
-      "Rechazada",
-      <p style={{ maxHeight: "100px", overflowY: "auto" }}>
-        Lorem ipsum dolor sit amet, consectet Lorem ipsum dolor sit amet,
-        consectet Lorem ipsum dolor sit amet, consectet , consectet Lorem ipsum
-        dolor sit amet, consectet , consectet Lorem ipsum dolor sit amet,
-        consectet consectet Lorem ipsum dolor sit amet, consectet consectet
-        Lorem ipsum dolor sit amet, consectet consectet Lorem ipsum dolor sit
-        amet, consectet consectet Lorem ipsum dolor sit amet, consectet
-      </p>
-    ),
-    createData(
-      "2912",
-      "$21,500",
-      "2021-05-29",
-      "Rechazada",
-      <p style={{ maxHeight: "100px", overflowY: "auto" }}>
-        Lorem ipsum dolor sit amet, consectet Lorem ipsum dolor sit amet,
-        consectet Lorem ipsum dolor sit amet, consectet , consectet Lorem ipsum
-        dolor sit amet, consectet , consectet Lorem ipsum dolor sit amet,
-        consectet consectet Lorem ipsum dolor sit amet, consectet consectet
-        Lorem ipsum dolor sit amet, consectet consectet Lorem ipsum dolor sit
-        amet, consectet consectet Lorem ipsum dolor sit amet, consectet
-      </p>
-    ),
-    createData(
-      "2912",
-      "$21,500",
-      "2021-05-29",
-      "Rechazada",
-      <p style={{ maxHeight: "100px", overflowY: "auto" }}>
-        Lorem ipsum dolor sit amet, consectet Lorem ipsum dolor sit amet,
-        consectet Lorem ipsum dolor sit amet, consectet , consectet Lorem ipsum
-        dolor sit amet, consectet , consectet Lorem ipsum dolor sit amet,
-        consectet consectet Lorem ipsum dolor sit amet, consectet consectet
-        Lorem ipsum dolor sit amet, consectet consectet Lorem ipsum dolor sit
-        amet, consectet consectet Lorem ipsum dolor sit amet, consectet
-      </p>
-    ),
-    createData(
-      "2912",
-      "$21,500",
-      "2021-05-29",
-      "Rechazada",
-      <p style={{ maxHeight: "100px", overflowY: "auto" }}>
-        Lorem ipsum dolor sit amet, consectet Lorem ipsum dolor sit amet,
-        consectet Lorem ipsum dolor sit amet, consectet , consectet Lorem ipsum
-        dolor sit amet, consectet , consectet Lorem ipsum dolor sit amet,
-        consectet consectet Lorem ipsum dolor sit amet, consectet consectet
-        Lorem ipsum dolor sit amet, consectet consectet Lorem ipsum dolor sit
-        amet, consectet consectet Lorem ipsum dolor sit amet, consectet
-      </p>
-    ),
-    createData(
-      "2912",
-      "$21,500",
-      "2021-05-29",
-      "Rechazada",
-      <p style={{ maxHeight: "100px", overflowY: "auto" }}>
-        Lorem ipsum dolor sit amet, consectet Lorem ipsum dolor sit amet,
-        consectet Lorem ipsum dolor sit amet, consectet , consectet Lorem ipsum
-        dolor sit amet, consectet , consectet Lorem ipsum dolor sit amet,
-        consectet consectet Lorem ipsum dolor sit amet, consectet consectet
-        Lorem ipsum dolor sit amet, consectet consectet Lorem ipsum dolor sit
-        amet, consectet consectet Lorem ipsum dolor sit amet, consectet
-      </p>
-    ),
-    createData(
-      "2912",
-      "$21,500",
-      "2021-05-29",
-      "Rechazada",
-      <p style={{ maxHeight: "100px", overflowY: "auto" }}>
-        Lorem ipsum dolor sit amet, consectet Lorem ipsum dolor sit amet,
-        consectet Lorem ipsum dolor sit amet, consectet , consectet Lorem ipsum
-        dolor sit amet, consectet , consectet Lorem ipsum dolor sit amet,
-        consectet consectet Lorem ipsum dolor sit amet, consectet consectet
-        Lorem ipsum dolor sit amet, consectet consectet Lorem ipsum dolor sit
-        amet, consectet consectet Lorem ipsum dolor sit amet, consectet
-      </p>
-    ),
-    createData(
-      "2912",
-      "$21,500",
-      "2021-05-29",
-      "Rechazada",
-      <p style={{ maxHeight: "100px", overflowY: "auto" }}>
-        Lorem ipsum dolor sit amet, consectet Lorem ipsum dolor sit amet,
-        consectet Lorem ipsum dolor sit amet, consectet , consectet Lorem ipsum
-        dolor sit amet, consectet , consectet Lorem ipsum dolor sit amet,
-        consectet consectet Lorem ipsum dolor sit amet, consectet consectet
-        Lorem ipsum dolor sit amet, consectet consectet Lorem ipsum dolor sit
-        amet, consectet consectet Lorem ipsum dolor sit amet, consectet
-      </p>
-    ),
-    createData(
-      "2912",
-      "$21,500",
-      "2021-05-29",
-      "Rechazada",
-      <p style={{ maxHeight: "100px", overflowY: "auto" }}>
-        Lorem ipsum dolor sit amet, consectet Lorem ipsum dolor sit amet,
-        consectet Lorem ipsum dolor sit amet, consectet , consectet Lorem ipsum
-        dolor sit amet, consectet , consectet Lorem ipsum dolor sit amet,
-        consectet consectet Lorem ipsum dolor sit amet, consectet consectet
-        Lorem ipsum dolor sit amet, consectet consectet Lorem ipsum dolor sit
-        amet, consectet consectet Lorem ipsum dolor sit amet, consectet
-      </p>
-    ),
-    createData(
-      "2912",
-      "$21,500",
-      "2021-05-29",
-      "Rechazada",
-      <p style={{ maxHeight: "100px", overflowY: "auto" }}>
-        Lorem ipsum dolor sit amet, consectet Lorem ipsum dolor sit amet,
-        consectet Lorem ipsum dolor sit amet, consectet , consectet Lorem ipsum
-        dolor sit amet, consectet , consectet Lorem ipsum dolor sit amet,
-        consectet consectet Lorem ipsum dolor sit amet, consectet consectet
-        Lorem ipsum dolor sit amet, consectet consectet Lorem ipsum dolor sit
-        amet, consectet consectet Lorem ipsum dolor sit amet, consectet
-      </p>
-    ),
-  ];
-  const [data, setData] = useState(rows);
+//other
+import { toast } from "react-toastify";
 
-  const itemsToShow = 10;
-  const pages = Math.ceil(rows.length / itemsToShow);
+//api
+import { useDispatch, useSelector } from "react-redux";
+import { useGetAllInvoiceMutation } from "../slices/invoiceApiSlice";
+import { setInvoice } from "../slices/invoiceSlice";
+const Invoices = () => {
+  const dispatch = useDispatch();
+  const { invoiceInfo } = useSelector((state) => state.invoice);
+  const [getAllInvoice] = useGetAllInvoiceMutation();
+  const [data, setData] = useState();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(data?.length / itemsPerPage);
 
   const handlePageChange = async (e, page) => {
-    console.log(page);
-
-    if (
-      rows.length > (page - 1) * itemsToShow &&
-      rows.length < itemsToShow * page
-    ) {
-      setData(rows.slice((page - 1) * itemsToShow, rows.length));
-    } else {
-      setData(rows.slice((page - 1) * itemsToShow, itemsToShow * page));
-    }
-    console.log(rows.slice((page - 1) * itemsToShow, itemsToShow * page));
+    setCurrentPage(page);
   };
 
+  const handleGetAllInvoice = async () => {
+    try {
+      const res = await getAllInvoice().unwrap();
+      setData(res);
+      dispatch(setInvoice({ ...res }));
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
+  };
+  useEffect(() => {
+    handleGetAllInvoice();
+  }, []);
+  const paginatedData =
+    data &&
+    Array.isArray(data) &&
+    data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  console.log(data);
   return (
     <div id="invoices">
-      <InvoicesTable rows={data} />
+      <InvoicesTable rows={paginatedData} />
 
       <Stack id="pagination" spacing={2}>
-        <Pagination onChange={handlePageChange} count={pages} color="primary" />
+        <Pagination
+          onChange={handlePageChange}
+          count={totalPages}
+          page={currentPage}
+          color="primary"
+        />
       </Stack>
     </div>
   );

@@ -4,6 +4,7 @@ const auth = require("../../middleware/auth");
 const { validationResult } = require("express-validator");
 
 const Conversation = require("../../models/Conversation");
+const User = require("../../models/User");
 
 // @route   POST api/conversation/:id
 // @desc    Create a conversation
@@ -11,12 +12,12 @@ const Conversation = require("../../models/Conversation");
 
 router.post("/:id", auth, async (req, res) => {
   try {
-    const { sender, receiver, text, senderRole } = req.body;
+    const { text } = req.body;
 
     const conversation = await Conversation.find({
       documentId: req.params.id,
     });
-    console.log(conversation);
+    const user = await User.findById(req.user.id);
 
     let finalConversation;
 
@@ -24,7 +25,7 @@ router.post("/:id", auth, async (req, res) => {
       console.log("Conversation updated");
 
       let message = {
-        sender: senderRole,
+        sender: user.role,
         message: text,
       };
       conversation[0].messages.push(message);
@@ -32,12 +33,11 @@ router.post("/:id", auth, async (req, res) => {
     } else {
       console.log("Conversation created");
       let message = {
-        sender: senderRole,
+        sender: user.role,
         message: text,
       };
       const newConversation = {
-        sender,
-        receiver,
+        sender: req.user.id,
         documentId: req.params.id,
         messages: message,
       };

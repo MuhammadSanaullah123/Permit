@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DocumentsTable from "../components/DocumentsTable";
 
 //assets
@@ -8,120 +8,122 @@ import downloadIcon from "../assets/download.png";
 //mui
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-
+//other
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { useGetUserByIdMutation } from "../slices/usersApiSlice";
+import { setSingleUser } from "../slices/authSlice";
+import { useGetAllUsersDocumentsMutation } from "../slices/documentApiSlice";
+import { setDocument } from "../slices/documentSlice";
 const IndividualCustomer = () => {
-  function createData(name, created, actions, status) {
-    return { name, created, actions, status };
-  }
-  const rows = [
-    createData(
-      "Steller B 1",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-    createData(
-      "Steller B 2",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-    createData(
-      "Steller B 3",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-    createData(
-      "Steller B 4",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-    createData(
-      "Steller B 5",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-    createData(
-      "Steller B 6",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-    createData(
-      "Steller B 7",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-  ];
+  const dispatch = useDispatch();
+  const [getUser] = useGetUserByIdMutation();
+  const [getAllDocument] = useGetAllUsersDocumentsMutation();
 
-  const [data, setData] = useState(rows);
+  const { userInfo } = useSelector((state) => state.auth);
+  const { documentInfo } = useSelector((state) => state.document);
 
-  const itemsToShow = 5;
-  const pages = Math.ceil(rows.length / itemsToShow);
+  const [statusCounts, setStatusCounts] = useState({
+    Approved: 0,
+    Rejected: 0,
+    Pending: 0,
+  });
+  const [data, setData] = useState();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(data?.length / itemsPerPage);
 
   const handlePageChange = async (e, page) => {
-    console.log(page);
-
-    if (rows.length > (page - 1) * 5 && rows.length < itemsToShow * page) {
-      setData(rows.slice((page - 1) * 5, rows.length));
-    } else {
-      setData(rows.slice((page - 1) * 5, itemsToShow * page));
-    }
-    console.log(rows.slice((page - 1) * 5, itemsToShow * page));
+    setCurrentPage(page);
   };
+
+  const handleGetUser = async () => {
+    try {
+      const res = await getUser(
+        window.location.pathname.split("/")[3]
+      ).unwrap();
+
+      dispatch(setSingleUser({ ...res }));
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
+  };
+  const handleGetAllDocuments = async () => {
+    try {
+      const res = await getAllDocument().unwrap();
+
+      dispatch(setDocument({ ...res }));
+      setData(res);
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
+  };
+
+  useEffect(() => {
+    handleGetUser();
+    handleGetAllDocuments();
+  }, []);
+
+  useEffect(() => {
+    if (documentInfo && Array.isArray(documentInfo)) {
+      console.log(documentInfo);
+      const currentUserDocuments = documentInfo?.filter(
+        (document) => document?.user === userInfo?._id
+      );
+
+      setData(currentUserDocuments);
+
+      const counts = currentUserDocuments?.reduce(
+        (acc, obj) => {
+          const status = obj.status;
+          acc[status]++;
+          return acc;
+        },
+        { Approved: 0, Rejected: 0, Pending: 0 }
+      );
+
+      setStatusCounts(counts);
+    }
+  }, [documentInfo]);
+  const paginatedData =
+    data &&
+    Array.isArray(data) &&
+    data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <div id="individualcustomer">
       <div className="customerDiv">
         <div className="customerDiv1">
-          <span className="imageRadiusDiv">
-            <i className="fa-solid fa-user defaultUser"></i>
+          <span
+            className="imageRadiusDiv"
+            style={{
+              border: `${userInfo?.image ? "0" : "1px solid #fff"}`,
+            }}
+          >
+            {userInfo?.image ? (
+              <img src={userInfo?.image} alt="" className="userPic" />
+            ) : (
+              <i className="fa-solid fa-user defaultUser"></i>
+            )}
           </span>
 
           <div className="detailDiv">
             <span>
               <h1>Customer Name</h1>
-              <p>Steller B</p>
+              <p>{userInfo?.name}</p>
             </span>
             <span>
               <h1>Email</h1>
-              <p>StellerB@gmail.com</p>
+              <p>{userInfo?.email}</p>
             </span>
             <span>
               <h1>No of documents Submitted</h1>
-              <p>12</p>
+              <p>{data && data?.length}</p>
             </span>
           </div>
         </div>
@@ -133,24 +135,25 @@ const IndividualCustomer = () => {
         </span>
         <span id="span2">
           <h1>Rejected</h1>
-          <h2>01</h2>
+          <h2>{statusCounts.Rejected}</h2>
         </span>
         <span id="span3">
           <h1>Sent for Approval</h1>
-          <h2>01</h2>
+          <h2>{statusCounts.Pending}</h2>
         </span>
         <span id="span4">
           <h1>Approved</h1>
-          <h2>01</h2>
+          <h2>{statusCounts.Approved}</h2>
         </span>
       </div>
       <div className="individualTableDiv">
         <h1>Recent Documents</h1>
-        <DocumentsTable rows={data} />
+        <DocumentsTable rows={paginatedData} />
         <Stack id="pagination" spacing={2}>
           <Pagination
             onChange={handlePageChange}
-            count={pages}
+            count={totalPages}
+            page={currentPage}
             color="primary"
           />
         </Stack>

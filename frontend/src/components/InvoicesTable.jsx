@@ -8,6 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import moment from "moment";
 
 const InvoicesTable = ({ rows }) => {
   return (
@@ -32,22 +33,23 @@ const InvoicesTable = ({ rows }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {rows?.map((row, index) => (
               <TableRow
                 key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row" className="rowvalue">
-                  {row.docname}
+                  {row.documentName}
                 </TableCell>
                 <TableCell align="left" className="rowvalue">
-                  {row.payment}
+                  {row.amount}
                 </TableCell>
                 <TableCell align="left" className="rowvalue">
-                  {row.date}
+                  {/*  {row.issueDate} */}
+                  {moment(row.issueDate).format("DD MMMM YYYY")}
                 </TableCell>
                 <TableCell align="left" className="rowvalue rowname">
-                  {row.name}
+                  {row.useremail}
                 </TableCell>
                 <TableCell
                   align="left"

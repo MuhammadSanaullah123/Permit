@@ -6,10 +6,10 @@ const ConversationSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
     },
-    receiver: {
+    /*   receiver: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
-    },
+    }, */
     documentId: {
       type: mongoose.Schema.Types.ObjectId,
     },

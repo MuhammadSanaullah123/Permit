@@ -1,5 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "../slices/usersApiSlice";
+import { setCredentials } from "../slices/authSlice";
+import { toast } from "react-toastify";
+
 import loginImage from "../assets/loginImage.png";
 
 const Login = () => {
@@ -7,7 +12,10 @@ const Login = () => {
     username: "",
     password: "",
   });
-
+  const [login] = useLoginMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.auth);
   const handleInput = (e) => {
     e.preventDefault();
     const Value = e.target.value;
@@ -16,8 +24,33 @@ const Login = () => {
       [e.target.name]: Value,
     });
   };
-  console.log(values);
-  const handleSubmit = () => {};
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let data = {
+      username: values.username,
+      password: values.password,
+    };
+    try {
+      const res = await login(data).unwrap();
+      toast.success("Login Successful", { position: "top-center" });
+      dispatch(setCredentials({ ...res }));
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (userInfo && userInfo?.role === "user") {
+      navigate("/user/dashboard");
+    }
+    if (userInfo && userInfo?.role === "admin") {
+      navigate("/admin/dashboard");
+    }
+  }, [navigate, userInfo]);
+
   return (
     <div id="login">
       <div id="mainDiv">

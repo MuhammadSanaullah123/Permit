@@ -1,8 +1,13 @@
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-
+//assets
 import upload from "../assets/upload.png";
+//api
+import { useDispatch, useSelector } from "react-redux";
+import { useCreateDocumentMutation } from "../slices/documentApiSlice";
 
+//other
+import { toast } from "react-toastify";
 const Upload = () => {
   const [values, setValues] = useState({
     name: "",
@@ -12,6 +17,7 @@ const Upload = () => {
     valuation: "",
   });
   const [file, setFile] = useState();
+  const [createDocument] = useCreateDocumentMutation();
 
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
@@ -39,7 +45,35 @@ const Upload = () => {
     });
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      name: values.name,
+      address: values.address,
+      contractor: values.contractor,
+      type: values.type,
+      valuation: values.valuation,
+      fileSize: "128",
+      documentName: "Resume7",
+      url: "www.testing.com",
+    };
+    try {
+      const res = await createDocument(data).unwrap();
+
+      setValues({
+        name: "",
+        address: "",
+        contractor: "",
+        type: "",
+        valuation: "",
+      });
+      toast.success("Document Created", { position: "top-center" });
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
+  };
   console.log(file);
 
   return (
@@ -102,7 +136,7 @@ const Upload = () => {
             ) : (
               <div className="uploadDiv">
                 <p>Upload</p>
-                <i class="fa-solid fa-upload"></i>
+                <i className="fa-solid fa-upload"></i>
               </div>
             )}
           </div>

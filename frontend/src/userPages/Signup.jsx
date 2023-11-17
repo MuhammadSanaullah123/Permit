@@ -1,8 +1,18 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useSignupMutation } from "../slices/usersApiSlice";
+import { setCredentials } from "../slices/authSlice";
+import { toast } from "react-toastify";
 import loginImage from "../assets/loginImage.png";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [signup] = useSignupMutation();
+  const { userInfo } = useSelector((state) => state.auth);
+
   const [values, setValues] = useState({
     username: "",
     email: "",
@@ -18,9 +28,36 @@ const Signup = () => {
       [e.target.name]: Value,
     });
   };
-  console.log(values);
-  const handleSubmit = () => {};
-  console.log(values);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      name: values.username,
+      email: values.email,
+      company: values.company,
+      password: values.password,
+    };
+
+    try {
+      const res = await signup(data).unwrap();
+      toast.success("Account Created", { position: "top-center" });
+
+      dispatch(setCredentials({ ...res }));
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+
+      /* toast.error(error.data.errors); */
+      /*   toast.error(error?.data?.errors || error.error); */
+    }
+  };
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/user/dashboard");
+    }
+  }, [navigate, userInfo]);
   return (
     <div id="signup">
       <div id="mainDiv">

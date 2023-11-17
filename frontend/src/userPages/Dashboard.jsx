@@ -1,108 +1,93 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //assets
 import welcome from "../assets/welcome.png";
-import deleteIcon from "../assets/delete.png";
-import downloadIcon from "../assets/download.png";
 //components
 import DocumentsTable from "../components/DocumentsTable";
 
 //mui
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { toast } from "react-toastify";
+//api
+import { useDispatch, useSelector } from "react-redux";
+import {
+  useGetDocumentsMutation,
+  useDeleteDocumentMutation,
+} from "../slices/documentApiSlice";
+import { setDocument } from "../slices/documentSlice";
 
 const Dashboard = () => {
-  function createData(name, created, actions, status) {
-    return { name, created, actions, status };
-  }
-  const rows = [
-    createData(
-      "Steller B 1",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-    createData(
-      "Steller B 2",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-    createData(
-      "Steller B 3",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-    createData(
-      "Steller B 4",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-    createData(
-      "Steller B 5",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-    createData(
-      "Steller B 6",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-    createData(
-      "Steller B 7",
-      "29 Augest 2023",
-      "SN",
-      <div className="statusDiv">
-        <p>Approved</p>
-        <img className="deleteIcon" src={deleteIcon} alt="delete" />
-        <img src={downloadIcon} alt="download" />
-      </div>
-    ),
-  ];
+  const dispatch = useDispatch();
+  const [getAllDocument] = useGetDocumentsMutation();
+  const [deleteDocument] = useDeleteDocumentMutation();
 
-  const [data, setData] = useState(rows);
+  const { documentInfo } = useSelector((state) => state.document);
+  const [statusCounts, setStatusCounts] = useState({
+    Approved: 0,
+    Rejected: 0,
+    Pending: 0,
+  });
+  const [data, setData] = useState();
 
-  const itemsToShow = 5;
-  const pages = Math.ceil(rows.length / itemsToShow);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(data?.length / itemsPerPage);
 
   const handlePageChange = async (e, page) => {
-    console.log(page);
-
-    if (rows.length > (page - 1) * 5 && rows.length < itemsToShow * page) {
-      setData(rows.slice((page - 1) * 5, rows.length));
-    } else {
-      setData(rows.slice((page - 1) * 5, itemsToShow * page));
-    }
-    console.log(rows.slice((page - 1) * 5, itemsToShow * page));
+    setCurrentPage(page);
   };
+
+  const handleGetAllDocuments = async () => {
+    try {
+      const res = await getAllDocument().unwrap();
+
+      dispatch(setDocument({ ...res }));
+      setData(res);
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
+  };
+
+  const handleDelete = async (e, id) => {
+    e.stopPropagation();
+    try {
+      const res = await deleteDocument(id).unwrap();
+      toast.success("Document Deleted", { position: "top-center" });
+
+      handleGetAllDocuments();
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
+  };
+
+  console.log(data);
+  useEffect(() => {
+    handleGetAllDocuments();
+  }, []);
+  useEffect(() => {
+    if (documentInfo && Array.isArray(documentInfo)) {
+      setData(documentInfo);
+      const counts = documentInfo.reduce(
+        (acc, obj) => {
+          const status = obj.status;
+          acc[status]++;
+          return acc;
+        },
+        { Approved: 0, Rejected: 0, Pending: 0 }
+      );
+
+      setStatusCounts(counts);
+    }
+  }, [documentInfo]);
+  const paginatedData =
+    data &&
+    Array.isArray(data) &&
+    data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <div id="dashboard">
@@ -128,21 +113,26 @@ const Dashboard = () => {
         </div>
         <div className="dashbaordsmallDiv" id="dashbaordDivRejected">
           <h1>Rejected</h1>
-          <h2>01</h2>
+          <h2>{statusCounts.Rejected}</h2>
         </div>
         <div className="dashbaordsmallDiv" id="dashbaordDivSent">
           <h1>Sent for Approval</h1>
-          <h2>01</h2>
+          <h2>{statusCounts.Pending}</h2>
         </div>
         <div className="dashbaordsmallDiv" id="dashbaordDivApproved">
           <h1>Approved</h1>
-          <h2>01</h2>
+          <h2>{statusCounts.Approved}</h2>
         </div>
       </div>
       <h1 className="rech1">Recent Documents</h1>
-      <DocumentsTable rows={data} />
+      <DocumentsTable rows={paginatedData} handleDelete={handleDelete} />
       <Stack id="pagination" spacing={2}>
-        <Pagination onChange={handlePageChange} count={pages} color="primary" />
+        <Pagination
+          onChange={handlePageChange}
+          count={totalPages}
+          page={currentPage}
+          color="primary"
+        />
       </Stack>
     </div>
   );
