@@ -63,7 +63,15 @@ const IndividualCustomer = () => {
       });
     }
   };
-
+  const handleDownload = (e, url) => {
+    e.stopPropagation();
+    const newTab = window.open(url, "_blank");
+    if (newTab) {
+      newTab.focus();
+    } else {
+      window.location.assign(url);
+    }
+  };
   useEffect(() => {
     handleGetUser();
     handleGetAllDocuments();
@@ -148,7 +156,7 @@ const IndividualCustomer = () => {
       </div>
       <div className="individualTableDiv">
         <h1>Recent Documents</h1>
-        <DocumentsTable rows={paginatedData} />
+        <DocumentsTable rows={paginatedData} handleDownload={handleDownload} />
         <Stack id="pagination" spacing={2}>
           <Pagination
             onChange={handlePageChange}

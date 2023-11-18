@@ -380,6 +380,68 @@
     @media (max-width: 1000px) {
       column-gap: 20px;
     }
+
+    .dashbaordDiv1Admin {
+      background-color: var(--secondary-color);
+      display: flex;
+
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 40px 20px 40px;
+      grid-column: 1/3;
+      grid-row: 1/3;
+      .dashbaordDiv1Adminspan {
+        text-align: center;
+        align-items: center;
+      }
+      img {
+        width: 420px;
+        align-self: center;
+      }
+      @media (max-width: 560px) {
+        max-height: none;
+        img {
+          width: 50%;
+          height: 70%;
+          align-self: center;
+        }
+      }
+      @media (max-width: 480px) {
+        flex-direction: column-reverse;
+        img {
+          width: 180px;
+          height: 120px;
+          margin-bottom: 10px;
+        }
+      }
+      span {
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+        margin-bottom: 20px;
+        justify-content: center;
+        @media (max-width: 480px) {
+          margin-bottom: 0;
+        }
+        h1 {
+          font-size: 32px;
+          font-weight: 700;
+          @media (max-width: 560px) {
+            font-size: 22px;
+          }
+        }
+        p {
+          font-size: 16px;
+          font-weight: 300;
+          line-height: 22px;
+          margin-top: 15px;
+          max-width: 600px;
+        }
+      }
+      @media (max-width: 1180px) {
+        grid-column: 1/5;
+      }
+    }
     .dashbaordDiv1 {
       background-color: var(--secondary-color);
       max-height: 230px;
@@ -1054,8 +1116,9 @@
         }
       }
       #span2 {
-        p {
-          text-decoration: underline;
+        a {
+          color: #fff;
+          font-weight: 200;
         }
       }
       #span1 {
@@ -1584,12 +1647,22 @@
         font-weight: 300;
         color: rgba(227, 227, 227, 1);
       }
-
+      .span1ParentDiv {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 30px;
+      }
+      .cardImg {
+        font-size: 30px;
+        margin-left: 10px;
+        color: rgba(90, 103, 140);
+      }
       .span1 {
         display: flex;
         align-items: center;
         align-self: flex-start;
-        margin-top: 30px;
         /*    input[type="radio"] {
           width: 25px;
           height: 25px;

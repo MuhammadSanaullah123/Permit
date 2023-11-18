@@ -14,7 +14,7 @@ const Invoice = () => {
 
   const [values, setValues] = useState({
     useremail: user ? user?.name : "",
-    documentName: documentInfo ? documentInfo?.documentName : "",
+    projectName: documentInfo ? documentInfo?.projectName : "",
     amount: "",
     address: documentInfo ? documentInfo?.address : "",
     date: "",
@@ -38,7 +38,7 @@ const Invoice = () => {
       id: window.location.pathname.split("/")[3],
       user: documentInfo?.user,
       useremail: values.useremail,
-      documentName: values.documentName,
+      projectName: values.projectName,
       amount: values.amount,
       address: values.address,
       date: values.date,
@@ -48,7 +48,7 @@ const Invoice = () => {
       toast.success("Invoice Created", { position: "top-center" });
       setValues({
         useremail: user ? user?.name : "",
-        documentName: documentInfo ? documentInfo?.documentName : "",
+        projectName: documentInfo ? documentInfo?.projectName : "",
         amount: "",
         address: documentInfo ? documentInfo?.address : "",
         date: "",
@@ -97,7 +97,7 @@ const Invoice = () => {
   useEffect(() => {
     setValues({
       useremail: user ? user?.name : "",
-      documentName: documentInfo ? documentInfo?.documentName : "",
+      projectName: documentInfo ? documentInfo?.projectName : "",
       amount: "",
       address: documentInfo ? documentInfo?.address : "",
       date: "",
@@ -125,9 +125,9 @@ const Invoice = () => {
         />
         <input
           type="text"
-          name="documentName"
+          name="projectName"
           placeholder="Document Name"
-          value={values.documentName}
+          value={values.projectName}
           onChange={handleInput}
           required
         />

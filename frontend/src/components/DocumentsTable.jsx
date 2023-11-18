@@ -17,7 +17,7 @@ import Paper from "@mui/material/Paper";
 //other
 import Moment from "react-moment";
 
-const DocumentsTable = ({ rows, handleDelete }) => {
+const DocumentsTable = ({ rows, handleDelete, handleDownload }) => {
   const navigate = useNavigate();
   return (
     <div>
@@ -25,12 +25,12 @@ const DocumentsTable = ({ rows, handleDelete }) => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell className="tableHeading">Document Name</TableCell>
+              <TableCell className="tableHeading">Project Name</TableCell>
               <TableCell className="tableHeading" align="left">
                 Created on
               </TableCell>
               <TableCell className="tableHeading" align="center">
-                Actions
+                Permit Type
               </TableCell>
               <TableCell className="tableHeading" align="center">
                 Status
@@ -51,13 +51,13 @@ const DocumentsTable = ({ rows, handleDelete }) => {
                   }
                 >
                   <TableCell component="th" scope="row" className="rowvalue">
-                    {row.documentName}
+                    {row.projectName}
                   </TableCell>
                   <TableCell align="left" className="rowvalue">
                     <Moment format="DD MMMM YYYY">{row.createdAt}</Moment>
                   </TableCell>
                   <TableCell align="center" className="rowvalue">
-                    {row.actions}
+                    {row.permitType}
                   </TableCell>
                   <TableCell align="center" className="rowvalue">
                     {/*   {row.status} */}
@@ -81,13 +81,20 @@ const DocumentsTable = ({ rows, handleDelete }) => {
                         alt="delete"
                         onClick={(e) => handleDelete(e, row._id)}
                       />
-                      <img src={downloadIcon} alt="download" />
+
+                      <img
+                        src={downloadIcon}
+                        alt="download"
+                        onClick={(e) => handleDownload(e, row.url)}
+                      />
+
                       <Link
                         onClick={() =>
                           window.location.replace(`/document/${row._id}`)
                         }
                         style={{
                           display: `${
+                            sessionStorage.getItem("userInfo") &&
                             JSON.parse(sessionStorage.getItem("userInfo"))
                               .role === "admin"
                               ? "flex"

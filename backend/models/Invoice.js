@@ -17,6 +17,10 @@ const InvoiceSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    projectName: {
+      type: String,
+      required: true,
+    },
     amount: {
       type: String,
       required: true,

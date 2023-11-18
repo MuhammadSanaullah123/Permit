@@ -37,6 +37,7 @@ const DocumentSchema = new mongoose.Schema(
     documentName: {
       type: String,
       required: true,
+      unique: true,
     },
     url: {
       type: String,

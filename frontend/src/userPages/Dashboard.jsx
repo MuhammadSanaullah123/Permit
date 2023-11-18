@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 //assets
 import welcome from "../assets/welcome.png";
 //components
@@ -19,6 +19,7 @@ import { setDocument } from "../slices/documentSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [getAllDocument] = useGetDocumentsMutation();
   const [deleteDocument] = useDeleteDocumentMutation();
 
@@ -64,7 +65,15 @@ const Dashboard = () => {
       });
     }
   };
-
+  const handleDownload = (e, url) => {
+    e.stopPropagation();
+    const newTab = window.open(url, "_blank");
+    if (newTab) {
+      newTab.focus();
+    } else {
+      window.location.assign(url);
+    }
+  };
   console.log(data);
   useEffect(() => {
     handleGetAllDocuments();
@@ -105,7 +114,7 @@ const Dashboard = () => {
         </div>
         <div className="dashbaordDiv1 dashbaordDiv2">
           <h1>Upload New Documents</h1>
-          <button>Upload</button>
+          <button onClick={() => navigate("/user/upload")}>Upload</button>
         </div>
         <div className="dashbaordsmallDiv" id="dashbaordDivDrafted">
           <h1>Drafted</h1>
@@ -125,7 +134,11 @@ const Dashboard = () => {
         </div>
       </div>
       <h1 className="rech1">Recent Documents</h1>
-      <DocumentsTable rows={paginatedData} handleDelete={handleDelete} />
+      <DocumentsTable
+        rows={paginatedData}
+        handleDelete={handleDelete}
+        handleDownload={handleDownload}
+      />
       <Stack id="pagination" spacing={2}>
         <Pagination
           onChange={handlePageChange}

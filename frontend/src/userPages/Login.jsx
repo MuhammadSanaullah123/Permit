@@ -44,10 +44,10 @@ const Login = () => {
 
   useEffect(() => {
     if (userInfo && userInfo?.role === "user") {
-      navigate("/user/dashboard");
+      window.location.assign("/user/dashboard");
     }
     if (userInfo && userInfo?.role === "admin") {
-      navigate("/admin/dashboard");
+      window.location.assign("/admin/dashboard");
     }
   }, [navigate, userInfo]);
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 //assets
 import check from "../assets/check.png";
 import bank from "../assets/bank.png";
@@ -14,6 +14,7 @@ import { setInvoice } from "../slices/invoiceSlice";
 import { toast } from "react-toastify";
 const Invoice = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { invoiceInfo } = useSelector((state) => state.invoice);
   const [getInvoice] = useGetInvoiceMutation();
 
@@ -102,7 +103,9 @@ const Invoice = () => {
                   <p>Invoice Date</p>
                   <h1>{invoiceInfo?.issueDate}</h1>
                 </span>
-                <button>Checkout</button>
+                <button onClick={() => navigate("/user/checkout")}>
+                  Checkout
+                </button>
               </span>
             </div>
           </>

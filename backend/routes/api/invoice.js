@@ -4,6 +4,7 @@ const auth = require("../../middleware/auth");
 const { validationResult } = require("express-validator");
 
 const Invoice = require("../../models/Invoice");
+const Document = require("../../models/Document");
 
 // @route   POST api/Invoice/:id
 // @desc    Create a invoice
@@ -11,13 +12,14 @@ const Invoice = require("../../models/Invoice");
 
 router.post("/:id", auth, async (req, res) => {
   try {
-    const { user, useremail, documentName, amount, address, date } = req.body;
-
+    const { user, useremail, projectName, amount, address, date } = req.body;
+    const document = await Document.findById(req.params.id);
     const invoice = new Invoice({
       user,
       documentId: req.params.id,
       useremail,
-      documentName,
+      documentName: document.documentName,
+      projectName,
       amount,
       address,
       issueDate: date,

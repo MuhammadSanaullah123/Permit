@@ -19,7 +19,12 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 //other
 import Moment from "react-moment";
-const AdminDocumentTable = ({ rows, handleDelete, handleUpdate }) => {
+const AdminDocumentTable = ({
+  rows,
+  handleDelete,
+  handleUpdate,
+  handleDownload,
+}) => {
   const navigate = useNavigate();
   return (
     <div>
@@ -27,12 +32,12 @@ const AdminDocumentTable = ({ rows, handleDelete, handleUpdate }) => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell className="tableHeading">Document Name</TableCell>
+              <TableCell className="tableHeading">Project Name</TableCell>
               <TableCell className="tableHeading" align="left">
                 Created on
               </TableCell>
               <TableCell className="tableHeading" align="center">
-                Actions
+                Permit Type
               </TableCell>
               <TableCell className="tableHeading" align="center">
                 Status
@@ -48,13 +53,13 @@ const AdminDocumentTable = ({ rows, handleDelete, handleUpdate }) => {
                   onClick={() => navigate(`/document/${row._id}`)}
                 >
                   <TableCell component="th" scope="row" className="rowvalue">
-                    {row.documentName}
+                    {row.projectName}
                   </TableCell>
                   <TableCell align="left" className="rowvalue">
                     <Moment format="DD MMMM YYYY">{row.createdAt}</Moment>
                   </TableCell>
                   <TableCell align="center" className="rowvalue">
-                    {row.actions}
+                    {row.permitType}
                   </TableCell>
                   <TableCell align="center" className="rowvalue">
                     <div className="statusDiv">
@@ -93,7 +98,11 @@ const AdminDocumentTable = ({ rows, handleDelete, handleUpdate }) => {
                         alt="delete"
                         onClick={(e) => handleDelete(e, row._id)}
                       />
-                      <img src={downloadIcon} alt="download" />
+                      <img
+                        src={downloadIcon}
+                        alt="download"
+                        onClick={(e) => handleDownload(e, row.url)}
+                      />
                       <Link
                         to={`/document/${row._id}`}
                         style={{

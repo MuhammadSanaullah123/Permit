@@ -17,7 +17,7 @@ const InvoicesTable = ({ rows }) => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell className="tableHeading">Document Name</TableCell>
+              <TableCell className="tableHeading">Project Name</TableCell>
               <TableCell className="tableHeading" align="left">
                 Payments
               </TableCell>
@@ -39,7 +39,7 @@ const InvoicesTable = ({ rows }) => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row" className="rowvalue">
-                  {row.documentName}
+                  {row.projectName}
                 </TableCell>
                 <TableCell align="left" className="rowvalue">
                   {row.amount}

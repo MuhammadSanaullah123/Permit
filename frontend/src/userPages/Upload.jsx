@@ -47,7 +47,17 @@ const Upload = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
+
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("address", values.address);
+    formData.append("contractor", values.contractor);
+    formData.append("type", values.type);
+    formData.append("valuation", values.valuation);
+
+    formData.append("file", file);
+
+    /*   const data = {
       name: values.name,
       address: values.address,
       contractor: values.contractor,
@@ -55,10 +65,10 @@ const Upload = () => {
       valuation: values.valuation,
       fileSize: "128",
       documentName: "Resume7",
-      url: "www.testing.com",
-    };
+      file,
+    }; */
     try {
-      const res = await createDocument(data).unwrap();
+      const res = await createDocument(formData).unwrap();
 
       setValues({
         name: "",
@@ -67,11 +77,10 @@ const Upload = () => {
         type: "",
         valuation: "",
       });
+      setFile();
       toast.success("Document Created", { position: "top-center" });
     } catch (error) {
-      error.data.errors.forEach((error) => {
-        toast.error(error.msg);
-      });
+      toast.error(error.data.msg);
     }
   };
   console.log(file);

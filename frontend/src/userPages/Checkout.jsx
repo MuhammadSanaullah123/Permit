@@ -37,12 +37,20 @@ const Checkout = () => {
             onChange={handleInput}
             required
           />
-          <span className="span1">
-            <span className="spanCircleBorder">
-              <span className="spanCircle"></span>
+          <span className="span1ParentDiv">
+            <span className="span1">
+              <span className="spanCircleBorder">
+                <span className="spanCircle"></span>
+              </span>
+              <p>Credit Card</p>
             </span>
-            <p>Credit Card</p>
+            <span className="span1Images">
+              <i className="fa-brands fa-cc-visa cardImg"></i>
+              <i className="fa-brands fa-cc-mastercard cardImg"></i>
+              {/*    <i className="fa-brands fa-cc-discover cardImg"></i> */}
+            </span>
           </span>
+
           <span className="span2">
             <input
               type="text"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //api
 import { useDispatch, useSelector } from "react-redux";
 import { useGetDocumentByIdMutation } from "../slices/documentApiSlice";
@@ -87,7 +87,9 @@ const Document = () => {
           </span>
           <span id="span2" className="mainDivspan">
             <h2>PDF link</h2>
-            <p>{documentInfo?.url}</p>
+            <Link to={`${documentInfo?.url}`} target="_blank">
+              View pdf
+            </Link>
           </span>
           <span id="span3" className="mainDivspan">
             <h2>Contractor</h2>

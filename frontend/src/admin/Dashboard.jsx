@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 
 //assets
 import welcome from "../assets/welcome.png";
-import deleteIcon from "../assets/delete.png";
-import downloadIcon from "../assets/download.png";
+
 //components
 import AdminDocumentTable from "../components/AdminDocumentTable";
 
@@ -87,7 +86,15 @@ const Dashboard = () => {
       });
     }
   };
-
+  const handleDownload = (e, url) => {
+    e.stopPropagation();
+    const newTab = window.open(url, "_blank");
+    if (newTab) {
+      newTab.focus();
+    } else {
+      window.location.assign(url);
+    }
+  };
   console.log(data);
   useEffect(() => {
     handleGetAllDocuments();
@@ -115,8 +122,8 @@ const Dashboard = () => {
   return (
     <div id="dashboard">
       <div className="dashbaordDiv">
-        <div className="dashbaordDiv1">
-          <span>
+        <div className="dashbaordDiv1Admin">
+          <span className="dashbaordDiv1Adminspan">
             <h1>Welcome</h1>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
@@ -126,10 +133,10 @@ const Dashboard = () => {
           </span>
           <img src={welcome} alt="welcome" />
         </div>
-        <div className="dashbaordDiv1 dashbaordDiv2">
+        {/*   <div className="dashbaordDiv1 dashbaordDiv2">
           <h1>Upload New Documents</h1>
           <button>Upload</button>
-        </div>
+        </div> */}
         <div className="dashbaordsmallDiv" id="dashbaordDivDrafted">
           <h1>Drafted</h1>
           <h2>01</h2>
@@ -152,6 +159,7 @@ const Dashboard = () => {
         rows={paginatedData}
         handleDelete={handleDelete}
         handleUpdate={handleUpdate}
+        handleDownload={handleDownload}
       />
       <Stack id="pagination" spacing={2}>
         <Pagination
