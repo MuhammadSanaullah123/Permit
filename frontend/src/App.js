@@ -22,6 +22,8 @@ import IndividualCustomer from "./admin/IndividualCustomer";
 import GenerateInvoice from "./admin/Invoice";
 import PrivateRouteUser from "./components/PrivateRouteUser";
 import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
+import ForgotPassword from "./userPages/ForgotPassword";
+import ResetPassword from "./userPages/ResetPassword";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import store from "./store";
@@ -33,7 +35,11 @@ const App = () => {
         <Router>
           {window.location.pathname !== "/user/signup" &&
             window.location.pathname !== "/" &&
-            window.location.pathname !== "/login" && <Header />}
+            window.location.pathname !== "/login" &&
+            window.location.pathname !== "/forgot-password" &&
+            window.location.pathname.split("/")[1] !== "reset-password" && (
+              <Header />
+            )}
           <ToastContainer />
 
           <Routes>
@@ -52,6 +58,12 @@ const App = () => {
             <Route exact path="/" element={<Navigate replace to="/login" />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/user/signup" element={<Signup />} />
+            <Route exact path="/forgot-password" element={<ForgotPassword />} />
+            <Route
+              exact
+              path="/reset-password/:id/:token"
+              element={<ResetPassword />}
+            />
 
             {/* Admin Routes */}
             <Route path="" element={<PrivateRouteAdmin />}>

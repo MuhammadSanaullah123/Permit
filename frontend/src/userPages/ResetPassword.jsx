@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useLoginMutation } from "../slices/usersApiSlice";
+import { useResetPasswordMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";
 
 import loginImage from "../assets/loginImage.png";
 
-const Login = () => {
-  const [values, setValues] = useState({
-    username: "",
-    password: "",
-  });
-  const [login] = useLoginMutation();
-  const navigate = useNavigate();
+const ResetPassword = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [values, setValues] = useState({
+    password: "",
+    conpassword: "",
+  });
+  const [resetPassword] = useResetPasswordMutation();
   const { userInfo } = useSelector((state) => state.auth);
+
   const handleInput = (e) => {
     e.preventDefault();
     const Value = e.target.value;
@@ -27,12 +28,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (values.password !== values.conpassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
     let data = {
-      username: values.username,
+      id: window.location.pathname.split("/")[2],
+      token: window.location.pathname.split("/")[3],
+      conpassword: values.conpassword,
       password: values.password,
     };
     try {
-      const res = await login(data).unwrap();
+      const res = await resetPassword(data).unwrap();
       toast.success("Login Successful", { position: "top-center" });
       dispatch(setCredentials({ ...res }));
     } catch (error) {
@@ -41,7 +48,6 @@ const Login = () => {
       });
     }
   };
-
   useEffect(() => {
     if (userInfo && userInfo?.role === "user") {
       window.location.assign("/user/dashboard");
@@ -50,25 +56,13 @@ const Login = () => {
       window.location.assign("/admin/dashboard");
     }
   }, [navigate, userInfo]);
-
   return (
-    <div id="login">
+    <div id="updatePassword">
       <div id="mainDiv">
         <img src={loginImage} alt="Contract" />
-        <h1>Login</h1>
-        <p className="p1">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sagittis
-          tincidunt
-        </p>
+        <h1>Password Change</h1>
+
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="username"
-            placeholder="Username/Email"
-            value={values.username}
-            onChange={handleInput}
-            required
-          />
           <input
             type="password"
             name="password"
@@ -77,16 +71,20 @@ const Login = () => {
             onChange={handleInput}
             required
           />
-          <Link to="/forgot-password">Forgot Password</Link>
-          <button type="submit">Login</button>
+          <input
+            type="password"
+            name="conpassword"
+            placeholder="Confirm Password"
+            value={values.conpassword}
+            onChange={handleInput}
+            required
+          />
+
+          <button type="submit">Submit</button>
         </form>
-        <span>
-          <p>Or</p>
-          <Link to="/user/signup">Signup</Link>
-        </span>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default ResetPassword;

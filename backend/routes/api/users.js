@@ -8,6 +8,17 @@ const auth = require("../../middleware/auth");
 
 const User = require("../../models/User");
 
+const nodemailer = require("nodemailer");
+const sendGridTransport = require("nodemailer-sendgrid-transport");
+
+const transporter = nodemailer.createTransport(
+  sendGridTransport({
+    auth: {
+      api_key: process.env.SENDGRID_API,
+    },
+  })
+);
+
 // @route   POST api/user
 // @desc    Register User
 // @access  Public
@@ -295,5 +306,130 @@ router.get("/:id", auth, async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+// @desc    Send Forgot Passsword Link
+// @route   POST /api/users/forgotPassword
+// @access  Public
+router.post("/forgotPassword", async (req, res) => {
+  try {
+    let { useremail } = req.body;
+    const user_email = await User.findOne({ email: useremail });
+    const user_name = await User.findOne({ name: useremail });
+    let user;
+    if (!user_email && !user_name) {
+      return res.status(404).json({ msg: "User does not exist" });
+    }
+    if (user_email) {
+      user = user_email;
+    }
+    if (user_name) {
+      user = user_name;
+    }
+    const secret = process.env.JWT_SECRET + user.password;
+    const payload = {
+      email: user.email,
+      id: user._id,
+    };
+    const token = jwt.sign(payload, secret, { expiresIn: "15m" });
+
+    const link = `http://localhost:3000/reset-password/${user._id}/${token}`;
+
+    const htmlMessage = `
+    <div style="background-color: #f5f5f5; padding: 20px;">
+      <div style="background-color: #ffffff; padding: 20px; border-radius: 5px;">
+        <h1 style="color: #333333; font-size: 20px;">Reset Password</h1>
+        <p style="color: #666666; font-size: 16px;">Dear ${user.name},  
+        
+        </p>
+        <p style="color: #666666; font-size: 16px;">Click on the following link to reset your password:  
+        
+        </p>
+        ${link}
+        
+      </div>
+    </div>
+  `;
+    const mail = transporter.sendMail({
+      to: user.email,
+      from: "muhammed14335@gmail.com",
+      subject: "Reset Password",
+      html: htmlMessage,
+    });
+    res
+      .status(200)
+      .json({ message: "Password reset link has been sent to your email" });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+// @desc    Reset Passord
+// @route   Post /api/users/resetPassword/:id/:token
+// @access  Public
+router.post(
+  "/resetPassword/:id/:token",
+  [
+    check(
+      "password",
+      "Please enter a password with 6 or more characters and must contain one lowercase and uppercase alphabet!"
+    )
+      .isLength({ min: 8 })
+      .matches(/^(?=.*[a-z])(?=.*[A-Z]).*$/),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+      let { id, token } = req.params;
+      let { password } = req.body;
+      const userVerify = await User.findById(id);
+      if (!userVerify) {
+        return res.status(404).json({ msg: "Invalid Id" });
+      }
+      const secret = process.env.JWT_SECRET + userVerify.password;
+      const payload = jwt.verify(token, secret);
+      const user = await User.findOne({ email: payload.email });
+
+      const salt = await bcrypt.genSalt(10);
+
+      user.password = await bcrypt.hash(password, salt);
+      await user.save();
+
+      const new_payload = {
+        user: {
+          id: user.id,
+        },
+      };
+      jwt.sign(
+        new_payload,
+        process.env.JWT_SECRET,
+        { expiresIn: /* 1800 */ 36000 },
+        (err, token) => {
+          if (err) throw err;
+          res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            expires: new Date(Date.now() + 36000 * 1000),
+            path: "/",
+          });
+          return res.status(200).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            company: user.company,
+            role: user.role,
+            updatedAt: user.updatedAt,
+            createdAt: user.createdAt,
+          });
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
 
 module.exports = router;

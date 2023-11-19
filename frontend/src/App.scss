@@ -1998,3 +1998,235 @@ input::selection,
 input:-internal-selected {
   background-color: transparent !important;
 }
+/*<------------------------------------------------User:ForgotPassword Start------------------------------------------------>*/
+#forgotPassword {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 100px;
+  #mainDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    margin-top: 50px;
+
+    @media (max-width: 560px) {
+      width: 85%;
+    }
+    img {
+      width: 100%;
+    }
+    h1 {
+      font-size: 53px;
+      font-weight: 700;
+      @media (max-width: 560px) {
+        font-size: 40px;
+      }
+      @media (max-width: 350px) {
+        font-size: 30px;
+      }
+    }
+    .p1 {
+      width: 100%;
+      font-size: 20px;
+      font-weight: 400;
+      text-align: center;
+      color: #8b97a6;
+      margin: 25px 0 30px 0;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      background: var(--secondary-color);
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+      @media (max-width: 400px) {
+        width: 95%;
+      }
+      input {
+        width: 95%;
+        height: 50px;
+        border-radius: 6px;
+        border: 1px solid #5a678c;
+        background-color: transparent;
+        font-weight: 400;
+        font-size: 20px;
+        margin-top: 10px;
+        color: #e3e3e3;
+        padding-left: 20px;
+      }
+      input::placeholder {
+        color: #e3e3e3;
+        font-weight: 400;
+        font-family: "Josefin Sans";
+      }
+      a {
+        color: #3f66da;
+        text-align: end;
+        font-size: 19px;
+        font-weight: 500;
+        text-decoration: none;
+        margin-top: 10px;
+        align-self: flex-end;
+      }
+      button {
+        background-color: var(--primary-color);
+        width: 176px;
+        height: 53px;
+        border-radius: 9px;
+        color: #fff;
+        font-size: 24px;
+        font-weight: 600;
+        border: 0;
+        align-self: center;
+        margin-top: 25px;
+        cursor: pointer;
+      }
+      button:hover {
+        transform: scale(1.02);
+        transition: all ease 0.3s;
+      }
+    }
+    span {
+      display: flex;
+      align-items: center;
+      margin-top: 25px;
+      p {
+        color: #8b97a6;
+        font-size: 20px;
+        font-weight: 600;
+      }
+      a {
+        color: #3f66da;
+        font-size: 20px;
+        font-weight: 700;
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+/*<------------------------------------------------User:ForgotPassword End------------------------------------------------>*/
+
+/*<------------------------------------------------User:UpdatePassword Start------------------------------------------------>*/
+#updatePassword {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 100px;
+  #mainDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    margin-top: 50px;
+
+    @media (max-width: 560px) {
+      width: 85%;
+    }
+    img {
+      width: 100%;
+    }
+    h1 {
+      font-size: 53px;
+      font-weight: 700;
+      @media (max-width: 560px) {
+        font-size: 40px;
+      }
+      @media (max-width: 350px) {
+        font-size: 30px;
+      }
+    }
+    .p1 {
+      width: 100%;
+      font-size: 20px;
+      font-weight: 400;
+      text-align: center;
+      color: #8b97a6;
+      margin: 25px 0 30px 0;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      background: var(--secondary-color);
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+      @media (max-width: 400px) {
+        width: 95%;
+      }
+      input {
+        width: 95%;
+        height: 50px;
+        border-radius: 6px;
+        border: 1px solid #5a678c;
+        background-color: transparent;
+        font-weight: 400;
+        font-size: 20px;
+        margin-top: 10px;
+        color: #e3e3e3;
+        padding-left: 20px;
+        margin-bottom: 10px;
+      }
+      input::placeholder {
+        color: #e3e3e3;
+        font-weight: 400;
+        font-family: "Josefin Sans";
+      }
+      a {
+        color: #3f66da;
+        text-align: end;
+        font-size: 19px;
+        font-weight: 500;
+        text-decoration: none;
+        margin-top: 10px;
+        align-self: flex-end;
+      }
+      button {
+        background-color: var(--primary-color);
+        width: 176px;
+        height: 53px;
+        border-radius: 9px;
+        color: #fff;
+        font-size: 24px;
+        font-weight: 600;
+        border: 0;
+        align-self: center;
+        margin-top: 25px;
+        cursor: pointer;
+      }
+      button:hover {
+        transform: scale(1.02);
+        transition: all ease 0.3s;
+      }
+    }
+    span {
+      display: flex;
+      align-items: center;
+      margin-top: 25px;
+      p {
+        color: #8b97a6;
+        font-size: 20px;
+        font-weight: 600;
+      }
+      a {
+        color: #3f66da;
+        font-size: 20px;
+        font-weight: 700;
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+/*<------------------------------------------------User:UpdatePassword End------------------------------------------------>*/

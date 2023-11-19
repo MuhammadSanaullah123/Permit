@@ -43,7 +43,9 @@ const Header = () => {
   }, [sessionStorage.getItem("userInfo")]); */
 
   useEffect(() => {
-    handleAuth();
+    if (sessionStorage.userInfo) {
+      handleAuth();
+    }
   }, []);
 
   return (
