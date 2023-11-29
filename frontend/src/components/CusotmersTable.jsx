@@ -61,6 +61,9 @@ const CusotmersTable = ({ rows }) => {
               <TableCell className="tableHeading" align="center">
                 Documents Received
               </TableCell>
+              <TableCell className="tableHeading" align="center">
+                Action
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -90,15 +93,21 @@ const CusotmersTable = ({ rows }) => {
                     <TableCell align="center" className="rowvalue">
                       <div className="docDiv">
                         <p>{noOfDocs?.length}</p>
-                        <img
-                          src={view}
-                          alt="view"
-                          onClick={() =>
-                            window.location.assign(`/admin/customer/${row._id}`)
-                          }
-                        />
                       </div>
                       {/*      {row.document} */}
+                    </TableCell>
+                    <TableCell align="center" className="rowvalue">
+                      <img
+                        src={view}
+                        alt="view"
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                        }}
+                        onClick={() =>
+                          window.location.assign(`/admin/customer/${row._id}`)
+                        }
+                      />
                     </TableCell>
                   </TableRow>
                 );

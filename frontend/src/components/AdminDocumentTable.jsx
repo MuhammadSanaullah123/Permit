@@ -42,6 +42,9 @@ const AdminDocumentTable = ({
               <TableCell className="tableHeading" align="center">
                 Status
               </TableCell>
+              <TableCell className="tableHeading" align="center">
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -92,6 +95,12 @@ const AdminDocumentTable = ({
                         </Select>
                       </FormControl>
 
+                      {/* {row.status} */}
+                    </div>
+                  </TableCell>
+
+                  <TableCell align="center" className="rowvalue">
+                    <div className="actionDiv">
                       <img
                         className="deleteIcon"
                         src={deleteIcon}
@@ -114,9 +123,8 @@ const AdminDocumentTable = ({
                           }`,
                         }}
                       >
-                        <img src={view} alt="view" />
+                        <img src={view} alt="view" className="viewIcon" />
                       </Link>
-                      {/* {row.status} */}
                     </div>
                   </TableCell>
                 </TableRow>

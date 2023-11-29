@@ -79,6 +79,9 @@ const Upload = () => {
       });
       setFile();
       toast.success("Document Created", { position: "top-center" });
+      setTimeout(() => {
+        window.location.assign(`/document/${res._id}`);
+      }, 2000);
     } catch (error) {
       toast.error(error.data.msg);
     }

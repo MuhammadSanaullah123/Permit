@@ -364,6 +364,8 @@
 
 /*<------------------------------------------------User:Dashboard Start------------------------------------------------>*/
 #dashboard {
+  display: flex;
+  flex-direction: column;
   padding: 40px;
   @media (max-width: 600px) {
     padding: 40px 20px 40px 20px;
@@ -666,9 +668,7 @@
       width: 25px;
       height: 25px;
     }
-    .deleteIcon {
-      margin-left: 40px;
-    }
+
     display: flex;
     /*    #status {
       background: transparent;
@@ -680,6 +680,19 @@
         background-color: var(--secondary-color);
       }
     } */
+  }
+  .actionDiv {
+    display: flex;
+    width: fit-content;
+    margin: 0 auto;
+  }
+  .deleteIcon {
+    margin-right: 15px;
+  }
+  .viewIcon {
+    width: 24px;
+    height: 24px;
+    margin-left: 15px;
   }
   .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
     border: 0;
@@ -899,8 +912,8 @@
   .imageDiv {
     border: 1px solid #5a678c;
     border-radius: 50%;
-    width: 400px;
-    height: 400px;
+    width: 200px;
+    height: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -908,22 +921,14 @@
     margin-top: 20px;
     position: relative;
 
-    @media (max-width: 1000px) {
-      width: 300px;
-      height: 300px;
-    }
-    @media (max-width: 768px) {
-      width: 200px;
-      height: 200px;
-    }
     @media (max-width: 400px) {
       /* width: 150px; */
     }
     .fa-user {
-      font-size: 10rem;
+      font-size: 6rem;
       color: var(--secondary-color);
       @media (max-width: 1000px) {
-        font-size: 8rem;
+        font-size: 6rem;
       }
       @media (max-width: 768px) {
         font-size: 6rem;
@@ -938,32 +943,32 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 90px;
-      height: 90px;
+      width: 45px;
+      height: 45px;
       background: #fff;
       border-radius: 50%;
       position: absolute;
       right: 0;
-      bottom: 30px;
+      bottom: 20px;
       cursor: pointer;
       @media (max-width: 1000px) {
-        width: 70px;
-        height: 70px;
+        width: 35px;
+        height: 35px;
       }
       @media (max-width: 768px) {
-        width: 50px;
-        height: 50px;
-        bottom: 20px;
+        width: 30px;
+        height: 30px;
+        bottom: 30px;
       }
       .fa-pen {
         color: #5a678c;
 
-        font-size: 30px;
+        font-size: 20px;
         @media (max-width: 1000px) {
-          font-size: 25px;
+          font-size: 15px;
         }
         @media (max-width: 768px) {
-          font-size: 20px;
+          font-size: 15px;
         }
       }
     }
@@ -1119,6 +1124,7 @@
         a {
           color: #fff;
           font-weight: 200;
+          margin-top: 10px;
         }
       }
       #span1 {
@@ -1657,7 +1663,7 @@
       .cardImg {
         font-size: 30px;
         margin-left: 10px;
-        color: rgba(90, 103, 140);
+        color: #fff;
       }
       .span1 {
         display: flex;
@@ -1909,6 +1915,8 @@
     }
   }
   .individualTableDiv {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     margin-top: 50px;
     h1 {

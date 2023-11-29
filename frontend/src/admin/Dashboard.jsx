@@ -9,7 +9,8 @@ import AdminDocumentTable from "../components/AdminDocumentTable";
 //mui
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-//other
+//others
+import { RotatingLines } from "react-loader-spinner";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -100,9 +101,10 @@ const Dashboard = () => {
     handleGetAllDocuments();
   }, []);
   useEffect(() => {
-    if (documentInfo) {
+    if (Array.isArray(documentInfo)) {
+      console.log(documentInfo);
       setData(documentInfo);
-      const counts = documentInfo.reduce(
+      const counts = documentInfo?.reduce(
         (acc, obj) => {
           const status = obj.status;
           acc[status]++;
@@ -155,20 +157,39 @@ const Dashboard = () => {
         </div>
       </div>
       <h1 className="rech1">Recent Documents</h1>
-      <AdminDocumentTable
-        rows={paginatedData}
-        handleDelete={handleDelete}
-        handleUpdate={handleUpdate}
-        handleDownload={handleDownload}
-      />
-      <Stack id="pagination" spacing={2}>
-        <Pagination
-          onChange={handlePageChange}
-          count={totalPages}
-          page={currentPage}
-          color="primary"
-        />
-      </Stack>
+
+      {!paginatedData?.length > 0 ? (
+        <div
+          style={{
+            alignSelf: "center",
+          }}
+        >
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="96"
+            visible={true}
+          />
+        </div>
+      ) : (
+        <>
+          <AdminDocumentTable
+            rows={paginatedData}
+            handleDelete={handleDelete}
+            handleUpdate={handleUpdate}
+            handleDownload={handleDownload}
+          />
+          <Stack id="pagination" spacing={2}>
+            <Pagination
+              onChange={handlePageChange}
+              count={totalPages}
+              page={currentPage}
+              color="primary"
+            />
+          </Stack>
+        </>
+      )}
     </div>
   );
 };

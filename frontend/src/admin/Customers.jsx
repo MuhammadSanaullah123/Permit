@@ -6,7 +6,8 @@ import CusotmersTable from "../components/CusotmersTable";
 //mui
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-//other
+//others
+import { RotatingLines } from "react-loader-spinner";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -58,16 +59,35 @@ const Customers = () => {
   return (
     <div id="invoices">
       <h1 className="h1">Customers</h1>
-      <CusotmersTable rows={paginatedData} />
 
-      <Stack id="pagination" spacing={2}>
-        <Pagination
-          onChange={handlePageChange}
-          count={totalPages}
-          page={currentPage}
-          color="primary"
-        />
-      </Stack>
+      {!paginatedData?.length > 0 ? (
+        <div
+          style={{
+            alignSelf: "center",
+          }}
+        >
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="96"
+            visible={true}
+          />
+        </div>
+      ) : (
+        <>
+          <CusotmersTable rows={paginatedData} />
+
+          <Stack id="pagination" spacing={2}>
+            <Pagination
+              onChange={handlePageChange}
+              count={totalPages}
+              page={currentPage}
+              color="primary"
+            />
+          </Stack>
+        </>
+      )}
     </div>
   );
 };

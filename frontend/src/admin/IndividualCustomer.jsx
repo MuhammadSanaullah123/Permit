@@ -8,7 +8,8 @@ import downloadIcon from "../assets/download.png";
 //mui
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-//other
+//others
+import { RotatingLines } from "react-loader-spinner";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetUserByIdMutation } from "../slices/usersApiSlice";
@@ -156,15 +157,37 @@ const IndividualCustomer = () => {
       </div>
       <div className="individualTableDiv">
         <h1>Recent Documents</h1>
-        <DocumentsTable rows={paginatedData} handleDownload={handleDownload} />
-        <Stack id="pagination" spacing={2}>
-          <Pagination
-            onChange={handlePageChange}
-            count={totalPages}
-            page={currentPage}
-            color="primary"
-          />
-        </Stack>
+
+        {!paginatedData?.length > 0 ? (
+          <div
+            style={{
+              alignSelf: "center",
+            }}
+          >
+            <RotatingLines
+              strokeColor="grey"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="96"
+              visible={true}
+            />
+          </div>
+        ) : (
+          <>
+            <DocumentsTable
+              rows={paginatedData}
+              handleDownload={handleDownload}
+            />
+            <Stack id="pagination" spacing={2}>
+              <Pagination
+                onChange={handlePageChange}
+                count={totalPages}
+                page={currentPage}
+                color="primary"
+              />
+            </Stack>
+          </>
+        )}
       </div>
     </div>
   );

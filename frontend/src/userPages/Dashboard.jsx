@@ -16,7 +16,8 @@ import {
   useDeleteDocumentMutation,
 } from "../slices/documentApiSlice";
 import { setDocument } from "../slices/documentSlice";
-
+//others
+import { RotatingLines } from "react-loader-spinner";
 const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -134,19 +135,37 @@ const Dashboard = () => {
         </div>
       </div>
       <h1 className="rech1">Recent Documents</h1>
-      <DocumentsTable
-        rows={paginatedData}
-        handleDelete={handleDelete}
-        handleDownload={handleDownload}
-      />
-      <Stack id="pagination" spacing={2}>
-        <Pagination
-          onChange={handlePageChange}
-          count={totalPages}
-          page={currentPage}
-          color="primary"
-        />
-      </Stack>
+      {!paginatedData?.length > 0 ? (
+        <div
+          style={{
+            alignSelf: "center",
+          }}
+        >
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="96"
+            visible={true}
+          />
+        </div>
+      ) : (
+        <>
+          <DocumentsTable
+            rows={paginatedData}
+            handleDelete={handleDelete}
+            handleDownload={handleDownload}
+          />
+          <Stack id="pagination" spacing={2}>
+            <Pagination
+              onChange={handlePageChange}
+              count={totalPages}
+              page={currentPage}
+              color="primary"
+            />
+          </Stack>
+        </>
+      )}
     </div>
   );
 };

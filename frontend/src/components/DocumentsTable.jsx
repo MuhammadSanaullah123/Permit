@@ -35,6 +35,9 @@ const DocumentsTable = ({ rows, handleDelete, handleDownload }) => {
               <TableCell className="tableHeading" align="center">
                 Status
               </TableCell>
+              <TableCell className="tableHeading" align="center">
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -75,6 +78,10 @@ const DocumentsTable = ({ rows, handleDelete, handleDownload }) => {
                       >
                         {row.status}
                       </p>
+                    </div>
+                  </TableCell>
+                  <TableCell align="center" className="rowvalue">
+                    <div className="actionDiv">
                       <img
                         className="deleteIcon"
                         src={deleteIcon}
@@ -102,7 +109,7 @@ const DocumentsTable = ({ rows, handleDelete, handleDownload }) => {
                           }`,
                         }}
                       >
-                        <img src={view} alt="view" />
+                        <img src={view} alt="view" className="viewIcon" />
                       </Link>
                     </div>
                   </TableCell>

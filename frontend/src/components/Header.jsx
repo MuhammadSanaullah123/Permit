@@ -47,7 +47,22 @@ const Header = () => {
       handleAuth();
     }
   }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      const header = document.getElementById("header");
+      if (window.scrollY > 0) {
+        header.style.boxShadow = " rgb(0 0 0 / 10%) 0px 4px 4px 5px";
+      } else {
+        header.style.boxShadow = "none";
+      }
+    };
 
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <>
       <div id="header">
@@ -102,17 +117,17 @@ const Header = () => {
               display: `${profile ? "flex" : "none"}`,
             }}
           >
-            <span onClick={handleLogout}>
-              <i className="fa-solid fa-right-from-bracket"></i>
-              <p>Logout</p>
-            </span>
-
+            {" "}
             <Link to="/user/profile" onClick={() => setProfile(!profile)}>
               <span>
                 <i className="fa-solid fa-user profile"></i>
                 <p to="/user/upload">Profile</p>
               </span>
             </Link>
+            <span onClick={handleLogout}>
+              <i className="fa-solid fa-right-from-bracket"></i>
+              <p>Logout</p>
+            </span>
           </div>
         </div>
       </div>

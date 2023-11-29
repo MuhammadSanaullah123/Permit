@@ -36,6 +36,11 @@ const Document = () => {
       const res = await createConversation(data).unwrap();
       setMessage("");
       handleGetConversation();
+      toast.success("Message Sent", {
+        position: "top-center",
+        hideProgressBar: true,
+        autoClose: 1000,
+      });
     } catch (error) {
       error.data.errors.forEach((error) => {
         toast.error(error.msg);
@@ -86,9 +91,9 @@ const Document = () => {
             <p>{documentInfo?.projectName}</p>
           </span>
           <span id="span2" className="mainDivspan">
-            <h2>PDF link</h2>
+            <h2>Project Link</h2>
             <Link to={`${documentInfo?.url}`} target="_blank">
-              View pdf
+              Download Project
             </Link>
           </span>
           <span id="span3" className="mainDivspan">
@@ -97,7 +102,9 @@ const Document = () => {
           </span>
           <span id="span4" className="mainDivspan">
             <h2>File Size</h2>
-            <p>{documentInfo?.fileSize}</p>
+            <p>
+              {(documentInfo?.fileSize / 1000000).toString().slice(0, 5)} MB
+            </p>
           </span>
           <span id="span5" className="mainDivspan">
             <h2>Customer Name</h2>

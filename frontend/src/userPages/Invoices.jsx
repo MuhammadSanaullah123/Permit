@@ -9,7 +9,7 @@ import Stack from "@mui/material/Stack";
 
 //other
 import { toast } from "react-toastify";
-
+import { RotatingLines } from "react-loader-spinner";
 //api
 import { useDispatch, useSelector } from "react-redux";
 import { useGetAllInvoiceMutation } from "../slices/invoiceApiSlice";
@@ -49,16 +49,34 @@ const Invoices = () => {
   console.log(data);
   return (
     <div id="invoices">
-      <InvoicesTable rows={paginatedData} />
+      {!paginatedData?.length > 0 ? (
+        <div
+          style={{
+            alignSelf: "center",
+          }}
+        >
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="96"
+            visible={true}
+          />
+        </div>
+      ) : (
+        <>
+          <InvoicesTable rows={paginatedData} />
 
-      <Stack id="pagination" spacing={2}>
-        <Pagination
-          onChange={handlePageChange}
-          count={totalPages}
-          page={currentPage}
-          color="primary"
-        />
-      </Stack>
+          <Stack id="pagination" spacing={2}>
+            <Pagination
+              onChange={handlePageChange}
+              count={totalPages}
+              page={currentPage}
+              color="primary"
+            />
+          </Stack>
+        </>
+      )}
     </div>
   );
 };
