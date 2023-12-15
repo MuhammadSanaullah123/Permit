@@ -9,7 +9,12 @@ const bcrypt = require("bcryptjs");
 const path = require("path");
 connectDB();
 
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+const allowedOrigins = [
+  "http://localhost:3000", // Add your localhost for development
+  "http://3.147.193.216", // Update with your frontend domain
+];
+
+app.use(cors({ credentials: true, origin: allowedOrigins }));
 app.use(express.json());
 app.use(cookieParser());
 
