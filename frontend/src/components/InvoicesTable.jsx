@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 //mui
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import moment from "moment";
 
 const InvoicesTable = ({ rows }) => {
+  const navigate = useNavigate();
   return (
     <div className="tableDiv">
       <TableContainer id="table" component={Paper}>
@@ -30,13 +31,21 @@ const InvoicesTable = ({ rows }) => {
               <TableCell className="tableHeading" align="left">
                 Address
               </TableCell>
+              <TableCell className="tableHeading" align="left">
+                Status
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows?.map((row, index) => (
               <TableRow
                 key={index}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+
+                  cursor: "pointer",
+                }}
+                onClick={() => navigate(`/invoice/${row.documentId}`)}
               >
                 <TableCell component="th" scope="row" className="rowvalue">
                   {row.projectName}
@@ -57,6 +66,15 @@ const InvoicesTable = ({ rows }) => {
                   style={{ maxWidth: "370px" }}
                 >
                   {row.address}
+                </TableCell>
+                <TableCell
+                  align="left"
+                  className="rowvalue"
+                  style={{
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {row.status}
                 </TableCell>
               </TableRow>
             ))}

@@ -53,7 +53,7 @@ const AdminDocumentTable = ({
                 <TableRow
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  onClick={() => navigate(`/document/${row._id}`)}
+                  /*   onClick={() => navigate(`/document/${row._id}`)} */
                 >
                   <TableCell component="th" scope="row" className="rowvalue">
                     {row.projectName}
@@ -65,13 +65,17 @@ const AdminDocumentTable = ({
                     {row.permitType}
                   </TableCell>
                   <TableCell align="center" className="rowvalue">
-                    <div className="statusDiv">
+                    <div
+                      className="statusDiv"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <FormControl sx={{ m: 1, minWidth: 120 }}>
                         <Select
                           value={row.status}
-                          onChange={(e) =>
-                            handleUpdate(e, row._id, e.target.value)
-                          }
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            handleUpdate(e, row._id, e.target.value);
+                          }}
                           displayEmpty
                           inputProps={{ "aria-label": "Without label" }}
                           sx={{

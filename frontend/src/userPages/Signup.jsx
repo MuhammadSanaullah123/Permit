@@ -45,6 +45,7 @@ const Signup = () => {
 
       dispatch(setCredentials({ ...res }));
     } catch (error) {
+      console.log(error);
       error.data.errors.forEach((error) => {
         toast.error(error.msg);
       });
@@ -55,7 +56,7 @@ const Signup = () => {
   };
   useEffect(() => {
     if (userInfo) {
-      navigate("/user/dashboard");
+      window.location.assign("/user/dashboard");
     }
   }, [navigate, userInfo]);
   return (

@@ -12,14 +12,20 @@ import { toast } from "react-toastify";
 import { RotatingLines } from "react-loader-spinner";
 //api
 import { useDispatch, useSelector } from "react-redux";
-import { useGetAllInvoiceMutation } from "../slices/invoiceApiSlice";
+import {
+  useGetAllInvoiceMutation,
+  useGetAllInvoiceAllUsersMutation,
+} from "../slices/invoiceApiSlice";
 import { setInvoice } from "../slices/invoiceSlice";
 const Invoices = () => {
   const dispatch = useDispatch();
   const { invoiceInfo } = useSelector((state) => state.invoice);
+  const { userInfo } = useSelector((state) => state.auth);
   const [getAllInvoice] = useGetAllInvoiceMutation();
-  const [data, setData] = useState();
+  const [getAllInvoiceAllUsers] = useGetAllInvoiceAllUsersMutation();
 
+  const [data, setData] = useState();
+  const [documentAvail, setDocumentAvail] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const totalPages = Math.ceil(data?.length / itemsPerPage);
@@ -28,28 +34,51 @@ const Invoices = () => {
     setCurrentPage(page);
   };
 
+  const handleGetAllUsersInvoice = async () => {
+    try {
+      const res = await getAllInvoiceAllUsers().unwrap();
+      setData(res);
+      dispatch(setInvoice({ ...res }));
+    } catch (error) {
+      console.error(error.data.msg);
+      if (error.data.msg === "Invoices not found") {
+        setDocumentAvail(false);
+      }
+    }
+  };
+
   const handleGetAllInvoice = async () => {
     try {
       const res = await getAllInvoice().unwrap();
       setData(res);
       dispatch(setInvoice({ ...res }));
     } catch (error) {
-      error.data.errors.forEach((error) => {
-        toast.error(error.msg);
-      });
+      console.error(error.data.msg);
+      if (error.data.msg === "Invoices not found") {
+        setDocumentAvail(false);
+      }
     }
   };
   useEffect(() => {
-    handleGetAllInvoice();
-  }, []);
+    if (userInfo?.role === "admin") {
+      handleGetAllUsersInvoice();
+    }
+    if (userInfo?.role === "user") {
+      handleGetAllInvoice();
+    }
+  }, [userInfo]);
+
   const paginatedData =
-    data &&
-    Array.isArray(data) &&
-    data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    data && Array.isArray(data)
+      ? data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+      : [];
   console.log(data);
+  console.log(paginatedData);
+  console.log(documentAvail);
+
   return (
     <div id="invoices">
-      {!paginatedData?.length > 0 ? (
+      {paginatedData?.length === 0 && documentAvail === true ? (
         <div
           style={{
             alignSelf: "center",
@@ -63,10 +92,9 @@ const Invoices = () => {
             visible={true}
           />
         </div>
-      ) : (
+      ) : paginatedData?.length > 0 && documentAvail === true ? (
         <>
           <InvoicesTable rows={paginatedData} />
-
           <Stack id="pagination" spacing={2}>
             <Pagination
               onChange={handlePageChange}
@@ -76,6 +104,17 @@ const Invoices = () => {
             />
           </Stack>
         </>
+      ) : (
+        paginatedData?.length === 0 &&
+        documentAvail === false && (
+          <div
+            style={{
+              marginTop: "20px",
+            }}
+          >
+            <h2>No Invoices</h2>
+          </div>
+        )
       )}
     </div>
   );

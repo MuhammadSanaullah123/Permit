@@ -28,6 +28,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import store from "./store";
 import { Provider } from "react-redux";
+
 const App = () => {
   return (
     <>
@@ -47,14 +48,15 @@ const App = () => {
             <Route path="" element={<PrivateRouteUser />}>
               <Route exact path="/user/dashboard" element={<Dashboard />} />
               <Route exact path="/user/upload" element={<Upload />} />
-              <Route exact path="/user/profile" element={<Profile />} />
-              <Route exact path="/user/invoices" element={<Invoices />} />
-              <Route exact path="/user/invoice/:id" element={<Invoice />} />
-              <Route exact path="/user/checkout" element={<Checkout />} />
+              <Route exact path="/user/checkout/:id" element={<Checkout />} />
             </Route>
 
             {/* Common Routes */}
+            <Route exact path="/profile" element={<Profile />} />
             <Route exact path="/document/:id" element={<Document />} />
+            <Route exact path="/invoices" element={<Invoices />} />
+            <Route exact path="/invoice/:id" element={<Invoice />} />
+
             <Route exact path="/" element={<Navigate replace to="/login" />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/user/signup" element={<Signup />} />

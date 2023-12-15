@@ -30,6 +30,7 @@ const IndividualCustomer = () => {
     Pending: 0,
   });
   const [data, setData] = useState();
+  const [documentAvail, setDocumentAvail] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -59,9 +60,10 @@ const IndividualCustomer = () => {
       dispatch(setDocument({ ...res }));
       setData(res);
     } catch (error) {
-      error.data.errors.forEach((error) => {
-        toast.error(error.msg);
-      });
+      console.error(error.data.msg);
+      if (error.data.msg === "Documents not found") {
+        setDocumentAvail(false);
+      }
     }
   };
   const handleDownload = (e, url) => {
@@ -104,6 +106,8 @@ const IndividualCustomer = () => {
     Array.isArray(data) &&
     data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
+  console.log(paginatedData);
+  console.log(documentAvail);
   return (
     <div id="individualcustomer">
       <div className="customerDiv">
@@ -139,8 +143,13 @@ const IndividualCustomer = () => {
       </div>
       <div className="documentDetailDiv">
         <span id="span1">
-          <h1>Drafted</h1>
-          <h2>01</h2>
+          <h1>Total</h1>
+          <h2>
+            {" "}
+            {statusCounts.Rejected +
+              statusCounts.Pending +
+              statusCounts.Approved}
+          </h2>
         </span>
         <span id="span2">
           <h1>Rejected</h1>
@@ -158,7 +167,7 @@ const IndividualCustomer = () => {
       <div className="individualTableDiv">
         <h1>Recent Documents</h1>
 
-        {!paginatedData?.length > 0 ? (
+        {paginatedData?.length === 0 && documentAvail === true ? (
           <div
             style={{
               alignSelf: "center",
@@ -172,7 +181,7 @@ const IndividualCustomer = () => {
               visible={true}
             />
           </div>
-        ) : (
+        ) : paginatedData?.length > 0 && documentAvail === true ? (
           <>
             <DocumentsTable
               rows={paginatedData}
@@ -187,6 +196,19 @@ const IndividualCustomer = () => {
               />
             </Stack>
           </>
+        ) : (
+          paginatedData?.length === 0 &&
+          documentAvail === false && (
+            <div
+              style={{
+                marginTop: "20px",
+                width: "95%",
+                alignSelf: "center",
+              }}
+            >
+              <h3>No Documents</h3>
+            </div>
+          )
         )}
       </div>
     </div>

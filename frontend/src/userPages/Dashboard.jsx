@@ -31,6 +31,7 @@ const Dashboard = () => {
     Pending: 0,
   });
   const [data, setData] = useState();
+  const [documentAvail, setDocumentAvail] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -47,9 +48,10 @@ const Dashboard = () => {
       dispatch(setDocument({ ...res }));
       setData(res);
     } catch (error) {
-      error.data.errors.forEach((error) => {
-        toast.error(error.msg);
-      });
+      console.error(error.data.msg);
+      if (error.data.msg === "Documents not found") {
+        setDocumentAvail(false);
+      }
     }
   };
 
@@ -98,7 +100,7 @@ const Dashboard = () => {
     data &&
     Array.isArray(data) &&
     data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
+  console.log(documentAvail);
   return (
     <div id="dashboard">
       <div className="dashbaordDiv">
@@ -118,8 +120,12 @@ const Dashboard = () => {
           <button onClick={() => navigate("/user/upload")}>Upload</button>
         </div>
         <div className="dashbaordsmallDiv" id="dashbaordDivDrafted">
-          <h1>Drafted</h1>
-          <h2>01</h2>
+          <h1>Total</h1>
+          <h2>
+            {statusCounts.Rejected +
+              statusCounts.Pending +
+              statusCounts.Approved}
+          </h2>
         </div>
         <div className="dashbaordsmallDiv" id="dashbaordDivRejected">
           <h1>Rejected</h1>
@@ -135,7 +141,7 @@ const Dashboard = () => {
         </div>
       </div>
       <h1 className="rech1">Recent Documents</h1>
-      {!paginatedData?.length > 0 ? (
+      {paginatedData?.length === 0 && documentAvail === true ? (
         <div
           style={{
             alignSelf: "center",
@@ -149,7 +155,7 @@ const Dashboard = () => {
             visible={true}
           />
         </div>
-      ) : (
+      ) : paginatedData?.length > 0 && documentAvail === true ? (
         <>
           <DocumentsTable
             rows={paginatedData}
@@ -165,6 +171,17 @@ const Dashboard = () => {
             />
           </Stack>
         </>
+      ) : (
+        paginatedData?.length === 0 &&
+        documentAvail === false && (
+          <div
+            style={{
+              marginTop: "20px",
+            }}
+          >
+            <h2>No Documents</h2>
+          </div>
+        )
       )}
     </div>
   );

@@ -6,7 +6,18 @@ const { format } = require("util");
 const path = require("path");
 const Multer = require("multer");
 const Document = require("../../models/Document");
+const User = require("../../models/User");
 
+const nodemailer = require("nodemailer");
+const sendGridTransport = require("nodemailer-sendgrid-transport");
+
+const transporter = nodemailer.createTransport(
+  sendGridTransport({
+    auth: {
+      api_key: process.env.SENDGRID_API,
+    },
+  })
+);
 const multer = Multer({
   storage: Multer.memoryStorage(),
 });
@@ -88,7 +99,7 @@ router.get("/me", auth, async (req, res) => {
       user: req.user.id,
     });
 
-    if (!document) {
+    if (document.length === 0) {
       return res.status(404).json({ msg: "Documents not found" });
     }
 
@@ -124,7 +135,7 @@ router.get("/", auth, async (req, res) => {
   try {
     const document = await Document.find();
 
-    if (!document) {
+    if (document.length === 0) {
       return res.status(404).json({ msg: "Documents not found" });
     }
 
@@ -135,8 +146,8 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-// @route   GET api/document
-// @desc    Get all documents of all users
+// @route   DELETE api/document/:id
+// @desc    Delete document by id
 // @access  Private
 router.delete("/:id", auth, async (req, res) => {
   try {
@@ -159,11 +170,14 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
+// @route   PATCH api/document/:id
+// @desc    Change status of document by id
+// @access  Private
 router.patch("/:id", auth, async (req, res) => {
   try {
     const { status } = req.body;
     const document = await Document.findById(req.params.id);
-
+    const user = await User.findById({ _id: document.user });
     if (!document) {
       return res.status(404).json({ msg: "Document not found" });
     }
@@ -171,6 +185,23 @@ router.patch("/:id", auth, async (req, res) => {
     document.status = status;
 
     await document.save();
+
+    const mail = await transporter.sendMail({
+      to: `${user.email}`,
+      from: process.env.ADMIN_MAIL, // sender address
+      subject: `Document Status Update!`,
+      html: `<div><h3>Dear ${user.name},</h3>
+      <p>
+      Your project "${document.projectName}" with the document "${document.documentName}" has been ${status}!
+      </p>
+
+      <p>
+    Regards,
+    Team Permit
+      </p>
+      </div>`,
+    });
+    console.log(mail);
     res.json(document);
   } catch (error) {
     console.error(error.message);

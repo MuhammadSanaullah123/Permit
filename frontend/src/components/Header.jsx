@@ -77,17 +77,18 @@ const Header = () => {
             onClick={() => setMobile(!mobile)}
           ></i>
         )}
-        {window.location.pathname.split("/")[1] === "admin" ? (
+        {window.location.pathname.split("/")[1] === "admin" ||
+        userInfo?.role === "admin" ? (
           <div className="linkDiv">
             <Link to="/admin/dashboard">Dashboard</Link>
-            <Link to="/admin/invoice">Invoices</Link>
+            <a href="/invoices">Invoices</a>
             <Link to="/admin/customers">Customers</Link>
           </div>
         ) : (
           <div className="linkDiv">
             <Link to="/user/dashboard">Dashboard</Link>
             <Link to="/user/upload">Upload New Documents</Link>
-            <Link to="/user/invoices">Invoices</Link>
+            <Link to="/invoices">Invoices</Link>
           </div>
         )}
 
@@ -118,7 +119,7 @@ const Header = () => {
             }}
           >
             {" "}
-            <Link to="/user/profile" onClick={() => setProfile(!profile)}>
+            <Link to="/profile" onClick={() => setProfile(!profile)}>
               <span>
                 <i className="fa-solid fa-user profile"></i>
                 <p to="/user/upload">Profile</p>
@@ -132,17 +133,18 @@ const Header = () => {
         </div>
       </div>
       {mobile &&
-        (window.location.pathname.split("/")[1] === "admin" ? (
+        (window.location.pathname.split("/")[1] === "admin" ||
+        userInfo?.role === "admin" ? (
           <div className="moblinkDiv">
             <Link to="/admin/dashboard">Dashboard</Link>
-            <Link to="/admin/invoice">Invoices</Link>
+            <Link to="/invoices">Invoices</Link>
             <Link to="/admin/customers">Customers</Link>
           </div>
         ) : (
           <div className="moblinkDiv">
             <Link to="/user/dashboard">Dashboard</Link>
             <Link to="/user/upload">Upload New Documents</Link>
-            <Link to="/user/invoices">Invoices</Link>
+            <Link to="/invoices">Invoices</Link>
           </div>
         ))}
     </>

@@ -5,7 +5,18 @@ const { validationResult } = require("express-validator");
 
 const Conversation = require("../../models/Conversation");
 const User = require("../../models/User");
+const Document = require("../../models/Document");
 
+const nodemailer = require("nodemailer");
+const sendGridTransport = require("nodemailer-sendgrid-transport");
+
+const transporter = nodemailer.createTransport(
+  sendGridTransport({
+    auth: {
+      api_key: process.env.SENDGRID_API,
+    },
+  })
+);
 // @route   POST api/conversation/:id
 // @desc    Create a conversation
 // @access  Private
@@ -43,6 +54,48 @@ router.post("/:id", auth, async (req, res) => {
       };
       const convo = new Conversation(newConversation);
       finalConversation = await convo.save();
+    }
+
+    if (user.role === "admin") {
+      const document = await Document.findById({ _id: req.params.id });
+      const toUser = await User.findById({ _id: document.user });
+      const mail = transporter.sendMail({
+        to: `${toUser.email}`,
+        from: process.env.ADMIN_MAIL, // sender address
+        subject: `Document Update!`,
+        html: `<div><h3>Dear ${user.name}</h3>
+    <p>
+   You have received a message regarding project "${document.projectName}" with the document "${document.documentName}".
+    </p>
+
+    <p>
+  Regards,
+    </p>
+    <p>
+    Team Permit
+      </p>
+    </div>`,
+      });
+    } else {
+      const document = await Document.findById({ _id: req.params.id });
+      const toUser = await User.findOne({ role: "admin" });
+      const mail = transporter.sendMail({
+        to: `${toUser.email}`,
+        from: process.env.ADMIN_MAIL, // sender address
+        subject: `Document Update!`,
+        html: `<div><h3>Dear ${toUser.name}</h3>
+    <p>
+   You have received a message regarding project "${document.projectName}" with the document "${document.documentName}".
+    </p>
+
+    <p>
+  Regards,
+    </p>
+    <p>
+    Team Permit
+      </p>
+    </div>`,
+      });
     }
 
     res.status(200).json(finalConversation);

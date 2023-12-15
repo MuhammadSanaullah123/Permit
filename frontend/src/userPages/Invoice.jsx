@@ -16,12 +16,14 @@ const Invoice = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { invoiceInfo } = useSelector((state) => state.invoice);
+  const { userInfo } = useSelector((state) => state.auth);
+
   const [getInvoice] = useGetInvoiceMutation();
 
   const handleGetInvoice = async () => {
     try {
       const res = await getInvoice(
-        window.location.pathname.split("/")[3]
+        window.location.pathname.split("/")[2]
       ).unwrap();
 
       dispatch(setInvoice({ ...res }));
@@ -103,8 +105,21 @@ const Invoice = () => {
                   <p>Invoice Date</p>
                   <h1>{invoiceInfo?.issueDate}</h1>
                 </span>
-                <button onClick={() => navigate("/user/checkout")}>
-                  Checkout
+
+                <button
+                  className={`${
+                    invoiceInfo?.status === "Unpaid"
+                      ? "checkoutbutton"
+                      : "paidbutton"
+                  }`}
+                  onClick={() =>
+                    navigate(`/user/checkout/${invoiceInfo?.documentId}`)
+                  }
+                  style={{
+                    display: `${userInfo?.role === "admin" ? "none" : "block"}`,
+                  }}
+                >
+                  {invoiceInfo?.status === "Unpaid" ? "Checkout" : "Paid"}
                 </button>
               </span>
             </div>

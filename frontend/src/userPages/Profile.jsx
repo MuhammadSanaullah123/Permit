@@ -65,11 +65,11 @@ const Profile = () => {
     if (values.password === values.conpassword) {
       const dataImage = new FormData();
       dataImage.append("file", image);
-      dataImage.append("upload_preset", "u928wexc");
-      dataImage.append("cloud_name", "dihkvficg");
+      dataImage.append("upload_preset", "miudfqwc");
+      dataImage.append("cloud_name", "dvge98zue");
 
       const res = await fetch(
-        "https://api.cloudinary.com/v1_1/dihkvficg/image/upload",
+        "https://api.cloudinary.com/v1_1/dvge98zue/image/upload",
         {
           method: "post",
           body: dataImage,

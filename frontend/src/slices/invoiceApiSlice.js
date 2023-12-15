@@ -26,6 +26,21 @@ export const invoiceApiSlice = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
+    getAllInvoiceAllUsers: builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/all/users`,
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
+    payInvoice: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/square/pay`,
+        method: "POST",
+        credentials: "include",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -33,4 +48,6 @@ export const {
   useCreateInvoiceMutation,
   useGetInvoiceMutation,
   useGetAllInvoiceMutation,
+  useGetAllInvoiceAllUsersMutation,
+  usePayInvoiceMutation,
 } = invoiceApiSlice;

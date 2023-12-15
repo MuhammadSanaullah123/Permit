@@ -46,7 +46,9 @@ router.post(
 
     try {
       let user = await User.findOne({ email });
-      if (user) {
+      let user_name = await User.findOne({ name });
+
+      if (user || user_namew) {
         return res
           .status(400)
           .json({ errors: [{ msg: "User already exists" }] });
@@ -198,7 +200,9 @@ router.get(
   async (req, res) => {
     try {
       const users = await User.find({ role: "user" }).select("-password");
-
+      if (users.length === 0) {
+        return res.status(404).json({ msg: "Users not found" });
+      }
       res.status(200).json(users);
     } catch (error) {
       console.error(error.message);

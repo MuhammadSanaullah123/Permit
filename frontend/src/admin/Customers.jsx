@@ -21,6 +21,7 @@ const Customers = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
   const [data, setData] = useState();
+  const [documentAvail, setDocumentAvail] = useState(true);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -37,9 +38,10 @@ const Customers = () => {
       dispatch(setUsers({ ...res }));
       setData(res);
     } catch (error) {
-      error.data.errors.forEach((error) => {
-        toast.error(error.msg);
-      });
+      console.error(error.data.msg);
+      if (error.data.msg === "Users not found") {
+        setDocumentAvail(false);
+      }
     }
   };
   console.log(data);
@@ -56,11 +58,13 @@ const Customers = () => {
     Array.isArray(data) &&
     data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
+  console.log(paginatedData);
+  console.log(documentAvail);
   return (
     <div id="invoices">
       <h1 className="h1">Customers</h1>
 
-      {!paginatedData?.length > 0 ? (
+      {paginatedData?.length === 0 && documentAvail === true ? (
         <div
           style={{
             alignSelf: "center",
@@ -74,10 +78,9 @@ const Customers = () => {
             visible={true}
           />
         </div>
-      ) : (
+      ) : paginatedData?.length > 0 && documentAvail === true ? (
         <>
           <CusotmersTable rows={paginatedData} />
-
           <Stack id="pagination" spacing={2}>
             <Pagination
               onChange={handlePageChange}
@@ -87,6 +90,19 @@ const Customers = () => {
             />
           </Stack>
         </>
+      ) : (
+        paginatedData?.length === 0 &&
+        documentAvail === false && (
+          <div
+            style={{
+              marginTop: "20px",
+              width: "95%",
+              alignSelf: "center",
+            }}
+          >
+            <h3>No Customers</h3>
+          </div>
+        )
       )}
     </div>
   );
