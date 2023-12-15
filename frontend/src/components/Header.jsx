@@ -17,7 +17,7 @@ const Header = () => {
       await logout().unwrap();
       dispatch(clearCredentials());
       setProfile(!profile);
-      navigate("/login");
+      window.location.assign("/login");
     } catch (error) {
       error.data.errors.forEach((error) => {
         toast.error(error.msg);

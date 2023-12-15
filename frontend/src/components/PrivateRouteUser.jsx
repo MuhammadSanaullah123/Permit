@@ -1,16 +1,17 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
-const PrivateRouteUser = () => {
-  /*   const { userInfo } = useSelector((state) => state.auth); */
+const PrivateRouteAdmin = () => {
+  const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
 
-  return sessionStorage.userInfo &&
-    JSON.parse(sessionStorage.getItem("userInfo")).role === "user" ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/login" replace />
-  );
+  if (userInfo && userInfo.role === "user") {
+    return <Outlet />;
+  } else {
+    // Use window.location.assign for redirection
+    window.location.assign("/login");
+    return null; // or some loading/error component if needed
+  }
 };
 
-export default PrivateRouteUser;
+export default PrivateRouteAdmin;
