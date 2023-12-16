@@ -14,8 +14,9 @@ const allowedOrigins = [
   "http://3.147.193.216", // Update with your frontend domain
 ];
 
-app.use(cors({ credentials: true, origin: allowedOrigins }));
-app.use(express.json());
+/* app.use(cors({ credentials: true, origin: allowedOrigins })); */
+app.use(cors());
+app.use(express.json({ extended: false }));
 app.use(cookieParser());
 
 //Routes
@@ -25,7 +26,7 @@ app.use("/api/document", require("./routes/api/document"));
 app.use("/api/conversation", require("./routes/api/conversation"));
 app.use("/api/invoice", require("./routes/api/invoice"));
 
-const _dirname = path.dirname("");
+/* const _dirname = path.dirname("");
 const buildPath = path.join(_dirname, "../frontend/build");
 
 app.use(express.static(buildPath));
@@ -38,7 +39,7 @@ app.get("/*", function (req, res) {
       }
     }
   );
-});
+}); */
 
 const PORT = process.env.PORT || 5000;
 

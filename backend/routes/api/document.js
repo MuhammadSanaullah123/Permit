@@ -201,6 +201,7 @@ router.patch("/:id", auth, async (req, res) => {
       </p>
       </div>`,
     });
+    console.log("mail");
     console.log(mail);
     res.json(document);
   } catch (error) {

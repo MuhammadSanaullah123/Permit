@@ -63,30 +63,45 @@ const Profile = () => {
     e.preventDefault();
 
     if (values.password === values.conpassword) {
-      const dataImage = new FormData();
-      dataImage.append("file", image);
-      dataImage.append("upload_preset", "miudfqwc");
-      dataImage.append("cloud_name", "dvge98zue");
+      let image_url;
+      if (image) {
+        const dataImage = new FormData();
+        dataImage.append("file", image);
+        dataImage.append("upload_preset", "miudfqwc");
+        dataImage.append("cloud_name", "dvge98zue");
 
-      const res = await fetch(
-        "https://api.cloudinary.com/v1_1/dvge98zue/image/upload",
-        {
-          method: "post",
-          body: dataImage,
-        }
-      );
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/dvge98zue/image/upload",
+          {
+            method: "post",
+            body: dataImage,
+          }
+        );
 
-      const resData = await res.json();
-      const image_url = resData.url;
+        const resData = await res.json();
+        image_url = resData.url;
+      }
+      let data;
+      if (image) {
+        data = {
+          name: values.name,
+          image: image_url,
+          company: values.company,
+          email: values.email,
+          description: values.description,
+          password: values.password,
+        };
+      } else {
+        data = {
+          name: values.name,
+          image: values.image,
+          company: values.company,
+          email: values.email,
+          description: values.description,
+          password: values.password,
+        };
+      }
 
-      let data = {
-        name: values.name,
-        image: image_url,
-        company: values.company,
-        email: values.email,
-        description: values.description,
-        password: values.password,
-      };
       try {
         const res = await updateUser(data).unwrap();
         toast.success("Update Successful", { position: "top-center" });

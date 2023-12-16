@@ -9,7 +9,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/auth`,
         method: "POST",
         body: data,
-        credentials: "include",
+        /*  credentials: "include", */
       }),
     }),
     signup: builder.mutation({
@@ -17,7 +17,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}`,
         method: "POST",
         body: data,
-        credentials: "include",
+        /*   credentials: "include", */
         /*      withCredentials: true, */
       }),
     }),
@@ -25,14 +25,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       query: (data) => ({
         url: `http://localhost:5000/api/auth`,
         method: "GET",
-        credentials: "include",
+        /*  credentials: "include", */
       }),
     }),
     logout: builder.mutation({
       query: () => ({
         url: `${USERS_URL}/logout`,
         method: "POST",
-        credentials: "include",
+        /*  credentials: "include", */
         /*   withCredentials: true, */
       }),
     }),
@@ -41,7 +41,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}`,
         method: "PATCH",
         body: data,
-        credentials: "include",
+        /*  credentials: "include", */
         /*   withCredentials: true, */
       }),
     }),
@@ -49,7 +49,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${USERS_URL}`,
         method: "GET",
-        credentials: "include",
+        /*  credentials: "include", */
         /*   withCredentials: true, */
       }),
     }),
@@ -57,7 +57,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
         method: "GET",
-        credentials: "include",
+        /*  credentials: "include", */
         /*   withCredentials: true, */
       }),
     }),
@@ -66,7 +66,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/forgotPassword`,
         method: "POST",
         body: data,
-        credentials: "include",
+        /*   credentials: "include", */
       }),
     }),
     resetPassword: builder.mutation({
@@ -74,7 +74,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/resetPassword/${data.id}/${data.token}`,
         method: "POST",
         body: data,
-        credentials: "include",
+        /*  credentials: "include", */
       }),
     }),
   }),

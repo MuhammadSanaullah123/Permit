@@ -48,7 +48,7 @@ router.post(
       let user = await User.findOne({ email });
       let user_name = await User.findOne({ name });
 
-      if (user || user_namew) {
+      if (user || user_name) {
         return res
           .status(400)
           .json({ errors: [{ msg: "User already exists" }] });
@@ -78,14 +78,15 @@ router.post(
         { expiresIn: /* 1800 */ 360000 },
         (err, token) => {
           if (err) throw err;
-          res.cookie("token", token, {
+          /*   res.cookie("token", token, {
             httpOnly: true,
             secure: true,
             sameSite: "strict",
             expires: new Date(Date.now() + 36000 * 1000),
             path: "/",
-          });
+          }); */
           return res.status(200).json({
+            token,
             _id: user._id,
             name: user.name,
             email: user.email,
@@ -154,14 +155,15 @@ router.post(
         { expiresIn: /* 1800 */ 36000 },
         (err, token) => {
           if (err) throw err;
-          res.cookie("token", token, {
+          /*  res.cookie("token", token, {
             httpOnly: true,
             secure: true,
             sameSite: "strict",
             expires: new Date(Date.now() + 36000 * 1000),
             path: "/",
-          });
+          }); */
           return res.status(200).json({
+            token,
             _id: user._id,
             name: user.name,
             email: user.email,
@@ -183,10 +185,10 @@ router.post(
 // @route   POST /api/users/logout
 // @access  Public
 router.post("/logout", auth, async (req, res) => {
-  res.cookie("token", "", {
+  /*  res.cookie("token", "", {
     httpOnly: true,
     expires: new Date(0),
-  });
+  }); */
   res.status(200).json({ message: "Logged out successfully" });
 });
 
@@ -268,14 +270,15 @@ router.patch(
         { expiresIn: /* 1800 */ 36000 },
         (err, token) => {
           if (err) throw err;
-          res.cookie("token", token, {
+          /*  res.cookie("token", token, {
             httpOnly: true,
             secure: true,
             sameSite: "strict",
             expires: new Date(Date.now() + 36000 * 1000),
             path: "/",
-          });
+          }); */
           return res.status(200).json({
+            token,
             _id: users._id,
             name: users.name,
             email: users.email,
@@ -412,14 +415,15 @@ router.post(
         { expiresIn: /* 1800 */ 36000 },
         (err, token) => {
           if (err) throw err;
-          res.cookie("token", token, {
+          /*   res.cookie("token", token, {
             httpOnly: true,
             secure: true,
             sameSite: "strict",
             expires: new Date(Date.now() + 36000 * 1000),
             path: "/",
-          });
+          }); */
           return res.status(200).json({
+            token,
             _id: user._id,
             name: user.name,
             email: user.email,

@@ -8,7 +8,7 @@ export const conversationApiSlice = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
         method: "GET",
-        credentials: "include",
+        /*  credentials: "include", */
       }),
     }),
     createConversation: builder.mutation({
@@ -16,7 +16,7 @@ export const conversationApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/${data.id}`,
         method: "POST",
         body: data,
-        credentials: "include",
+        /*     credentials: "include", */
       }),
     }),
   }),

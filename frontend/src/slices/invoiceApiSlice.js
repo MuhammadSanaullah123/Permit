@@ -9,35 +9,35 @@ export const invoiceApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/${data.id}`,
         method: "POST",
         body: data,
-        credentials: "include",
+        /*   credentials: "include", */
       }),
     }),
     getInvoice: builder.mutation({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
         method: "GET",
-        credentials: "include",
+        /*    credentials: "include", */
       }),
     }),
     getAllInvoice: builder.mutation({
       query: () => ({
         url: `${USERS_URL}`,
         method: "GET",
-        credentials: "include",
+        /*  credentials: "include", */
       }),
     }),
     getAllInvoiceAllUsers: builder.mutation({
       query: () => ({
         url: `${USERS_URL}/all/users`,
         method: "GET",
-        credentials: "include",
+        /*  credentials: "include", */
       }),
     }),
     payInvoice: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/square/pay`,
         method: "POST",
-        credentials: "include",
+        /*   credentials: "include", */
         body: data,
       }),
     }),

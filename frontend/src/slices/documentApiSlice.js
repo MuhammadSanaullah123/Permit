@@ -8,28 +8,28 @@ export const documentApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${USERS_URL}`,
         method: "GET",
-        credentials: "include",
+        /*  credentials: "include", */
       }),
     }),
     getDocuments: builder.mutation({
       query: () => ({
         url: `${USERS_URL}/me`,
         method: "GET",
-        credentials: "include",
+        /*   credentials: "include", */
       }),
     }),
     getDocumentById: builder.mutation({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
         method: "GET",
-        credentials: "include",
+        /*     credentials: "include", */
       }),
     }),
     deleteDocument: builder.mutation({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
         method: "DELETE",
-        credentials: "include",
+        /*    credentials: "include", */
       }),
     }),
     createDocument: builder.mutation({
@@ -37,7 +37,7 @@ export const documentApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}`,
         method: "POST",
         body: data,
-        credentials: "include",
+        /*  credentials: "include", */
       }),
     }),
     updateDocument: builder.mutation({
@@ -45,7 +45,7 @@ export const documentApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/${data.id}`,
         method: "PATCH",
         body: data,
-        credentials: "include",
+        /*  credentials: "include", */
       }),
     }),
   }),
