@@ -9,7 +9,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: radial-gradient(circle, #202020 0%, #141414 100%);
   color: #fff;
-  max-width: 1600px;
+  /*   max-width: 1600px; */
   margin: 0 auto;
 }
 p {

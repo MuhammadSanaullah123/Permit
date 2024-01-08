@@ -49,9 +49,7 @@ const DocumentsTable = ({ rows, handleDelete, handleDownload }) => {
                     "&:last-child td, &:last-child th": { border: 0 },
                     cursor: "pointer",
                   }}
-                  onClick={() =>
-                    window.location.replace(`/document/${row._id}`)
-                  }
+                  onClick={() => window.location.assign(`/document/${row._id}`)}
                 >
                   <TableCell component="th" scope="row" className="rowvalue">
                     {row.projectName}
@@ -90,6 +88,7 @@ const DocumentsTable = ({ rows, handleDelete, handleDownload }) => {
                       />
 
                       <img
+                        style={{ cursor: "pointer" }}
                         src={downloadIcon}
                         alt="download"
                         onClick={(e) => handleDownload(e, row.url)}
@@ -97,7 +96,7 @@ const DocumentsTable = ({ rows, handleDelete, handleDownload }) => {
 
                       <Link
                         onClick={() =>
-                          window.location.replace(`/document/${row._id}`)
+                          window.location.assign(`/document/${row._id}`)
                         }
                         style={{
                           display: `${

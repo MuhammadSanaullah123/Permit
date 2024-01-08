@@ -1,5 +1,7 @@
 /*<------------------------------------------------User:Login Start------------------------------------------------>*/
 #login {
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -113,7 +115,8 @@
   align-items: center;
   justify-content: center;
   padding-bottom: 100px;
-
+  max-width: 1600px;
+  margin: 0 auto;
   #mainDiv {
     display: flex;
     flex-direction: column;
@@ -323,6 +326,46 @@
     }
     cursor: pointer;
   }
+  .gobackbtn {
+    width: 100px;
+    height: 40px;
+    background-color: var(--primary-color);
+    border: 0;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 16px;
+    position: absolute;
+    top: 100px;
+    cursor: pointer;
+  }
+  .gobackbtn:hover {
+    transform: scale(1.03);
+    transition: all 0.3s ease;
+  }
+  .gobackIcon {
+    color: #fff;
+    opacity: 0.9;
+    cursor: pointer;
+    position: absolute;
+    top: 90px;
+    font-size: 30px;
+    animation: leftwardAnimation 1s infinite linear;
+  }
+  .gobackIcon:hover {
+    transform: scale(1.03);
+    transition: all 0.1s ease;
+  }
+  @keyframes leftwardAnimation {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(-3px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
 }
 .moblinkDiv {
   background-color: var(--secondary-color);
@@ -367,6 +410,8 @@
   display: flex;
   flex-direction: column;
   padding: 40px;
+  max-width: 1600px;
+  margin: 0 auto;
   @media (max-width: 600px) {
     padding: 40px 20px 40px 20px;
   }
@@ -688,6 +733,7 @@
   }
   .deleteIcon {
     margin-right: 15px;
+    cursor: pointer;
   }
   .viewIcon {
     width: 24px;
@@ -734,6 +780,8 @@
 
 /*<------------------------------------------------User:Upload Start------------------------------------------------>*/
 #upload {
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   padding: 100px 80px 50px 0;
@@ -757,6 +805,7 @@
     }
   }
   #uploadformDiv {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -883,7 +932,7 @@
       width: 150px;
       height: 45px;
       margin-top: 30px;
-      border: 1px solid var(--primary-color);
+      /*   border: 1px solid var(--primary-color); */
       cursor: pointer;
       .fa-upload {
         font-size: 18px;
@@ -905,6 +954,8 @@
 
 /*<------------------------------------------------User:Profile Start------------------------------------------------>*/
 #profile {
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   padding: 50px 20px 50px 20px;
@@ -1046,6 +1097,8 @@
 
 /*<------------------------------------------------User:Document Start------------------------------------------------>*/
 #document {
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1059,7 +1112,7 @@
     flex-direction: column;
     background-color: var(--secondary-color);
     width: 80%;
-    height: 400px;
+    height: 480px;
     border-radius: 17px;
     padding: 20px;
     @media (max-width: 480px) {
@@ -1181,6 +1234,12 @@
       #span9 {
         @media (max-width: 680px) {
           grid-column: 1/2;
+          grid-row: 5/6;
+        }
+      }
+      #span10 {
+        @media (max-width: 680px) {
+          grid-column: 3/4;
           grid-row: 5/6;
         }
       }
@@ -1323,6 +1382,8 @@
 /*<------------------------------------------------User:Invoices Start------------------------------------------------>*/
 
 #invoices {
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   padding: 20px 40px 40px 40px;
@@ -1400,6 +1461,8 @@
 
 /*<------------------------------------------------User:Invoice Start------------------------------------------------>*/
 #invoice {
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1605,6 +1668,8 @@
 
 /*<------------------------------------------------User:Checkout Start------------------------------------------------>*/
 #checkout {
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1788,12 +1853,16 @@
 #customers {
   display: flex;
   flex-direction: column;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
 /*<------------------------------------------------Admin:Customers End------------------------------------------------>*/
 
 /*<------------------------------------------------Admin:IndividualCustomer Start------------------------------------------------>*/
 #individualcustomer {
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1962,6 +2031,7 @@
 
 /*<------------------------------------------------Admin:GenerateInvoice Start------------------------------------------------>*/
 #generateInvoice {
+  max-width: 1600px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2013,6 +2083,10 @@
 
       color: #e3e3e3;
     }
+    input[type="date"] {
+      color-scheme: dark !important;
+      cursor: pointer;
+    }
     button {
       width: 290px;
       height: 60px;
@@ -2040,6 +2114,8 @@ input:-internal-selected {
 /*<------------------------------------------------User:ForgotPassword Start------------------------------------------------>*/
 #forgotPassword {
   display: flex;
+  max-width: 1600px;
+  margin: 0 auto;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -2155,6 +2231,8 @@ input:-internal-selected {
 
 /*<------------------------------------------------User:UpdatePassword Start------------------------------------------------>*/
 #updatePassword {
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;

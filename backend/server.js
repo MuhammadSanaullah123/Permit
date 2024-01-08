@@ -12,6 +12,8 @@ connectDB();
 const allowedOrigins = [
   "http://localhost:3000", // Add your localhost for development
   "http://3.147.193.216", // Update with your frontend domain
+  "https://travendev.com/api",
+  "https://travendev.com",
 ];
 
 /* app.use(cors({ credentials: true, origin: allowedOrigins })); */

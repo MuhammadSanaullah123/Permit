@@ -105,6 +105,7 @@ const Profile = () => {
       try {
         const res = await updateUser(data).unwrap();
         toast.success("Update Successful", { position: "top-center" });
+        sessionStorage.setItem("token", res.token);
         dispatch(setCredentials({ ...res }));
       } catch (error) {
         toast.error(error.data.msg);

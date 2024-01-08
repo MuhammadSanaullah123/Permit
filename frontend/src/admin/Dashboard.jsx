@@ -47,9 +47,15 @@ const Dashboard = () => {
   const handleGetAllDocuments = async () => {
     try {
       const res = await getAllDocument().unwrap();
+      const sortedData = [...res].sort((a, b) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
 
-      dispatch(setDocument({ ...res }));
-      setData(res);
+        return dateB - dateA;
+      });
+      console.log(sortedData);
+      dispatch(setDocument({ ...sortedData }));
+      setData(sortedData);
     } catch (error) {
       console.error(error.data.msg);
       if (error.data.msg === "Documents not found") {
@@ -90,12 +96,8 @@ const Dashboard = () => {
   };
   const handleDownload = (e, url) => {
     e.stopPropagation();
-    const newTab = window.open(url, "_blank");
-    if (newTab) {
-      newTab.focus();
-    } else {
-      window.location.assign(url);
-    }
+
+    window.location.assign(url);
   };
   console.log(data);
   useEffect(() => {

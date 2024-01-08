@@ -112,6 +112,9 @@ const AdminDocumentTable = ({
                         onClick={(e) => handleDelete(e, row._id)}
                       />
                       <img
+                        style={{
+                          cursor: "pointer",
+                        }}
                         src={downloadIcon}
                         alt="download"
                         onClick={(e) => handleDownload(e, row.url)}

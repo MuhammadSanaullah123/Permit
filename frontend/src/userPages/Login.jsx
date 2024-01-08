@@ -38,6 +38,7 @@ const Login = () => {
       toast.success("Login Successful", { position: "top-center" });
       dispatch(setCredentials({ ...res }));
     } catch (error) {
+      console.error(error);
       error.data.errors.forEach((error) => {
         toast.error(error.msg);
       });

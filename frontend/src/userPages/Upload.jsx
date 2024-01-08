@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCreateDocumentMutation } from "../slices/documentApiSlice";
 
 //other
+import { RotatingLines } from "react-loader-spinner";
 import { toast } from "react-toastify";
 const Upload = () => {
   const [values, setValues] = useState({
@@ -17,6 +18,8 @@ const Upload = () => {
     valuation: "",
   });
   const [file, setFile] = useState();
+  const [loading, setLoading] = useState(false);
+
   const [createDocument] = useCreateDocumentMutation();
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -47,7 +50,7 @@ const Upload = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("address", values.address);
@@ -61,7 +64,7 @@ const Upload = () => {
       name: values.name,
       address: values.address,
       contractor: values.contractor,
-      type: values.type,
+      type: values.type, 
       valuation: values.valuation,
       fileSize: "128",
       documentName: "Resume7",
@@ -79,6 +82,8 @@ const Upload = () => {
       });
       setFile();
       toast.success("Document Created", { position: "top-center" });
+      setLoading(false);
+
       setTimeout(() => {
         window.location.assign(`/document/${res._id}`);
       }, 2000);
@@ -91,7 +96,12 @@ const Upload = () => {
   return (
     <div id="upload">
       <img src={upload} alt="upload" />
-      <div id="uploadformDiv">
+      <div
+        id="uploadformDiv"
+        style={{
+          opacity: `${loading ? "0.6" : "1"}`,
+        }}
+      >
         <h1>Upload Documents</h1>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sagittis
@@ -139,7 +149,12 @@ const Upload = () => {
             required
           />
           <p className="fileName">{file && file.name}</p>
-          <div {...getRootProps()}>
+          <div
+            {...getRootProps()}
+            style={{
+              outline: "none",
+            }}
+          >
             <input {...getInputProps()} />
             {isDragActive ? (
               <div className="isActiveDiv">
@@ -157,7 +172,25 @@ const Upload = () => {
             type="file"
             onChange={(e) => setImage(e.target.files[0])}
           /> */}
-          <button type="Upload">Submit</button>
+          {loading ? (
+            <div
+              style={{
+                alignSelf: "center",
+                position: "absolute",
+                top: "45%",
+              }}
+            >
+              <RotatingLines
+                strokeColor="grey"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="96"
+                visible={true}
+              />
+            </div>
+          ) : (
+            <button type="Upload">Submit</button>
+          )}
         </form>
       </div>
     </div>

@@ -11,6 +11,7 @@ import { useGetInvoiceMutation } from "../slices/invoiceApiSlice";
 import { setSingleDocument } from "../slices/documentSlice";
 import { setConversation } from "../slices/conversationSlice";
 import { setInvoice } from "../slices/invoiceSlice";
+
 //other
 import { toast } from "react-toastify";
 
@@ -20,7 +21,9 @@ const Document = () => {
   const { documentInfo } = useSelector((state) => state.document);
   const { userInfo } = useSelector((state) => state.auth);
   const { conversationInfo } = useSelector((state) => state.conversation);
+  const { invoiceInfo } = useSelector((state) => state.invoice);
 
+  const [getInvoice] = useGetInvoiceMutation();
   const [message, setMessage] = useState("");
   const [getDocument] = useGetDocumentByIdMutation();
   const [getConversation] = useGetConversationMutation();
@@ -76,11 +79,28 @@ const Document = () => {
   };
 
   const handleReceipt = async () => {};
+  const handleGetInvoice = async () => {
+    try {
+      const res = await getInvoice(
+        window.location.pathname.split("/")[2]
+      ).unwrap();
 
+      dispatch(setInvoice({ ...res }));
+    } catch (error) {
+      error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      });
+    }
+  };
+
+  useEffect(() => {
+    handleGetInvoice();
+  }, []);
   useEffect(() => {
     handleGetDocument();
     handleGetConversation();
   }, []);
+  console.log(invoiceInfo);
   return (
     <div id="document">
       <div className="mainDiv">
@@ -138,27 +158,44 @@ const Document = () => {
             <h2>Valuation</h2>
             <p>{documentInfo?.valuation}</p>
           </span>
+          <span id="span10" className="mainDivspan">
+            <h2>Invoice Status</h2>
+            <p>{invoiceInfo?.status}</p>
+          </span>
         </div>
       </div>
       {userInfo?.role === "user" ? (
         <button
           className="viewBtn"
           onClick={() =>
-            navigate(`/user/invoice/${window.location.pathname.split("/")[2]}`)
+            navigate(`/invoice/${window.location.pathname.split("/")[2]}`)
           }
         >
           View Receipt
         </button>
       ) : (
-        <button
-          style={{
-            width: "200px",
-          }}
-          className="viewBtn"
-          onClick={() => navigate(`/admin/invoice/${documentInfo._id}`)}
-        >
-          Generate Reciept
-        </button>
+        <>
+          {invoiceInfo?.documentId ? (
+            <button
+              className="viewBtn"
+              onClick={() =>
+                navigate(`/invoice/${window.location.pathname.split("/")[2]}`)
+              }
+            >
+              View Receipt
+            </button>
+          ) : (
+            <button
+              style={{
+                width: "200px",
+              }}
+              className="viewBtn"
+              onClick={() => navigate(`/admin/invoice/${documentInfo._id}`)}
+            >
+              Generate Reciept
+            </button>
+          )}
+        </>
       )}
 
       <div id="messageDiv">

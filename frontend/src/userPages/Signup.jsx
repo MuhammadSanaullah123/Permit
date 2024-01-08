@@ -41,6 +41,7 @@ const Signup = () => {
 
     try {
       const res = await signup(data).unwrap();
+      sessionStorage.setItem("token", res.token);
       toast.success("Account Created", { position: "top-center" });
 
       dispatch(setCredentials({ ...res }));

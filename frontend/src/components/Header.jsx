@@ -51,7 +51,7 @@ const Header = () => {
     const handleScroll = () => {
       const header = document.getElementById("header");
       if (window.scrollY > 0) {
-        header.style.boxShadow = " rgb(0 0 0 / 10%) 0px 4px 4px 5px";
+        header.style.boxShadow = "rgba(255, 255, 255, 0.1) 0px 2px 4px 1px";
       } else {
         header.style.boxShadow = "none";
       }
@@ -131,6 +131,13 @@ const Header = () => {
             </span>
           </div>
         </div>
+        {/*   <button className="gobackbtn" onClick={() => window.history.back()}>
+          Go back
+        </button> */}
+        <i
+          className="fa-solid fa-circle-arrow-left gobackIcon"
+          onClick={() => window.history.back()}
+        ></i>
       </div>
       {mobile &&
         (window.location.pathname.split("/")[1] === "admin" ||

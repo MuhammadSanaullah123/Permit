@@ -53,6 +53,9 @@ const Invoice = () => {
         address: documentInfo ? documentInfo?.address : "",
         date: "",
       });
+      setTimeout(() => {
+        window.location.assign(`/document/${res.documentId}`);
+      }, 1500);
     } catch (error) {
       error.data.errors.forEach((error) => {
         toast.error(error.msg);

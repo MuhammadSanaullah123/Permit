@@ -40,6 +40,7 @@ const ResetPassword = () => {
     };
     try {
       const res = await resetPassword(data).unwrap();
+      sessionStorage.setItem("token", res.token);
       toast.success("Login Successful", { position: "top-center" });
       dispatch(setCredentials({ ...res }));
     } catch (error) {

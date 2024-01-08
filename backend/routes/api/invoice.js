@@ -23,7 +23,7 @@ BigInt.prototype.toJSON = function () {
 };
 const { paymentsApi } = new Client({
   accessToken: process.env.REACT_APP_SQUARE_TOKEN,
-  environment: "sandbox",
+  environment: "production",
 });
 
 // @route   POST api/Invoice/:id
@@ -173,6 +173,21 @@ router.post(
           html: `<div><h3>Dear ${user.name},</h3>
           <p>
           Your invoice of project "${document.projectName}" with the document "${document.documentName}" has been paid successfully!
+          </p>
+    
+          <p>
+        Regards,
+        Team Permit
+          </p>
+          </div>`,
+        });
+        const admin_mail = await transporter.sendMail({
+          to: `${process.env.ADMIN_MAIL}`,
+          from: `${process.env.ADMIN_MAIL}`, // sender address
+          subject: `Invoice Status!`,
+          html: `<div><h3>Dear ${user.name},</h3>
+          <p>
+          The invoice of project "${document.projectName}" with the document "${document.documentName}" has been paid successfully!
           </p>
     
           <p>
