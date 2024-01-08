@@ -1,4 +1,4 @@
-MONGO_URI= "mongodb+srv://Muhammad:8992216@permitcluster.jwubdoi.mongodb.net/?retryWrites=true&w=majority"
+MONGO_URI= mongodb+srv://Muhammad:8992216@permitcluster.jwubdoi.mongodb.net/?retryWrites=true&w=majority
 JWT_SECRET ="Jj8992216"
 PORT=5000
 PROJECT_ID="intricate-muse-386213"
