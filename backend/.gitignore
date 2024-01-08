@@ -11,10 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
-./.env
-.env
-/.env
-/.env
+
 intricate-muse-386213-b741d7f5defb.json
 /intricate-muse-386213-b741d7f5defb.json
 ./intricate-muse-386213-b741d7f5defb.json
