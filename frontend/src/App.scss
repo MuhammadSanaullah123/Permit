@@ -950,6 +950,11 @@
     }
   }
 }
+.percentNumber {
+  color: #fff !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
 /*<------------------------------------------------User:Upload End------------------------------------------------>*/
 
 /*<------------------------------------------------User:Profile Start------------------------------------------------>*/
@@ -1286,6 +1291,22 @@
       max-height: 600px;
     }
     .leftmessageDiv {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-width: 480px;
+      height: auto;
+      background: #ffffff5e;
+      padding: 20px;
+      border-radius: 50px 50px 50px 0px;
+      margin-top: 20px;
+      margin-left: 20px;
+      margin-right: 20px;
+
+      align-self: flex-start;
+    }
+    .centermessageDiv {
       display: flex;
       flex-direction: column;
       align-items: center;

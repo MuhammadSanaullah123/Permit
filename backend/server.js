@@ -1,9 +1,13 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
+const http = require("http");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 dotenv.config();
+
+/* const { Server } = require("socket.io"); */
+
 const connectDB = require("./config/db");
 const bcrypt = require("bcryptjs");
 const path = require("path");
@@ -17,11 +21,14 @@ const allowedOrigins = [
 ];
 
 /* app.use(cors({ credentials: true, origin: allowedOrigins })); */
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json({ extended: false }));
 app.use(cookieParser());
 
-//Routes
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/document", require("./routes/api/document"));

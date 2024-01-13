@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 //assets
 import upload from "../assets/upload.png";
@@ -9,14 +9,73 @@ import { useCreateDocumentMutation } from "../slices/documentApiSlice";
 //other
 import { RotatingLines } from "react-loader-spinner";
 import { toast } from "react-toastify";
+//mui
+import PropTypes from "prop-types";
+import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+
+function CircularProgressWithLabel(props) {
+  return (
+    <Box
+      sx={{
+        position: "relative",
+        display: "inline-flex",
+        width: "100px",
+        height: "100px",
+      }}
+    >
+      <CircularProgress
+        variant="determinate"
+        {...props}
+        sx={{
+          width: "100px",
+          height: "100px",
+        }}
+      />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: "absolute",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100px",
+          height: "100px",
+        }}
+      >
+        <Typography variant="caption" component="div" className="percentNumber">
+          {/*   {`${Math.round(props.value)}%`} */}
+          {props.value}%
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
+CircularProgressWithLabel.propTypes = {
+  /**
+   * The value of the progress indicator for the determinate variant.
+   * Value between 0 and 100.
+   * @default 0
+   */
+  value: PropTypes.number.isRequired,
+};
+
 const Upload = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+
   const [values, setValues] = useState({
     name: "",
-    address: "",
+    address: `${userInfo?.company ? userInfo?.company : ""}`,
     contractor: "",
     type: "",
     valuation: "",
   });
+  const [progress, setProgress] = useState(0);
   const [file, setFile] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -70,8 +129,24 @@ const Upload = () => {
       documentName: "Resume7",
       file,
     }; */
+    const headers = {};
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      headers["x-auth-token"] = token;
+    }
+
     try {
       const res = await createDocument(formData).unwrap();
+      /*     const res = await axios.post(
+        "http://localhost:5000/api/document",
+        formData,
+        {
+          headers: headers,
+          onUploadProgress: (data) => {
+            console.log(data.loaded, data.total);
+          },
+        }
+      ); */
 
       setValues({
         name: "",
@@ -88,11 +163,35 @@ const Upload = () => {
         window.location.assign(`/document/${res._id}`);
       }, 2000);
     } catch (error) {
+      console.log(error);
       toast.error(error.data.msg);
     }
   };
   console.log(file);
 
+  function fetchProgress() {
+    fetch("https://travendev.com/api/api/document/progress")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setProgress(data.progress);
+      })
+      .catch((error) => {
+        console.error("Error fetching progress:", error);
+      });
+  }
+  /*   setInterval(fetchProgress, 5000); */
+  useEffect(() => {
+    const intervalId = setInterval(fetchProgress, 1000);
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
+  useEffect(() => {
+    setValues({
+      address: userInfo?.company ? userInfo?.company : "",
+    });
+  }, [userInfo]);
   return (
     <div id="upload">
       <img src={upload} alt="upload" />
@@ -178,15 +277,36 @@ const Upload = () => {
                 alignSelf: "center",
                 position: "absolute",
                 top: "45%",
+                width: "100px",
+                height: "100px",
               }}
             >
-              <RotatingLines
-                strokeColor="grey"
-                strokeWidth="5"
-                animationDuration="0.75"
-                width="96"
-                visible={true}
+              <CircularProgressWithLabel
+                value={progress}
+                style={{
+                  width: "100px",
+                  height: "100px",
+                }}
               />
+              {/*      <progress value={uploadProgress} max="100" />
+                <span>{uploadProgress}%</span> */}
+              {/*   <FileUploadProgress
+                  key="ex1"
+                  url="http://localhost:5000/api/document"
+                  method="post"
+                  onProgress={(e, request, progress) => {
+                    console.log("progress", e, request, progress);
+                  }}
+                  onLoad={(e, request) => {
+                    console.log("load", e, request);
+                  }}
+                  onError={(e, request) => {
+                    console.log("error", e, request);
+                  }}
+                  onAbort={(e, request) => {
+                    console.log("abort", e, request);
+                  }}
+                /> */}
             </div>
           ) : (
             <button type="Upload">Submit</button>

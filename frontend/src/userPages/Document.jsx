@@ -207,8 +207,28 @@ const Document = () => {
                 className={`${
                   item.sender === "admin" ? "leftmessageDiv" : "rightmessageDiv"
                 }`}
+                style={{
+                  alignSelf:
+                    item?.message === "Invoice has been generated" && "center",
+                  borderRadius:
+                    item?.message === "Invoice has been generated" && "50px",
+                  opacity:
+                    item?.message === "Invoice has been generated" && "0.5",
+                  height:
+                    item?.message === "Invoice has been generated" && "10px",
+                  padding:
+                    item?.message === "Invoice has been generated" && "13px",
+                }}
               >
-                <p className="messagep">{item?.message}</p>
+                <p
+                  className="messagep"
+                  style={{
+                    fontSize:
+                      item?.message === "Invoice has been generated" && "14px",
+                  }}
+                >
+                  {item?.message}
+                </p>
               </div>
             </>
           ))}

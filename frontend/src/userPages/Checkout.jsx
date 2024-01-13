@@ -15,15 +15,18 @@ import { toast } from "react-toastify";
 const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const { invoiceInfo } = useSelector((state) => state.invoice);
+  const { userInfo } = useSelector((state) => state.auth);
+  console.log(userInfo);
 
   const [values, setValues] = useState({
-    email: "",
+    email: `${userInfo?.email ? userInfo?.email : ""}`,
     cardNo: "",
     date: "",
     cvc: "",
   });
-  const [loading, setLoading] = useState(false);
-  const { invoiceInfo } = useSelector((state) => state.invoice);
+
   const [payInvoice] = usePayInvoiceMutation();
   const [getInvoice] = useGetInvoiceMutation();
 
@@ -64,10 +67,17 @@ const Checkout = () => {
         navigate("/invoices");
       }, 1500);
     } catch (error) {
+      toast.error("Wrong Card Number or Insufficient Funds", {
+        position: "top-center",
+        hideProgressBar: true,
+        autoClose: 2000,
+      });
+      setLoading(false);
+
+      console.error(error);
       error.data.errors.forEach((error) => {
         toast.error(error.msg);
       });
-      setLoading(false);
     }
   };
   const handleGetInvoice = async () => {
@@ -87,6 +97,12 @@ const Checkout = () => {
   useEffect(() => {
     handleGetInvoice();
   }, []);
+
+  useEffect(() => {
+    setValues({
+      email: userInfo?.email ? userInfo?.email : "",
+    });
+  }, [userInfo]);
   return (
     <div id="checkout">
       <div

@@ -7,10 +7,14 @@ const path = require("path");
 const Multer = require("multer");
 const Document = require("../../models/Document");
 const User = require("../../models/User");
-
+const { ReadableStreamBuffer } = require("stream-buffers");
 const nodemailer = require("nodemailer");
 const sendGridTransport = require("nodemailer-sendgrid-transport");
 
+const WebSocket = require("ws");
+const { Server } = require("socket.io");
+const http = require("http");
+const { app } = require("../../server");
 const transporter = nodemailer.createTransport(
   sendGridTransport({
     auth: {
@@ -34,60 +38,119 @@ const bucket = cloudStorage.bucket(bucketName);
 // @route   POST api/document
 // @desc    Create a document
 // @access  Private
+let progress;
+router.post(
+  "/",
+  auth,
 
-router.post("/", auth, multer.single("file"), async (req, res) => {
-  try {
-    const { name, address, contractor, type, valuation } = req.body;
-    const match = await Document.findOne({
-      documentName: req.file.originalname,
-    });
-    if (match) {
-      return res.status(404).json({ msg: "Document Name must be unique" });
-    }
-    // Multer middleware has processed the file upload
-    if (!req.file) {
-      res.status(400).send("No file uploaded.");
-      return;
-    }
-
-    const blob = bucket.file(req.file.originalname);
-    const blobStream = blob.createWriteStream();
-
-    blobStream.on("error", (err) => {
-      console.error(err);
-      res.status(500).send("Error uploading file to Google Cloud Storage.");
-    });
-
-    blobStream.on("finish", async () => {
-      const publicUrl = format(
-        `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-      );
-      const signedUrl = await blob.getSignedUrl({
-        action: "read",
-        expires: new Date("2200-01-01T00:00:00Z"),
-      });
-
-      const document = new Document({
-        user: req.user.id,
-        projectName: name,
-        address,
-        contractor,
-        permitType: type,
-        valuation,
-        fileSize: req.file.size,
+  multer.single("file"),
+  async (req, res) => {
+    try {
+      const { name, address, contractor, type, valuation } = req.body;
+      const match = await Document.findOne({
         documentName: req.file.originalname,
-        url: signedUrl[0],
       });
-      const newDocument = await document.save();
+      if (match) {
+        return res.status(404).json({ msg: "Document Name must be unique" });
+      }
+      // Multer middleware has processed the file upload
+      if (!req.file) {
+        res.status(400).send("No file uploaded.");
+        return;
+      }
 
-      res.status(200).json(newDocument);
-    });
-    // Write the file buffer to the Google Cloud Storage blob
-    blobStream.end(req.file.buffer);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Server Error");
+      const blob = bucket.file(req.file.originalname);
+
+      const blobStream = blob.createWriteStream({
+        resumable: true,
+      });
+
+      const fileSize = req.file.size; // Total size of the file
+      let uploadedBytes = 0;
+
+      const fileBufferStream = new ReadableStreamBuffer();
+      fileBufferStream.put(req.file.buffer);
+      fileBufferStream.stop();
+
+      fileBufferStream.on("data", (chunk) => {
+        uploadedBytes += chunk.length;
+        progress = ((uploadedBytes / fileSize) * 100).toFixed(2);
+        console.log(`Progress: ${progress}%`);
+      });
+      fileBufferStream
+        .pipe(blobStream)
+        .on("error", (error) => {
+          res.status(500).json({
+            message: "Error during file uploaddd!",
+            error: error.message,
+          });
+        })
+        .on("finish", async () => {
+          const publicUrl = format(
+            `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+          );
+          const signedUrl = await blob.getSignedUrl({
+            action: "read",
+            expires: new Date("2200-01-01T00:00:00Z"),
+          });
+
+          const document = new Document({
+            user: req.user.id,
+            projectName: name,
+            address,
+            contractor,
+            permitType: type,
+            valuation,
+            fileSize: req.file.size,
+            documentName: req.file.originalname,
+            url: signedUrl[0],
+          });
+          const newDocument = await document.save();
+
+          res.status(200).json(newDocument);
+        });
+
+      /*      blobStream.on("error", (err) => {
+        console.error(err);
+        res.status(500).send("Error uploading file to Google Cloud Storage.");
+      });
+
+      blobStream.on("finish", async () => {
+        const publicUrl = format(
+          `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+        );
+        const signedUrl = await blob.getSignedUrl({
+          action: "read",
+          expires: new Date("2200-01-01T00:00:00Z"),
+        });
+
+        const document = new Document({
+          user: req.user.id,
+          projectName: name,
+          address,
+          contractor,
+          permitType: type,
+          valuation,
+          fileSize: req.file.size,
+          documentName: req.file.originalname,
+          url: signedUrl[0],
+        });
+        const newDocument = await document.save();
+
+        res.status(200).json(newDocument);
+      }); */
+      // Write the file buffer to the Google Cloud Storage blob
+      /*  blobStream.end(req.file.buffer); */
+      /*   fileBufferStream.end(req.file.buffer); */
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error");
+    }
   }
+);
+
+router.get("/progress", (req, res) => {
+  res.json({ progress });
 });
 
 // @route   GET api/document/me

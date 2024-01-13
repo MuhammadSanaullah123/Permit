@@ -7,6 +7,7 @@ const { check, validationResult } = require("express-validator");
 const Invoice = require("../../models/Invoice");
 const Document = require("../../models/Document");
 const User = require("../../models/User");
+const Conversation = require("../../models/Conversation");
 
 const nodemailer = require("nodemailer");
 const sendGridTransport = require("nodemailer-sendgrid-transport");
@@ -45,6 +46,60 @@ router.post("/:id", auth, async (req, res) => {
       issueDate: date,
     });
     const newInvoice = await invoice.save();
+
+    //Creating conversation
+    const conversation = await Conversation.find({
+      documentId: req.params.id,
+    });
+    const user_con = await User.findById(req.user.id);
+
+    let finalConversation;
+
+    if (conversation.length > 0) {
+      console.log("Conversation updated");
+
+      let message = {
+        sender: "admin",
+        message: "Invoice has been generated",
+      };
+      conversation[0].messages.push(message);
+      finalConversation = await conversation[0].save();
+    } else {
+      console.log("Conversation created");
+      let message = {
+        sender: "admin",
+        message: "Invoice has been generated",
+      };
+      const newConversation = {
+        sender: req.user.id,
+        documentId: req.params.id,
+        messages: message,
+      };
+      const convo = new Conversation(newConversation);
+      finalConversation = await convo.save();
+    }
+
+    if (user_con.role === "admin") {
+      const document = await Document.findById({ _id: req.params.id });
+      const toUser = await User.findById({ _id: document.user });
+      const mail = transporter.sendMail({
+        to: `${toUser.email}`,
+        from: process.env.ADMIN_MAIL,
+        subject: `Document Update!`,
+        html: `<div><h3>Dear ${user_con.name}</h3>
+<p>
+Invoice has been generated regarding project "${document.projectName}" with the document "${document.documentName}".
+</p>
+
+<p> 
+Regards,
+</p>
+<p>
+Team Permit
+  </p>
+</div>`,
+      });
+    }
 
     res.status(200).json(newInvoice);
   } catch (error) {

@@ -107,6 +107,9 @@ const Profile = () => {
         toast.success("Update Successful", { position: "top-center" });
         sessionStorage.setItem("token", res.token);
         dispatch(setCredentials({ ...res }));
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       } catch (error) {
         toast.error(error.data.msg);
       }
