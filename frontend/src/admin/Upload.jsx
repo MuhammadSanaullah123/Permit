@@ -5,6 +5,7 @@ import upload from "../assets/upload.png";
 //api
 import { useDispatch, useSelector } from "react-redux";
 import { useCreateDocumentMutation } from "../slices/documentApiSlice";
+import { useCreatePermitMutation } from "../slices/permitApiSlice";
 
 //other
 import { RotatingLines } from "react-loader-spinner";
@@ -67,19 +68,21 @@ CircularProgressWithLabel.propTypes = {
 
 const Upload = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const { documentInfo } = useSelector((state) => state.document);
+  console.log(documentInfo);
 
   const [values, setValues] = useState({
-    name: "",
-    address: `${userInfo?.company ? userInfo?.company : ""}`,
-    contractor: "",
-    type: "",
-    valuation: "",
+    name: `${documentInfo?.projectName ? documentInfo?.projectName : ""}`,
+    address: `${documentInfo?.address ? documentInfo?.address : ""}`,
+    contractor: `${documentInfo?.contractor ? documentInfo?.contractor : ""}`,
+    type: `${documentInfo?.permitType ? documentInfo?.permitType : ""}`,
+    valuation: `${documentInfo?.valuation ? documentInfo?.valuation : ""}`,
   });
   const [progress, setProgress] = useState(0);
   const [file, setFile] = useState();
   const [loading, setLoading] = useState(false);
 
-  const [createDocument] = useCreateDocumentMutation();
+  const [createPermit] = useCreatePermitMutation();
 
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
@@ -111,24 +114,23 @@ const Upload = () => {
     e.preventDefault();
     setLoading(true);
     const formData = new FormData();
+    /*     let data = {
+        name:values.name,
+        address:values.address,
+        contractor:values.contractor,
+        type:values.type,
+        valuation:values.valuation,
+        file:file,
+        id:window.location.pathname.split("/")[3]
+    } */
     formData.append("name", values.name);
     formData.append("address", values.address);
     formData.append("contractor", values.contractor);
     formData.append("type", values.type);
     formData.append("valuation", values.valuation);
-
     formData.append("file", file);
+    formData.append("ID", window.location.pathname.split("/")[3]);
 
-    /*   const data = {
-      name: values.name,
-      address: values.address,
-      contractor: values.contractor,
-      type: values.type, 
-      valuation: values.valuation,
-      fileSize: "128",
-      documentName: "Resume7",
-      file,
-    }; */
     const headers = {};
     const token = sessionStorage.getItem("token");
     if (token) {
@@ -136,7 +138,7 @@ const Upload = () => {
     }
 
     try {
-      const res = await createDocument(formData).unwrap();
+      const res = await createPermit(formData).unwrap();
       /*     const res = await axios.post(
         "http://localhost:5000/api/document",
         formData,
@@ -156,11 +158,11 @@ const Upload = () => {
         valuation: "",
       });
       setFile();
-      toast.success("Document Created", { position: "top-center" });
+      toast.success("Permit Created", { position: "top-center" });
       setLoading(false);
 
       setTimeout(() => {
-        window.location.assign(`/document/${res._id}`);
+        window.location.assign(`/document/${res.documentId}`);
       }, 2000);
     } catch (error) {
       console.log(error);
@@ -170,8 +172,8 @@ const Upload = () => {
   console.log(file);
 
   function fetchProgress() {
-    fetch("https://travendev.com/api/api/document/progress") /* fetch(
-      "http://localhost:5000/api/document/progress"
+    fetch("https://travendev.com/api/api/permit/progress") /* fetch(
+      "http://localhost:5000/api/permit/progress"
     ) */
       .then((response) => response.json())
       .then((data) => {
@@ -191,9 +193,13 @@ const Upload = () => {
   }, []);
   useEffect(() => {
     setValues({
-      address: userInfo?.company ? userInfo?.company : "",
+      name: `${documentInfo?.projectName ? documentInfo?.projectName : ""}`,
+      address: `${documentInfo?.address ? documentInfo?.address : ""}`,
+      contractor: `${documentInfo?.contractor ? documentInfo?.contractor : ""}`,
+      type: `${documentInfo?.permitType ? documentInfo?.permitType : ""}`,
+      valuation: `${documentInfo?.valuation ? documentInfo?.valuation : ""}`,
     });
-  }, [userInfo]);
+  }, [documentInfo]);
   return (
     <div id="upload">
       <img src={upload} alt="upload" />

@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
 import documentReducer from "./slices/documentSlice";
+import permitReducer from "./slices/permitSlice";
 import conversationReducer from "./slices/conversationSlice";
 import invoiceReducer from "./slices/invoiceSlice";
 
@@ -12,6 +13,7 @@ const store = configureStore({
     document: documentReducer,
     conversation: conversationReducer,
     invoice: invoiceReducer,
+    permit: permitReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

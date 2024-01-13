@@ -32,6 +32,7 @@ app.use(cookieParser());
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/document", require("./routes/api/document"));
+app.use("/api/permit", require("./routes/api/permit"));
 app.use("/api/conversation", require("./routes/api/conversation"));
 app.use("/api/invoice", require("./routes/api/invoice"));
 

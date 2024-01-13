@@ -3,12 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 //api
 import { useDispatch, useSelector } from "react-redux";
 import { useGetDocumentByIdMutation } from "../slices/documentApiSlice";
+import { useGetPermitByIdMutation } from "../slices/permitApiSlice";
 import {
   useGetConversationMutation,
   useCreateConversationMutation,
 } from "../slices/conversationApiSlice";
 import { useGetInvoiceMutation } from "../slices/invoiceApiSlice";
 import { setSingleDocument } from "../slices/documentSlice";
+import { setPermit } from "../slices/permitSlice";
+
 import { setConversation } from "../slices/conversationSlice";
 import { setInvoice } from "../slices/invoiceSlice";
 
@@ -19,6 +22,8 @@ const Document = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { documentInfo } = useSelector((state) => state.document);
+  const { permitInfo } = useSelector((state) => state.permit);
+
   const { userInfo } = useSelector((state) => state.auth);
   const { conversationInfo } = useSelector((state) => state.conversation);
   const { invoiceInfo } = useSelector((state) => state.invoice);
@@ -26,6 +31,8 @@ const Document = () => {
   const [getInvoice] = useGetInvoiceMutation();
   const [message, setMessage] = useState("");
   const [getDocument] = useGetDocumentByIdMutation();
+  const [getPermit] = useGetPermitByIdMutation();
+
   const [getConversation] = useGetConversationMutation();
   const [createConversation] = useCreateConversationMutation();
 
@@ -64,6 +71,21 @@ const Document = () => {
       });
     }
   };
+
+  const handleGetPermit = async () => {
+    try {
+      const res = await getPermit(
+        window.location.pathname.split("/")[2]
+      ).unwrap();
+
+      dispatch(setPermit({ ...res }));
+    } catch (error) {
+      /*  error.data.errors.forEach((error) => {
+        toast.error(error.msg);
+      }); */
+      console.error(error);
+    }
+  };
   const handleGetConversation = async () => {
     try {
       const res = await getConversation(
@@ -98,9 +120,10 @@ const Document = () => {
   }, []);
   useEffect(() => {
     handleGetDocument();
+    handleGetPermit();
     handleGetConversation();
   }, []);
-  console.log(invoiceInfo);
+  console.log(permitInfo);
   return (
     <div id="document">
       <div className="mainDiv">
@@ -162,6 +185,14 @@ const Document = () => {
             <h2>Invoice Status</h2>
             <p>{invoiceInfo?.status}</p>
           </span>
+          {permitInfo?.url && (
+            <span id="span11" className="mainDivspan">
+              <h2>Permit Status</h2>
+              <Link to={`${permitInfo?.url}`} target="_blank">
+                Download Permit
+              </Link>
+            </span>
+          )}
         </div>
       </div>
       {userInfo?.role === "user" ? (
@@ -176,14 +207,28 @@ const Document = () => {
       ) : (
         <>
           {invoiceInfo?.documentId ? (
-            <button
-              className="viewBtn"
-              onClick={() =>
-                navigate(`/invoice/${window.location.pathname.split("/")[2]}`)
-              }
-            >
-              View Receipt
-            </button>
+            <div className="buttonDiv">
+              <button
+                className="viewBtn"
+                onClick={() =>
+                  navigate(`/invoice/${window.location.pathname.split("/")[2]}`)
+                }
+              >
+                View Receipt
+              </button>
+              {!permitInfo?.url && (
+                <button
+                  className="permitBtn"
+                  onClick={() =>
+                    navigate(
+                      `/admin/upload/${window.location.pathname.split("/")[2]}`
+                    )
+                  }
+                >
+                  Upload Permit
+                </button>
+              )}
+            </div>
           ) : (
             <button
               style={{

@@ -23,6 +23,7 @@ import GenerateInvoice from "./admin/Invoice";
 import PrivateRouteUser from "./components/PrivateRouteUser";
 import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
 import ForgotPassword from "./userPages/ForgotPassword";
+import UploadAdmin from "./admin/Upload";
 import ResetPassword from "./userPages/ResetPassword";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -80,6 +81,7 @@ const App = () => {
                 path="/admin/invoice/:id"
                 element={<GenerateInvoice />}
               />
+              <Route exact path="/admin/upload/:id" element={<UploadAdmin />} />
 
               <Route
                 exact
