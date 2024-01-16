@@ -135,7 +135,7 @@ router.post(
           documentName: req.file.originalname,
           url: signedUrl[0],
         });
-        const newDocument = await document.save();
+        const newDocument = await document.save(); 
 
         res.status(200).json(newDocument);
       }); */
@@ -149,8 +149,12 @@ router.post(
   }
 );
 
-router.get("/progress", (req, res) => {
-  res.json({ progress });
+router.get("/progress", auth, async (req, res) => {
+  try {
+    res.json({ progress });
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 // @route   GET api/document/me

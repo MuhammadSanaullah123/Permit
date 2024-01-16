@@ -170,9 +170,17 @@ const Upload = () => {
   console.log(file);
 
   function fetchProgress() {
-    fetch("https://travendev.com/api/api/document/progress") /* fetch(
-      "http://localhost:5000/api/document/progress"
-    ) */
+    const headers = {};
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      headers["x-auth-token"] = token;
+    }
+
+    fetch("https://travendev.com/api/api/document/progress", {
+      headers: headers,
+    }) /* fetch("http://localhost:5000/api/document/progress", {
+      headers: headers,
+    }) */
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
