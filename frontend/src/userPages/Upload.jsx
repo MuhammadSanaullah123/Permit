@@ -192,11 +192,13 @@ const Upload = () => {
   }
   /*   setInterval(fetchProgress, 5000); */
   useEffect(() => {
-    const intervalId = setInterval(fetchProgress, 1000);
+    if (loading) {
+      const intervalId = setInterval(fetchProgress, 1000);
 
-    // Clear the interval when the component unmounts
-    return () => clearInterval(intervalId);
-  }, []);
+      // Clear the interval when the component unmounts
+      return () => clearInterval(intervalId);
+    }
+  }, [loading]);
   useEffect(() => {
     setValues({
       address: userInfo?.company ? userInfo?.company : "",
