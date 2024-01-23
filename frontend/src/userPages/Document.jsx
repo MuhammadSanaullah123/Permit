@@ -254,22 +254,28 @@ const Document = () => {
                 }`}
                 style={{
                   alignSelf:
-                    item?.message === "Invoice has been generated" && "center",
+                    item?.message === "Invoice has been generated" ||
+                    (item?.message === "Invoice has been paid" && "center"),
                   borderRadius:
-                    item?.message === "Invoice has been generated" && "50px",
+                    item?.message === "Invoice has been generated" ||
+                    (item?.message === "Invoice has been paid" && "50px"),
                   opacity:
-                    item?.message === "Invoice has been generated" && "0.5",
+                    item?.message === "Invoice has been generated" ||
+                    (item?.message === "Invoice has been paid" && "0.5"),
                   height:
-                    item?.message === "Invoice has been generated" && "10px",
+                    item?.message === "Invoice has been generated" ||
+                    (item?.message === "Invoice has been paid" && "10px"),
                   padding:
-                    item?.message === "Invoice has been generated" && "13px",
+                    item?.message === "Invoice has been generated" ||
+                    (item?.message === "Invoice has been paid" && "13px"),
                 }}
               >
                 <p
                   className="messagep"
                   style={{
                     fontSize:
-                      item?.message === "Invoice has been generated" && "14px",
+                      item?.message === "Invoice has been generated" ||
+                      (item?.message === "Invoice has been paid" && "14px"),
                   }}
                 >
                   {item?.message}
