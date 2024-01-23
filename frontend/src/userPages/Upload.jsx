@@ -167,7 +167,6 @@ const Upload = () => {
       toast.error(error.data.msg);
     }
   };
-  console.log(file);
 
   function fetchProgress() {
     const headers = {};
@@ -183,8 +182,16 @@ const Upload = () => {
     }) */
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setProgress(data.progress);
+        console.log("insideApi", data);
+        if (data.progress) {
+          if (data.progress === "100" || data.progress === "100.00") {
+            setProgress("0");
+          } else {
+            setProgress(data.progress);
+          }
+        } else {
+          setProgress("0");
+        }
       })
       .catch((error) => {
         console.error("Error fetching progress:", error);
@@ -204,6 +211,7 @@ const Upload = () => {
       address: userInfo?.company ? userInfo?.company : "",
     });
   }, [userInfo]);
+  console.log("setstate", progress);
   return (
     <div id="upload">
       <img src={upload} alt="upload" />

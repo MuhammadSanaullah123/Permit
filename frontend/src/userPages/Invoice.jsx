@@ -72,17 +72,17 @@ const Invoice = () => {
                 <h1>Invoice Amount</h1>
               </span>
               <span className="rightSpan">
-                <span>
+                {/* <span>
                   <p>Subtotal</p>
-                  <h1>$990</h1>
-                </span>
+                  <h1>${invoiceInfo?.amount}</h1>
+                </span> */}
                 <span>
                   <p>Total</p>
                   <h1>${invoiceInfo?.amount}</h1>
                 </span>
                 <span>
                   <p>GST</p>
-                  <h1>$10</h1>
+                  <h1>$0</h1>
                 </span>
                 <span className="lineSpan"></span>
                 <span className="amountSpan">

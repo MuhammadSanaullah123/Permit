@@ -25,7 +25,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     auth: builder.mutation({
       query: (data) => ({
         url: `https://travendev.com/api/api/auth`,
-        /* url: `http://localhost:5000/api/auth`, */
+        /*  url: `http://localhost:5000/api/auth`, */
 
         method: "GET",
         /*  credentials: "include", */

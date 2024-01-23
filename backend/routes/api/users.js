@@ -358,7 +358,7 @@ router.post("/forgotPassword", async (req, res) => {
   `;
     const mail = transporter.sendMail({
       to: user.email,
-      from: "muhammed14335@gmail.com",
+      from: `${process.env.ADMIN_MAIL}`,
       subject: "Reset Password",
       html: htmlMessage,
     });

@@ -205,7 +205,7 @@ router.post(
         sourceId: sourceId,
         amountMoney: {
           currency: "USD",
-          amount: amount,
+          amount: amount * 100,
         },
       });
       console.log(result);
@@ -240,7 +240,7 @@ router.post(
           to: `${process.env.ADMIN_MAIL}`,
           from: `${process.env.ADMIN_MAIL}`, // sender address
           subject: `Invoice Status!`,
-          html: `<div><h3>Dear ${user.name},</h3>
+          html: `<div><h3>Dear Admin,</h3>
           <p>
           The invoice of project "${document.projectName}" with the document "${document.documentName}" has been paid successfully!
           </p>
@@ -251,6 +251,38 @@ router.post(
           </p>
           </div>`,
         });
+
+        //Creating conversation
+        const conversation = await Conversation.find({
+          documentId: document._id,
+        });
+        const user_con = await User.findById(req.user.id);
+
+        let finalConversation;
+
+        if (conversation.length > 0) {
+          console.log("Conversation updated");
+
+          let message = {
+            sender: "admin",
+            message: "Invoice has been paid",
+          };
+          conversation[0].messages.push(message);
+          finalConversation = await conversation[0].save();
+        } else {
+          console.log("Conversation created");
+          let message = {
+            sender: "admin",
+            message: "Invoice has been paid",
+          };
+          const newConversation = {
+            sender: req.user.id,
+            documentId: req.params.id,
+            messages: message,
+          };
+          const convo = new Conversation(newConversation);
+          finalConversation = await convo.save();
+        }
       }
 
       res.status(200).json(result);

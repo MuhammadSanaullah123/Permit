@@ -97,7 +97,8 @@ router.post(
             action: "read",
             expires: new Date("2200-01-01T00:00:00Z"),
           });
-
+          const document = await Document.findOne({ _id: ID });
+          const user = await User.findOne({ _id: document.user });
           const permit = new Permit({
             user: req.user.id,
             documentId: ID,
@@ -111,6 +112,22 @@ router.post(
             url: signedUrl[0],
           });
           const newPermit = await permit.save();
+
+          const user_mail = await transporter.sendMail({
+            to: `${user.email}`,
+            from: `${process.env.ADMIN_MAIL}`, // sender address
+            subject: `Permit Status!`,
+            html: `<div><h3>Dear ${user.name},</h3>
+            <p>
+            The permit of project "${document.projectName}" with the document "${document.documentName}" has been uploaded and is available on the website!
+            </p>
+      
+            <p>
+          Regards,
+          Team Permit
+            </p>
+            </div>`,
+          });
 
           res.status(200).json(newPermit);
         });

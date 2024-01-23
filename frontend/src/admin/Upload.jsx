@@ -177,8 +177,16 @@ const Upload = () => {
     ) */
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setProgress(data.progress);
+        console.log("insideApi", data);
+        if (data.progress) {
+          if (data.progress === "100" || data.progress === "100.00") {
+            setProgress("0");
+          } else {
+            setProgress(data.progress);
+          }
+        } else {
+          setProgress("0");
+        }
       })
       .catch((error) => {
         console.error("Error fetching progress:", error);
